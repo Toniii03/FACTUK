@@ -1,4 +1,4 @@
-package org.facktur.factur.modelos;
+package org.facktur.factur.entidades;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package org.facktur.factur.modelos;
+package org.facktur.factur.entidades;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 @Getter
 @Setter
+@Table(name="Usuario")
 public abstract class Usuario { 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
