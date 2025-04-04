@@ -1,16 +1,19 @@
 package org.facktur.factur.entidades;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // Usa una sola tabla para todos los tipos de usuario
-@DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 @Getter
 @Setter
-@Table(name="Usuario")
-public abstract class Usuario { 
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Usuario")
+public class Usuario { 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +29,8 @@ public abstract class Usuario {
 
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;
-    
-    @Column(name = "tipo", nullable = false)
-    private String tipo; 
+
+    @Column(name = "tipo", nullable = false, length = 10)
+    private String tipo;
 }
+
