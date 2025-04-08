@@ -1,0 +1,62 @@
+.Contenido-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form {
+  display: flex;
+  max-height: 80vh;
+  height: fit-content;
+  padding: 2rem;
+  width: 40%;
+  max-width: 60vw;
+  background-color: #fcfcfc;
+  box-shadow: rgb(99, 99, 99) 0px 0px 10px;
+  border-radius: 10px;
+}
+
+.columna-logo {
+  min-width: 40%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.columna-form {
+  display: flex;
+  min-width: 60%;
+  flex-direction: column;
+  justify-content: center;
+  flex:1.5;
+  padding: 20px;
+}
+
+.logo-imagen {
+  width: 100%;
+  max-width: 200px;
+}
+
+.Input-Form-Login {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.boton-submit {
+  padding: 10px 20px;
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.boton-submit:hover {
+  background-color: #00509e;
+}

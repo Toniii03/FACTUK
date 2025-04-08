@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import '../styles/Login.css';
+import '../styles/Login/Login.css';
 import { MensajeErrores } from './MensajeErrores';
+import logo from '../logo.svg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const PaginaLogin = () => {
   const comprobarEmail= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   const [email, setEmail] = useState('');
-  const [contrasena1, setContrasena1] = useState('');
-  const [contrasena2, setContrasena2] = useState('');
+  const [password1, setpassword1] = useState('');
+  const [password2, setpassword2] = useState('');
   const [error, setError] = useState('');
 
   const comprobarErrores = (e) => {
@@ -15,15 +16,13 @@ export const PaginaLogin = () => {
 
     setError('');
 
-    if (email && contrasena1 && contrasena2) {
+    if (email && password1 && password2) {
         if(comprobarEmail.test(email)){
-          if (contrasena1 == contrasena2) {
+          if (password1 === password2) {
             /**
              * hacer Post del formulario
              */
             console.log('Formulario enviado correctamente');
-
-
           }else{
             setError("Las contraseñas no coinciden.");
             return;
@@ -40,10 +39,17 @@ export const PaginaLogin = () => {
   };
 
   return (
-    <div className="Contenido-form">
-      {error && <MensajeErrores mensaje={error} onClose={() => setError('')} />}
+  <div className="Contenido-form">
+    {error && <MensajeErrores mensaje={error} onClose={() => setError('')} />}
 
-      <div className="form">
+    <div className="form d-flex">
+      {/* Columna 1: Logo */}
+      <div className="columna-logo d-flex justify-content-center align-items-center">
+        <img src={logo} alt="Logo" className="logo-imagen" />
+      </div>
+
+      {/* Columna 2: Formulario */}
+      <div className="columna-form">
         <h2>Inicio de Sesion</h2>
         <form onSubmit={comprobarErrores}>  
           <div className='cuerpo-form'>
@@ -60,11 +66,11 @@ export const PaginaLogin = () => {
 
             <div className='fila-form'>
               <input
-                id='contrasena1'
+                id='password1'
                 className="Input-Form-Login"
                 type="password"
-                value={contrasena1}
-                onChange={(e) => setContrasena1(e.target.value)}
+                value={password1}
+                onChange={(e) => setpassword1(e.target.value)}
                 placeholder="Contraseña"
                 pattern=".*"
               />
@@ -72,10 +78,10 @@ export const PaginaLogin = () => {
 
             <div className='fila-form'>
               <input
-                id='contrasena2'
+                id='password2'
                 type="password"
-                value={contrasena2}
-                onChange={(e) => setContrasena2(e.target.value)}
+                value={password2}
+                onChange={(e) => setpassword2(e.target.value)}
                 placeholder="Repite la contraseña"
                 className="Input-Form-Login"
               />
@@ -90,5 +96,6 @@ export const PaginaLogin = () => {
         </form>
       </div>
     </div>
+  </div>
   );
 };

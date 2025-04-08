@@ -1,0 +1,11 @@
+.custom-alert {
+    position: absolute;
+    top: 10vh;
+    right: 1vw;
+    background-color: rgba(255, 0, 0, 0.151);
+    padding: 1rem;
+    border: 1px rgba(119, 0, 0, 0.37) solid;
+    border-radius: 5px;
+    max-width: fit-content;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}

@@ -13,7 +13,7 @@ function App() {
 
          {/* Esta página solo se puede acceder si está autenticado */}
         <Route
-            path='/home'
+            path=''
             /*element={<ProtectedRoute> elemnto pagina  </ProtectedRoute> }*/
           />
 
