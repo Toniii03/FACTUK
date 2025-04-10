@@ -25,14 +25,9 @@ public class ServicioUsuario {
 		return this.usuarioRepositorio.findById(id);
 	}
 	
-	public Usuario findUsuarioByEmail(String email) {
-		Optional<Usuario> optionalUsuario = this.usuarioRepositorio.findUsuarioByEmail(email);
-		
-	    if (optionalUsuario.isPresent()) {
-	        return optionalUsuario.get();
-	    } else {
-	        throw new RuntimeException("Usuario no encontrado con ese email"); // O el tipo de excepción que prefieras
-	    }
+	public Usuario findUsuarioByEmail(String email, String nombreUsuario) {
+		 return this.usuarioRepositorio.findUsuarioByEmail(email)
+		            .orElseGet(() -> this.usuarioRepositorio.findByNombreUsuario(nombreUsuario).orElse(null));
 	}
 
 	public Usuario crearCliente(Usuario usuario) {

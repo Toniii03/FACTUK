@@ -1,8 +1,7 @@
-# Dependencias necesarias
+# Dependencias necesarias (npm install)
  - axios
  - react-router-dom
  - bootstrap
- - react-router-dom
 
 
 

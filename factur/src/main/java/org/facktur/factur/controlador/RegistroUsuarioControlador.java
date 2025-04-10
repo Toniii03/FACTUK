@@ -4,24 +4,38 @@ import org.facktur.factur.EntidadesDTO.UsuarioRequest;
 import org.facktur.factur.entidades.Usuario;
 import org.facktur.factur.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("/registrar")
 public class RegistroUsuarioControlador {
 	
 	@Autowired
 	private ServicioUsuario usuariosSistema;
 	
-	public RequestEntity<Usuario> CrearUsuarioSistema(@RequestBody UsuarioRequest usuario){
+	public ResponseEntity<?> CrearUsuarioSistema(@RequestBody UsuarioRequest usuario){
 		
-		Usuario usuarioBuscado = usuariosSistema.findUsuarioByEmail(usuario.getEmail());
+		Usuario usuarioBuscado = usuariosSistema.findUsuarioByEmail(usuario.getEmail(),usuario.getNombreUsuario());
 		
-		//Seguir Comprobaciones
-		return null;
-	}
-	
+		if (usuarioBuscado == null ) {
+			
+			Usuario nuevoUsuario = new Usuario();
+			nuevoUsuario.setNombre(usuario.getNombre());
+			nuevoUsuario.setNombreUsuario(usuario.getNombreUsuario());
+			nuevoUsuario.setEmail(usuario.getEmail());
+			nuevoUsuario.setContrasena(usuario.getPassword1());
+			nuevoUsuario.setTipo("NORMAL");
+			
+			usuariosSistema.crearCliente(nuevoUsuario);
+			
+			return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
+		}else{
+			 return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe con ese email");
+		}
+	}	
 }

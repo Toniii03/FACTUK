@@ -7,13 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 public class CustomUserDetails implements UserDetails {
 
     private final Usuario usuario;
 
-    public CustomUserDetails(Usuario usuario) {
-        this.usuario = usuario;
+    public CustomUserDetails(Optional<Usuario> usuario2) {
+        // Verificamos si el Optional contiene un valor, en caso contrario lanzamos una excepción o manejamos el caso adecuadamente
+        this.usuario = usuario2.orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.facktur.factur.security;
 
+import java.util.Optional;
+
 import org.facktur.factur.entidades.Usuario;
 import org.facktur.factur.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = (Usuario) usuarioRepositorio.findByNombreUsuario(username);
+    	Optional<Usuario> usuario = usuarioRepositorio.findByNombreUsuario(username);
 
         return new CustomUserDetails(usuario);
     }

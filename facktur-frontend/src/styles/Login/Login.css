@@ -1,10 +1,9 @@
-/* Estilos base */
 .Contenido-form {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #bdbdbd;
+  background-color: #555;
   overflow: hidden;
   padding: 20px;
 }
