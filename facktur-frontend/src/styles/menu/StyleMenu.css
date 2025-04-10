@@ -1,0 +1,79 @@
+.menu-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu-img img {
+    width: 50%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card-nelace-menu {
+    background-color: #444;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.card-nelace-menu a {
+    padding: 0.6rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    display: block;
+}
+
+.card-nelace-menu:hover {
+    background-color: #555;
+    transform: translateX(10px);
+}
+
+.card-nelace-menu a:hover {
+    color: #FAC463;
+}
+
+
+.div-botones-login {
+    gap: 1rem;
+    padding: 0.5rem;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 50% 50%;
+    margin-bottom: 3em;
+}
+
+.btnLogin{
+    border-radius: 0.5rem;
+    background-color: #444;
+    padding: 0.6rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btnLogin a{
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.btnLogin:hover{
+    transform: translatey(-5px);
+    background-color: #555;
+    cursor: pointer;
+}
+
+.btnLogin:hover :first-child{
+    color: #FAC463;
+}

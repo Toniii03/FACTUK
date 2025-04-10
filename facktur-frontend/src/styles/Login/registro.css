@@ -1,0 +1,101 @@
+.contenido {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 50px 60px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
+}
+
+h2 {
+    color: #555;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
+}
+
+.input-field {
+    width: 100%;
+    padding: 14px;
+    margin: 16px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #FAC463;
+    outline: none;
+    box-shadow: 0 0 10px rgba(250, 196, 99, 0.5);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #555;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:hover {
+    background-color: #FAC463;
+    transform: scale(1.05);
+}
+
+.submit-btn:active {
+    background-color: #f4a261;
+    transform: scale(1);
+}
+
+.footer {
+    margin-top: 25px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
+}
+
+.footer a {
+    color: #FAC463;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #555;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

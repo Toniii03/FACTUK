@@ -1,20 +1,25 @@
+/* Estilos base */
 .Contenido-form {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #bdbdbd;
+  overflow: hidden;
+  padding: 20px;
 }
 
 .form {
   display: flex;
-  max-height: 80vh;
-  height: fit-content;
-  padding: 2rem;
-  width: 40%;
-  max-width: 60vw;
+  max-height: 90vh;
+  height: auto;
+  padding: 1rem 1rem;
+  min-width: 55%;
   background-color: #fcfcfc;
-  box-shadow: rgb(99, 99, 99) 0px 0px 10px;
-  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
 }
 
 .columna-logo {
@@ -23,6 +28,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
 }
 
 .columna-form {
@@ -30,33 +37,85 @@
   min-width: 60%;
   flex-direction: column;
   justify-content: center;
-  flex:1.5;
-  padding: 20px;
+  flex: 1.5;
+  padding: 30px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
+}
+
+.cuerpo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
 }
 
 .logo-imagen {
   width: 100%;
-  max-width: 200px;
+  max-width: 250px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
 }
 
 .Input-Form-Login {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 16px;
+  margin: 12px 0;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.Input-Form-Login:focus {
+  border-color: #FAC463;
+  outline: none;
+  box-shadow: 0 0 10px rgba(250, 196, 99, 0.5);
 }
 
 .boton-submit {
-  padding: 10px 20px;
-  background-color: #003366;
+  font-weight: bold;
+  font-size: 17px;
+  padding: 14px 24px;
+  background-color: #555;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   width: 100%;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .boton-submit:hover {
-  background-color: #00509e;
+  background-color: #FAC463;
+  transform: scale(1.05);
+}
+
+.boton-submit:active {
+  background-color: #202020;
+  transform: scale(1);
+}
+
+.enlace {
+  color: #FAC463;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  font-size: 15px;
+}
+
+.enlace:hover {
+  color: #555;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

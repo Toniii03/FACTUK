@@ -20,6 +20,20 @@ public class ServicioUsuario {
 	public List<Usuario> findAllUsuarios() {
 		return this.usuarioRepositorio.findAll();	
 	}
+	
+	public Optional<Usuario> findUsuariByID(Long id) {
+		return this.usuarioRepositorio.findById(id);
+	}
+	
+	public Usuario findUsuarioByEmail(String email) {
+		Optional<Usuario> optionalUsuario = this.usuarioRepositorio.findUsuarioByEmail(email);
+		
+	    if (optionalUsuario.isPresent()) {
+	        return optionalUsuario.get();
+	    } else {
+	        throw new RuntimeException("Usuario no encontrado con ese email"); // O el tipo de excepción que prefieras
+	    }
+	}
 
 	public Usuario crearCliente(Usuario usuario) {
 		return this.usuarioRepositorio.save(usuario);

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import '../styles/Login/Login.css';
-import { MensajeErrores } from './MensajeErrores';
-import logo from '../logo.svg'
+import '../../styles/Login/Login.css';
+import { MensajeErrores } from '../MensajeErrores';
+import logo from "../../logo.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
 
 export const PaginaLogin = () => {
   const comprobarEmail= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -24,15 +25,15 @@ export const PaginaLogin = () => {
              */
             console.log('Formulario enviado correctamente');
           }else{
-            setError("Las contraseñas no coinciden.");
+            setError("Las contraseñas no coinciden");
             return;
           }
         }else{
-          setError("Por favor, ingresa un correo electrónico válido.");
+          setError("Por favor, ingresa un correo electrónico válido");
           return;
         }
     }else{
-      setError("Por favor, completa todos los campos.");
+      setError("Por favor, completa todos los campos");
       return;
     }
     setError(""); 
@@ -85,6 +86,10 @@ export const PaginaLogin = () => {
                 placeholder="Repite la contraseña"
                 className="Input-Form-Login"
               />
+            </div>
+
+            <div>
+              ¿No tienes cuenta? <Link className='enlace' to={"/auth/register"}>Crear cuenta</Link>
             </div>
 
             <div className='fila-form'>

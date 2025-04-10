@@ -68,7 +68,7 @@ export const MensajeErrores = ({ mensaje, onClose }) => {
           role="progressbar"
           style={{
             width: `${progress}%`,
-            backgroundColor: '#6c757d',
+            backgroundColor: 'lightgrey',
           }}
         ></div>
       </div>
