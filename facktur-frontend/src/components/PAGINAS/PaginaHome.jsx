@@ -13,12 +13,12 @@ export const PaginaHome = () => {
             <div className='div_invisible'>{/*Este div simula el div del menu flotante*/}</div>
             {tipoUsuario === "admin" ? (
                     <div className='div-contenido_visible'>
-                        <h1>Bienvenido, Administrador</h1>
+                        {/*PAGINA QUE SE VE SI EL USUARIO ES ADMINISTRADO*/}
                         <PaginaInfoUsuario></PaginaInfoUsuario>
                     </div>
                 ) : (
                     <div className='div-contenido_visible'>
-                        <h1>Bienvenido, Usuario Normal</h1>
+                        {/*PAGINA QUE SE VE SI EL USUARIO ES NORMAL*/}
                         <PaginaInfoUsuario></PaginaInfoUsuario>
                     </div>
                 )}

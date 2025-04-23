@@ -24,11 +24,13 @@
 
 .div_invisible{
     min-width: 280px;
-    width: 21%;
+    width: 20%;
 }
 
 .div-contenido_visible{
-    width: auto;
-    height: 100%;
+    flex: 1;
+    padding: 0rem 1rem;
+    background-color: #fcfcfc;
+    overflow-y: auto;
 }
 

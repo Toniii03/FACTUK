@@ -1,0 +1,152 @@
+
+.div-estrutura-info-usuario{
+    display: grid;
+    grid-template-columns: 60% 40%;
+    height: 100%;
+}
+
+.contenedor-principal{
+    height: 100%;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem 0rem 0rem 1rem;
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .formulario-usuario{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .formulario-usuario > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 0.2rem;
+  }
+  
+  .input-datos {
+    padding: 0.8rem;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .input-datos:focus {
+    outline: none;
+    border-color: #FAC463;
+    box-shadow: 0 0 10px rgba(250, 196, 99, 0.4);
+  }
+  
+  .input-datos[readonly] {
+    background-color: #c4c4c4;
+    color: #444;
+  }
+  
+  .input-datos[readonly]:hover {
+    cursor: not-allowed;
+  }
+
+  .input-datos[readonly]:focus {
+    border-color: #ccc;
+    box-shadow: none;
+  }
+  
+  .button {
+    width: fit-content;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0.7rem 1.5rem;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btnGuardarCambios{
+    background-color: #FAC463;
+    color: #222;
+    width: fit-content;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btnGuardarCambios:hover{
+    background-color: #444;
+    color: white;
+    transform: translateY(-3px);
+  }
+  
+  .button:hover {
+    background-color: #FAC463;
+    color: #222;
+    transform: translateY(-3px);
+  }
+
+  .div-recuperarContraseña {
+    padding: 2rem 5rem 0rem 5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    text-align: center;
+    color: #222;
+  }
+  
+  .div-recuperarContraseña h3 {
+    color: #222;
+  }
+  
+  .div-recuperarContraseña p {
+    line-height: 1.5;
+    text-align: justify;
+    color: #444444;
+  }
+  
+  .enlace-recuperar {
+    display: inline-block;
+    background-color: #FAC463;
+    color: #222;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .enlace-recuperar:hover {
+    background-color: #e0aa43;
+  }
+  
+  
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
