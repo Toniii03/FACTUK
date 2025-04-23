@@ -5,6 +5,14 @@
     justify-content: space-between;
 }
 
+
+.div-menu-img{
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .menu-img img {
     width: 50%;
     border-radius: 10px;

@@ -10,28 +10,30 @@ export const Menu = () => {
   return (
         <div className="menu-container">
             <div className="menu-img">
-                <img src={logo} alt="Imagen de menú"/>
-            
-            <div className="menu-links">
-                {(() => {
-                    if (tipoUsuario === "admin") {
-                        return (
-                            <div className="card-nelace-menu">
-                            <a href="./">ENLACE DE ADMIN</a>
-                        </div>
-                        );
-                    }
-                })()}
-                <div className="card-nelace-menu">
-                    <a href="./">Resumen</a>
+                <div className='div-menu-img'>
+                    <img src={logo} alt="Imagen de menú"/>
                 </div>
-                <div className="card-nelace-menu">
-                    <a href="./">Facturas</a>
+
+                <div className="menu-links">
+                    {(() => {
+                        if (tipoUsuario === "admin") {
+                            return (
+                                <div className="card-nelace-menu">
+                                <a href="./">ENLACE DE ADMIN</a>
+                            </div>
+                            );
+                        }
+                    })()}
+                    <div className="card-nelace-menu">
+                        <a href="./">Resumen</a>
+                    </div>
+                    <div className="card-nelace-menu">
+                        <a href="./">Facturas</a>
+                    </div>
+                    <div className="card-nelace-menu">
+                        <a href="./">Pagos</a>
+                    </div>
                 </div>
-                <div className="card-nelace-menu">
-                    <a href="./">Pagos</a>
-                </div>
-            </div>
             </div>
             <div className='div-botones-login'>
                 <div className='btnLogin'><Link to="/auth/login">Login</Link></div>

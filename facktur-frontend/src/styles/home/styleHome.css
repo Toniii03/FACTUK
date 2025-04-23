@@ -18,6 +18,17 @@
 }
 .div-contentido {
     width: 100%;
-    display: grid;
-    grid-template-columns: 20% auto;
+    display: flex;
+    flex-direction: row;
 }
+
+.div_invisible{
+    min-width: 280px;
+    width: 21%;
+}
+
+.div-contenido_visible{
+    width: auto;
+    height: 100%;
+}
+
