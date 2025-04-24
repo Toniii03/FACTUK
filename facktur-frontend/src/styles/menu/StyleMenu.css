@@ -5,18 +5,16 @@
     justify-content: space-between;
 }
 
-
 .div-menu-img{
     width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 1.5rem;
 }
 
-.menu-img img {
-    width: 50%;
-    border-radius: 10px;
-    margin-bottom: 20px;
+#imagen-logo{
+    width: 100%;
 }
 
 .menu-links {

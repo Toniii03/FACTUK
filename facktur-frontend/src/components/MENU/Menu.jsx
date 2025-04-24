@@ -11,7 +11,7 @@ export const Menu = () => {
         <div className="menu-container">
             <div className="menu-img">
                 <div className='div-menu-img'>
-                    <img src={logo} alt="Imagen de menú"/>
+                    <Link to="/"><img id='imagen-logo' src={logo} alt="Imagen de menú"/></Link>
                 </div>
 
                 <div className="menu-links">
@@ -25,13 +25,13 @@ export const Menu = () => {
                         }
                     })()}
                     <div className="card-nelace-menu">
-                        <a href="./">Resumen</a>
+                        <Link to="/resumen">Resumen</Link>
                     </div>
                     <div className="card-nelace-menu">
-                        <a href="./">Facturas</a>
+                        <Link to="/facturas">Facturas</Link>
                     </div>
                     <div className="card-nelace-menu">
-                        <a href="./">Pagos</a>
+                        <Link to="/pagos">Pagos</Link>
                     </div>
                 </div>
             </div>

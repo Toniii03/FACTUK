@@ -32,7 +32,6 @@ export const PaginaInfoUsuario = () => {
     <div className="contenedor-principal">
 
       <div className='div-estrutura-info-usuario'>
-
         <div className="user-info">
           <form className="formulario-usuario">
             <div>

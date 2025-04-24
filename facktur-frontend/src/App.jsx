@@ -5,6 +5,9 @@ import { PaginaLogin } from './components/LOGIN/PaginaLogin';
 import { ProtectedRoute } from './components/AUTENTICACIONES/ProtectedRoute';
 import { PaginaRegistro } from './components/LOGIN/PaginaRegistro';
 import { Menu } from './components/MENU/Menu';
+import { PaginaResumen } from './components/PAGINAS/PaginaResumen';
+import { PaginaFacturas } from './components/PAGINAS/PaginaFacturas';
+import { PaginaPagos } from './components/PAGINAS/PaginaPagos';
 
 function App() {
   const isAuthenticated = false;
@@ -38,8 +41,15 @@ const AppContent = ({ isAuthenticated }) => {
         <Route path="/auth/register" element={<PaginaRegistro />} />
         <Route path="/" element={<PaginaHome />} />
 
+        {/* Cambiar estas rutas a protegidas */}
+        <Route path="/resumen" element={<PaginaResumen />} />
+        <Route path="/facturas" element={<PaginaFacturas />} />
+        <Route path="/pagos" element={<PaginaPagos />} />
+
         {/* Rutas Protegidas */}
         <Route element={<ProtectedRoute element={<PaginaHome />} isAuthenticated={isAuthenticated} />} />
+
+        
       </Routes>
     </div>
   );
