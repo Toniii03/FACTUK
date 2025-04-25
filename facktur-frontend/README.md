@@ -2,7 +2,7 @@
  - axios
  - react-router-dom
  - bootstrap
-
+ - recharts
 
 
 
