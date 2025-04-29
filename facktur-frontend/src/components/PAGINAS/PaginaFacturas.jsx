@@ -1,6 +1,9 @@
 import { React, useState } from "react";
 import "../../styles/home/styleHome.css";
 import "../../styles/paginas/paginasFacturas.css";
+import iconoBasura from "../../recursos/icons8-basura-64.png";
+import iconoEditar from "../../recursos/icons8-editar-archivo-de-texto-50.png";
+import iconoDescargar from "../../recursos/icons8-descargar-64.png";
 
 export const PaginaFacturas = () => {
   const factList = [
@@ -17,7 +20,7 @@ export const PaginaFacturas = () => {
   ];
 
   const [paginaActual, setPaginaActual] = useState(1);
-  const [tooltip, setTooltip] = useState("");
+  const [mostrarTooltip, setMostrarTooltip] = useState(false);
   const facturasPorPagina = 6;
 
   const indiceInicio = (paginaActual - 1) * facturasPorPagina;
@@ -25,6 +28,15 @@ export const PaginaFacturas = () => {
   const facturasPagina = factList.slice(indiceInicio, indiceFin);
 
   const totalPaginas = Math.ceil(factList.length / facturasPorPagina);
+
+  const manejarHover = () => {
+    console.log("mostar toolTip")
+    setMostrarTooltip(true);
+  };
+
+  const manejarMouseOut = () => {
+    setMostrarTooltip(false);
+  };
 
   return (
     <div className="div-contentido">
@@ -69,28 +81,40 @@ export const PaginaFacturas = () => {
                 <strong>Fecha de Expedición:</strong> {factura.fechaExpedicion}
               </p>
 
-
               <div className="botones-factura">
-              {tooltip && <div className="tooltip">{tooltip}</div>}
                 <button
                   className="btn-imprimir"
-                  onMouseEnter={() => setTooltip("Imprimir factura")}
-                  onMouseLeave={() => setTooltip("")}
-                ></button>
+                  onMouseOver={manejarHover}
+                  onMouseOut={manejarMouseOut}
+                >
+                  <img src={iconoDescargar} alt="Descargar" />
+                </button>
+
                 <button
                   className="btn-editar"
-                  onMouseEnter={() => setTooltip("Editar factura")}
-                  onMouseLeave={() => setTooltip("")}
-                ></button>
+                  onMouseOver={manejarHover}
+                  onMouseOut={manejarMouseOut}
+                >
+                  <img src={iconoEditar} alt="Editar" />
+                </button>
+
                 <button
                   className="btn-borrar"
-                  onMouseEnter={() => setTooltip("Borrar factura")}
-                  onMouseLeave={() => setTooltip("")}
-                ></button>
+                  onMouseOver={manejarHover}
+                  onMouseOut={manejarMouseOut}
+                >
+                  <img src={iconoBasura} alt="Eliminar" />
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        {mostrarTooltip && (
+          <div className="tooltip">
+            <p>Ratón sobre el botón</p>
+          </div>
+        )}
 
         <div className="paginacion">
           <button
