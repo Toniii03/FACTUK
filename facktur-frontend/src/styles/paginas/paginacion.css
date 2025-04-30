@@ -1,0 +1,63 @@
+  /* Estilos de la paginación */
+  .paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 20px;
+    padding: 10px 20px;
+  }
+  
+  .paginacion span {
+    margin: 0 15px;
+    font-size: 16px;
+  }
+  
+  .paginacion button {
+    padding: 6px 12px;
+    margin: 0 5px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .paginacion button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .selector-pagina {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  .selector-pagina label {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #333;
+  }
+  
+  .selector-pagina select {
+    padding: 6px 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  
+  .selector-pagina select:focus {
+    border-color: #003366;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.2);
+  }

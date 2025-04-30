@@ -20,10 +20,8 @@ function App() {
 }
 
 const AppContent = ({ isAuthenticated }) => {
-  // Usamos useLocation para obtener la ruta actual
-  const location = useLocation();
 
-  // Condición para no mostrar el menú en login y register
+  const location = useLocation();
   const showMenu = !(location.pathname === '/auth/login' || location.pathname === '/auth/register');
 
   return (

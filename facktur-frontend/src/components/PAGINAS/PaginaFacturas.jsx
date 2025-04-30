@@ -4,6 +4,7 @@ import "../../styles/paginas/paginasFacturas.css";
 import iconoBasura from "../../recursos/icons8-basura-64.png";
 import iconoEditar from "../../recursos/icons8-editar-archivo-de-texto-50.png";
 import iconoDescargar from "../../recursos/icons8-descargar-64.png";
+import Paginacion from "../COMPONENTES/Paginacion";
 
 export const PaginaFacturas = () => {
   const factList = [
@@ -20,8 +21,7 @@ export const PaginaFacturas = () => {
   ];
 
   const [paginaActual, setPaginaActual] = useState(1);
-  const [mostrarTooltip, setMostrarTooltip] = useState(false);
-  const facturasPorPagina = 6;
+  const [facturasPorPagina, setFacturasPorPagina] = useState(6);
 
   const indiceInicio = (paginaActual - 1) * facturasPorPagina;
   const indiceFin = indiceInicio + facturasPorPagina;
@@ -29,14 +29,12 @@ export const PaginaFacturas = () => {
 
   const totalPaginas = Math.ceil(factList.length / facturasPorPagina);
 
-  const manejarHover = () => {
-    console.log("mostar toolTip")
-    setMostrarTooltip(true);
+  const manejarHover = (event) => {
+    const valorBoton = event.currentTarget.value;
+    console.log("Valor del botón:", valorBoton);
   };
 
-  const manejarMouseOut = () => {
-    setMostrarTooltip(false);
-  };
+  const manejarMouseOut = () => {};
 
   return (
     <div className="div-contentido">
@@ -68,6 +66,10 @@ export const PaginaFacturas = () => {
           </div>
         </div>
 
+        <div className="div-crearFactura">
+          <button className="boton-crearFactura">Crear factura</button>
+        </div>
+
         <div className="div-facturas">
           {facturasPagina.map((factura, index) => (
             <div key={index} className="factura-card">
@@ -86,6 +88,7 @@ export const PaginaFacturas = () => {
                   className="btn-imprimir"
                   onMouseOver={manejarHover}
                   onMouseOut={manejarMouseOut}
+                  value="Imprimir"
                 >
                   <img src={iconoDescargar} alt="Descargar" />
                 </button>
@@ -94,6 +97,7 @@ export const PaginaFacturas = () => {
                   className="btn-editar"
                   onMouseOver={manejarHover}
                   onMouseOut={manejarMouseOut}
+                  value="Editar"
                 >
                   <img src={iconoEditar} alt="Editar" />
                 </button>
@@ -102,6 +106,7 @@ export const PaginaFacturas = () => {
                   className="btn-borrar"
                   onMouseOver={manejarHover}
                   onMouseOut={manejarMouseOut}
+                  value="Eliminar"
                 >
                   <img src={iconoBasura} alt="Eliminar" />
                 </button>
@@ -110,31 +115,16 @@ export const PaginaFacturas = () => {
           ))}
         </div>
 
-        {mostrarTooltip && (
-          <div className="tooltip">
-            <p>Ratón sobre el botón</p>
-          </div>
-        )}
-
-        <div className="paginacion">
-          <button
-            onClick={() => setPaginaActual((prev) => Math.max(prev - 1, 1))}
-            disabled={paginaActual === 1}
-          >
-            Anterior
-          </button>
-          <span>
-            Página {paginaActual} de {totalPaginas}
-          </span>
-          <button
-            onClick={() =>
-              setPaginaActual((prev) => Math.min(prev + 1, totalPaginas))
-            }
-            disabled={paginaActual === totalPaginas}
-          >
-            Siguiente
-          </button>
-        </div>
+        <Paginacion
+          paginaActual={paginaActual}
+          totalPaginas={totalPaginas}
+          elementosPorPagina={facturasPorPagina}
+          onPaginaChange={setPaginaActual}
+          onElementosPorPaginaChange={(valor) => {
+            setFacturasPorPagina(valor);
+            setPaginaActual(1);
+          }}
+        />
       </div>
     </div>
   );
