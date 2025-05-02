@@ -11,7 +11,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Usar una imagen base con OpenJDK para la aplicación
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Definir el directorio de trabajo para la aplicación
 WORKDIR /app
