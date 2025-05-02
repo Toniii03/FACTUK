@@ -1,14 +1,26 @@
-# Usa una imagen base de OpenJDK
-FROM openjdk:17-jdk-slim
+# Usar una imagen base con Maven y OpenJDK
+FROM maven:3.8.6-openjdk-17-slim as builder
 
-# Establece el directorio de trabajo en /app
+# Definir el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia el archivo JAR (el nombre del archivo puede variar)
-COPY target/*.jar factur-0.0.1-SNAPSHOT.jar
+# Copiar el código fuente del proyecto al contenedor
+COPY . .
 
-# Expone el puerto en el que la aplicación va a funcionar
+# Ejecutar Maven para compilar el proyecto y generar el JAR
+RUN mvn clean package -DskipTests
+
+# Usar una imagen base con OpenJDK para la aplicación
+FROM openjdk:17-jdk-slim
+
+# Definir el directorio de trabajo para la aplicación
+WORKDIR /app
+
+# Copiar el JAR desde la etapa anterior
+COPY --from=builder /app/target/*.jar factur-0.0.1-SNAPSHOT.jar
+
+# Exponer el puerto en el que la aplicación va a funcionar
 EXPOSE 8080
 
-# Comando para ejecutar el JAR
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Ejecutar la aplicación
+CMD ["java", "-jar", "app.jar"]
