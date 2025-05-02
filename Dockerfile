@@ -1,5 +1,5 @@
 # Usar una imagen base con OpenJDK 21 y Maven
-FROM maven:3.8.6-openjdk-21-slim as builder
+FROM maven:3.9.6-eclipse-temurin-21 as builder
 
 # Establecer el directorio de trabajo en el contenedor
 WORKDIR /app
