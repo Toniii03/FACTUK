@@ -1,35 +1,26 @@
-# Usar una imagen base con OpenJDK 21
-FROM openjdk:21-jdk-slim as builder
+# Usar una imagen base con OpenJDK 21 y Maven
+FROM maven:3.8.6-openjdk-21-slim as builder
 
-# Instalar Maven
-RUN apt-get update && apt-get install -y maven
-
-# Definir el directorio de trabajo
+# Establecer el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copiar el archivo pom.xml (y otros archivos necesarios) al contenedor
-COPY pom.xml .
+# Copiar el archivo pom.xml y las carpetas necesarias al contenedor
+COPY pom.xml /app/
 
-# Descargar las dependencias de Maven (sin construir el proyecto todavía)
-RUN mvn dependency:go-offline
+# Copiar todo el código fuente al contenedor (se copiará después del pom.xml para aprovechar la caché)
+COPY src /app/src/
 
-# Copiar el código fuente del proyecto
-COPY src /app/src
+# Ejecutar Maven para compilar el proyecto
+RUN mvn clean package -DskipTests
 
-# Construir el proyecto usando Maven
-RUN mvn clean package
-
-# Crear una segunda etapa para la imagen final (sin Maven)
+# Usar una imagen base de OpenJDK para ejecutar la aplicación
 FROM openjdk:21-jdk-slim
 
-# Establecer el directorio de trabajo en la segunda etapa
-WORKDIR /app
+# Copiar el archivo .jar generado por Maven desde la etapa de construcción
+COPY --from=builder /app/target/*.jar /app/app.jar
 
-# Copiar el archivo JAR generado desde la etapa de construcción
-COPY --from=builder /app/target/*.jar app.jar
+# Definir el comando de inicio para la aplicación
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
 
-# Exponer el puerto 8080
+# Exponer el puerto (ajústalo si es necesario)
 EXPOSE 8080
-
-# Ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
