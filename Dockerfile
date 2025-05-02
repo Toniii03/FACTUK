@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copia el archivo JAR (el nombre del archivo puede variar)
-COPY target/*.jar app.jar
+COPY target/*.jar factur-0.0.1-SNAPSHOT.jar
 
 # Expone el puerto en el que la aplicación va a funcionar
 EXPOSE 8080
