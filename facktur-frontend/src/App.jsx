@@ -9,6 +9,7 @@ import { PaginaResumen } from './components/PAGINAS/PaginaResumen';
 import { PaginaFacturas } from './components/PAGINAS/PaginaFacturas';
 import { PaginaPagos } from './components/PAGINAS/PaginaPagos';
 
+
 function App() {
   const isAuthenticated = false;
 

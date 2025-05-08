@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../../styles/paginas/paginaInfoUsuario.css"
-import { usuarioRequest } from '../../Modelos/usuarioRequest'
+
+const DEFAULT_DATA = {}
 
 export const PaginaInfoUsuario = () => {
   const [editando, setEditando] = useState(false)
 
-  const [usuario, setUsuario] = useState(new usuarioRequest(
-    "Antonio",
-    "Antonio Caceres",
-    "Correodeprueba@gmail.com",
-    "1234",
-    "normal"
-  ))
+  const [usuario, setUsuario] = useState(DEFAULT_DATA)
+
+  useEffect(() => {
+    const usuarioGuardado = localStorage.getItem("usuario")
+    console.log(usuarioGuardado);
+    if (usuarioGuardado) {
+    setUsuario(JSON.parse(usuarioGuardado))
+    }
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -47,11 +50,6 @@ export const PaginaInfoUsuario = () => {
             <div>
               <span className="label">Correo Electrónico:</span>
               <input type="text" name="email" className="input-datos" value={usuario.email} onChange={handleChange} readOnly={!editando} />
-            </div>
-
-            <div>
-              <span className="label">Contraseña:</span>
-              <input type="password" name="contrasena" className="input-datos" value={usuario.contrasena} readOnly />
             </div>
 
             <div>

@@ -19,7 +19,8 @@ export const PaginaHome = () => {
                 ) : (
                     <div className='div-contenido_visible'>
                         {/*PAGINA QUE SE VE SI EL USUARIO ES NORMAL*/}
-                        <PaginaInfoUsuario></PaginaInfoUsuario>
+                        <PaginaInfoUsuario/>
+                    
                     </div>
                 )}
         </div>
