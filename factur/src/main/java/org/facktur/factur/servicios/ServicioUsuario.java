@@ -8,6 +8,7 @@ import org.facktur.factur.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -15,7 +16,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ServicioUsuario {
 	
 	@Autowired
-	private UsuarioRepositorio usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;	
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    // Validar las credenciales de usuario por nombre de usuario y contraseña
+    public Usuario authenticate(String nombreUsuario, String contrasena) {
+        Usuario usuario = usuarioRepositorio.findByNombreUsuario(nombreUsuario);
+        if (usuario != null && passwordEncoder.matches(contrasena, usuario.getContrasena())) {
+            return usuario; // Devolver el usuario si las credenciales son correctas
+        }
+        return null; // Si el usuario no existe o la contraseña no coincide
+    }
 	
 	public List<Usuario> findAllUsuarios() {
 		return this.usuarioRepositorio.findAll();	
@@ -25,10 +38,6 @@ public class ServicioUsuario {
 		return this.usuarioRepositorio.findById(id);
 	}
 	
-	public Usuario findUsuarioByEmail(String email, String nombreUsuario) {
-		 return this.usuarioRepositorio.findUsuarioByEmail(email)
-		            .orElseGet(() -> this.usuarioRepositorio.findByNombreUsuario(nombreUsuario).orElse(null));
-	}
 
 	public Usuario crearCliente(Usuario usuario) {
 		return this.usuarioRepositorio.save(usuario);
