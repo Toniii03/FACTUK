@@ -14,7 +14,7 @@ public class UsuarioRequest {
     
     @NotBlank(message = "El nombre es obligatorio")
     @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
-    private String nombre;
+    private String nombreCompleto;
     
     @NotBlank(message = "El nombre de usuario es obligatorio")
     @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
@@ -27,4 +27,8 @@ public class UsuarioRequest {
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
     private String contrasena;
+    
+    @NotBlank(message = "La columna tipo no puede ser nula")
+    @Size(max = 3, message = "Maximo 3 caracteres")
+    private String tipo;
 }

@@ -1,19 +1,22 @@
 .Contenido-form {
+  min-width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #555;
   overflow: hidden;
-  padding: 20px;
+  padding: 30px; /* Aumentamos el padding para tener más espacio */
 }
 
 .form {
   display: flex;
+  flex-wrap: wrap;
   max-height: 90vh;
   height: auto;
-  padding: 1rem 1rem;
-  min-width: 55%;
+  padding: 2rem; /* Aumentamos el padding para un mejor espaciado interno */
+  width: 100%;
+  max-width: 800px;
   background-color: #fcfcfc;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   border-radius: 15px;
@@ -22,8 +25,8 @@
 }
 
 .columna-logo {
-  min-width: 40%;
   flex: 1;
+  min-width: 250px; /* Aumentamos el mínimo ancho del logo */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,13 +35,11 @@
 }
 
 .columna-form {
+  flex: 2;
   display: flex;
-  min-width: 60%;
-  min-height: 50vh;
   flex-direction: column;
   justify-content: space-between;
-  flex: 1.5 1;
-  padding: 30px;
+  padding: 40px; /* Aumentamos el padding */
   opacity: 0;
   animation: fadeIn 0.5s ease-out 0.2s forwards;
 }
@@ -46,7 +47,7 @@
 .cuerpo-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2em;
+  gap: 1.5em; /* Aumentamos el espacio entre los campos */
 }
 
 .logo-imagen {
@@ -58,11 +59,11 @@
 
 .Input-Form-Login {
   width: 100%;
-  padding: 16px;
-  margin: 12px 0;
+  padding: 18px; /* Aumentamos el padding para que los inputs sean más grandes */
+  margin: 15px 0; /* Aumentamos el margen vertical */
   border: 2px solid #ccc;
   border-radius: 8px;
-  font-size: 17px;
+  font-size: 18px; /* Aumentamos el tamaño de la fuente */
   transition: all 0.3s ease;
 }
 
@@ -74,8 +75,8 @@
 
 .boton-submit {
   font-weight: bold;
-  font-size: 17px;
-  padding: 14px 24px;
+  font-size: 18px; /* Aumentamos el tamaño de la fuente del botón */
+  padding: 16px 24px; /* Aumentamos el padding del botón */
   background-color: #555;
   color: white;
   border: none;
@@ -101,7 +102,7 @@
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
-  font-size: 15px;
+  font-size: 16px; /* Aumentamos el tamaño de la fuente */
 }
 
 .enlace:hover {

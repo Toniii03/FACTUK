@@ -35,3 +35,79 @@
     overflow-y: auto;
 }
 
+/* Contenedor principal para el mensaje */
+.mensaje-contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
+}
+
+/* Estilo del título */
+.mensaje-titulo {
+    color: #333;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
+}
+
+/* Estilo del texto */
+.mensaje-texto {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.4s forwards;
+}
+
+/* Botón de Iniciar sesión */
+.boton-iniciar-sesion {
+    padding: 14px 24px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.link-sin-estilo {
+  text-decoration: none;
+  color: inherit;
+}
+
+.boton-iniciar-sesion:hover {
+    background-color: #FAC463;
+    transform: scale(1.05);
+}
+
+.boton-iniciar-sesion:active {
+    background-color: #f4a261;
+    transform: scale(1);
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

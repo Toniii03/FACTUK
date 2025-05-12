@@ -11,47 +11,42 @@ import { PaginaPagos } from './components/PAGINAS/PaginaPagos';
 
 
 function App() {
-  const isAuthenticated = false;
+  const isAuthenticated = !!localStorage.getItem("token");
 
-  return (
-    <Router>
-      <AppContent isAuthenticated={isAuthenticated} />
-    </Router>
-  );
-}
+    return (
+      <Router>
+        <AppContent isAuthenticated={isAuthenticated} />
+      </Router>
+    );
+  }
 
-const AppContent = ({ isAuthenticated }) => {
+  const AppContent = ({ isAuthenticated }) => {
 
-  const location = useLocation();
-  const showMenu = !(location.pathname === '/auth/login' || location.pathname === '/auth/register');
+    const location = useLocation();
+    const showMenu = !(location.pathname === '/auth/login' || location.pathname === '/auth/register');
 
-  return (
-    <div className="App">
-      {/* Solo mostrar el menú si no estamos en login o registro */}
-      {showMenu && (
-        <div className='div-menu'>
-          <Menu />
-        </div>
-      )}
+    return (
+      <div className="App">
+        {/* Solo mostrar el menú si no estamos en login o registro */}
+        {showMenu && (
+          <div className='div-menu'>
+            <Menu />
+          </div>
+        )}
 
-      <Routes>
-        {/* Ruta Sin autentificación */}
-        <Route path="/auth/login" element={<PaginaLogin />} />
-        <Route path="/auth/register" element={<PaginaRegistro />} />
-        <Route path="/" element={<PaginaHome />} />
+        <Routes>
+          {/* Rutas públicas */}
+          <Route path="/auth/login" element={<PaginaLogin />} />
+          <Route path="/auth/register" element={<PaginaRegistro />} />
+          <Route path="/" element={<PaginaHome />} />
 
-        {/* Cambiar estas rutas a protegidas */}
-        <Route path="/resumen" element={<PaginaResumen />} />
-        <Route path="/facturas" element={<PaginaFacturas />} />
-        <Route path="/pagos" element={<PaginaPagos />} />
-
-        {/* Rutas Protegidas */}
-        <Route element={<ProtectedRoute element={<PaginaHome />} isAuthenticated={isAuthenticated} />} />
-
-        
-      </Routes>
-    </div>
-  );
+          {/* Rutas protegidas */}
+          <Route path="/resumen" element={<ProtectedRoute element={<PaginaResumen />} />} />
+          <Route path="/facturas" element={<ProtectedRoute element={<PaginaFacturas />} />} />
+          <Route path="/pagos" element={<ProtectedRoute element={<PaginaPagos />} />} />
+        </Routes>
+      </div>
+    );
 };
 
 export default App;
