@@ -43,7 +43,7 @@ export const Menu = () => {
                             if (tipoUsuario === "ADM") {
                                 return (
                                     <div className="card-nelace-menu">
-                                    <a href="./">Gestion de usuarios</a>
+                                    <Link to="/usuarios">Gestion de usuarios</Link>
                                 </div>
                                 );
                             }

@@ -8,6 +8,7 @@ import { Menu } from './components/MENU/Menu';
 import { PaginaResumen } from './components/PAGINAS/PaginaResumen';
 import { PaginaFacturas } from './components/PAGINAS/PaginaFacturas';
 import { PaginaPagos } from './components/PAGINAS/PaginaPagos';
+import { PaginaGestionUsuarios } from './components/PAGINAS/PaginaGestionUsuarios';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="/" element={<PaginaHome />} />
 
           {/* Rutas protegidas */}
+          <Route path="/usuarios" element={<ProtectedRoute element={<PaginaGestionUsuarios />} />} />
           <Route path="/resumen" element={<ProtectedRoute element={<PaginaResumen />} />} />
           <Route path="/facturas" element={<ProtectedRoute element={<PaginaFacturas />} />} />
           <Route path="/pagos" element={<ProtectedRoute element={<PaginaPagos />} />} />

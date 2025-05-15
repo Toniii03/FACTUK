@@ -21,7 +21,7 @@ export const PaginaFacturas = () => {
   ];
 
   const [paginaActual, setPaginaActual] = useState(1);
-  const [facturasPorPagina, setFacturasPorPagina] = useState(6);
+  const [facturasPorPagina, setFacturasPorPagina] = useState(8);
 
   const indiceInicio = (paginaActual - 1) * facturasPorPagina;
   const indiceFin = indiceInicio + facturasPorPagina;
