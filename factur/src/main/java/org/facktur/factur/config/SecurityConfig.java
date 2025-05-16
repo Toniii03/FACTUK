@@ -47,19 +47,20 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-	        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-	        .csrf(csrf -> csrf.disable())
-	        .authorizeHttpRequests(authz -> authz
-	            .requestMatchers("/auth/**").permitAll()
-	            .anyRequest().authenticated()
-	        )
-	        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+    	http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    	http
+    		.csrf(csrf -> csrf.disable()) // desactivar CSRF
+    		.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+    		.authorizeHttpRequests(auth -> auth
+    				.requestMatchers("/auth/login", "/auth/register", "/auth/check").permitAll()
+                    .anyRequest().authenticated()
+                );
+    	return http.build();
     }
+    
     
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -68,6 +69,8 @@ public class SecurityConfig {
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(List.of("Set-Cookie"));
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

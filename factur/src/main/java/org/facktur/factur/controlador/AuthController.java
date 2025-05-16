@@ -2,6 +2,7 @@ package org.facktur.factur.controlador;
 
 import java.util.Map;
 
+import org.facktur.factur.EntidadesDTO.AuthResponse;
 import org.facktur.factur.EntidadesDTO.LoginRequest;
 import org.facktur.factur.EntidadesDTO.UsuarioRequest;
 import org.facktur.factur.config.JwtUtil;
@@ -18,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -45,7 +47,10 @@ public class AuthController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenciales inválidas"));
         }
-
+        
+        Usuario user = usuarioRepositorio.findByNombreUsuario(request.getNombreUsuario());
+        AuthResponse usuario = new AuthResponse(user.getId(),user.getNombreUsuario(),user.getNombre(),user.getEmail(),user.getTipo());
+        		
         String token = jwtUtil.generateToken(request.getNombreUsuario());
 
         ResponseCookie cookie = ResponseCookie.from("AUTH_TOKEN", token)
@@ -55,10 +60,10 @@ public class AuthController {
             .maxAge(60 * 60) // 1 hora
             .sameSite("Lax")
             .build();
-
+        
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        return ResponseEntity.ok(Map.of("token", token, "message", "Login exitoso"));
+        return ResponseEntity.ok(Map.of("token", token, "tipo", usuario.getTipo(),"usuario",usuario ));
     }
 
     @PostMapping("/logout")
@@ -77,14 +82,23 @@ public class AuthController {
     
     @PostMapping("/register")
     public ResponseEntity<?> registrarUsuario(@RequestBody UsuarioRequest request) {
-        if (usuarioRepositorio.existsByEmail(request.getEmail())) {
-            return ResponseEntity.badRequest()
-                .body(Map.of("error", "El correo ya está registrado"));
-        }
+        boolean emailExiste = usuarioRepositorio.existsByEmail(request.getEmail());
+        boolean usuarioExiste = usuarioRepositorio.existsByNombreUsuario(request.getNombreUsuario());
 
-        if (usuarioRepositorio.existsByNombreUsuario(request.getNombreUsuario())) {
-            return ResponseEntity.badRequest()
-                .body(Map.of("error", "El nombre de usuario ya está en uso"));
+        if (emailExiste || usuarioExiste) {
+            StringBuilder errorMessage = new StringBuilder();
+
+            if (emailExiste) {
+                errorMessage.append("El correo ya está registrado. ");
+            }
+
+            if (usuarioExiste) {
+                errorMessage.append("El nombre de usuario ya está en uso.");
+            }
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("status", "error", "message", errorMessage.toString().trim()));
         }
 
         Usuario usuario = new Usuario();
@@ -96,6 +110,25 @@ public class AuthController {
 
         usuarioRepositorio.save(usuario);
 
-        return ResponseEntity.ok(Map.of("message", "Usuario registrado correctamente"));
+        return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario registrado correctamente"));
+    }
+    
+    @GetMapping("/check")
+    public ResponseEntity<?> checkAuth(HttpServletRequest request) {
+        String token = jwtUtil.getTokenFromCookies(request);
+
+        if (token == null || !jwtUtil.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No autenticado"));
+        }
+
+        String username = jwtUtil.getUsernameFromToken(token);
+        Usuario usuario = usuarioRepositorio.findByNombreUsuario(username);
+
+        return ResponseEntity.ok(Map.of(
+            "nombreUsuario", usuario.getNombreUsuario(),
+            "nombre", usuario.getNombre(),
+            "email", usuario.getEmail(),
+            "tipo", usuario.getTipo()
+        ));
     }
 }

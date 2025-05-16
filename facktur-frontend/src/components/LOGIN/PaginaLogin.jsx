@@ -4,61 +4,33 @@ import { MensajeErrores } from '../MensajeErrores';
 import logo from "../../logo.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import servicioUsuarios from '../SERVICIOS/ServicioUsuarios';
 
 export const PaginaLogin = () => {
   const navigate = useNavigate();
+  const { login } = servicioUsuarios;
 
   const [nombreUsuario, setnombreUsuario] = useState('');
   const [password, setpassword] = useState('');
   const [error, setError] = useState('');
 
   const comprobarErrores = async (e) => {
-    e.preventDefault();
-    setError('');
+  e.preventDefault();
+  setError('');
 
-    if (nombreUsuario && password) {
-      try {
-        const response = await axios.post(
-          'http://localhost:8080/auth/login',
-          {
-            nombreUsuario,
-            password,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+  if (nombreUsuario && password) {
+    const result = await login(nombreUsuario, password);
 
-        // LOGIN EXITOSO
-        const { token, nombreUsuario: nameUser, nombre, email, tipo } = response.data;
-        localStorage.setItem('token', token);
-        localStorage.setItem('tipo', tipo);
-        localStorage.setItem('usuario', JSON.stringify({ nombreUsuario : nameUser, nombre, email, tipo }));
-        navigate('/');
-
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 401) {
-            setError('Credenciales incorrectas. Por favor, verifica tu Nombre de usuario y contraseña');
-          } else if (error.response.status === 400) {
-            setError('Por favor, verifica los datos ingresados');
-          } else {
-            setError(error.response.data || 'Ocurrió un error inesperado');
-          }
-        } else if (error.request) {
-          setError('No se recibió respuesta del servidor. Intenta más tarde');
-        } else {
-          setError('Error en la configuración de la solicitud. Intenta más tarde');
-        }
-      }
+    if (result.status === 'ok') {
+      navigate('/');
     } else {
-      setError("Por favor, completa todos los campos");
+      setError(result.message);
     }
-  };
+  } else {
+    setError("Por favor, completa todos los campos");
+  }
+};
 
   return (
   <div className="Contenido-form">

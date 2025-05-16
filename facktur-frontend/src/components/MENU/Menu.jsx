@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../../styles/menu/StyleMenu.css"
 import logo from "../../logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios'; 
 
 
 
@@ -29,7 +30,28 @@ export const Menu = () => {
     navigate("/auth/login");
     };
 
-    const isLoggedIn = !!localStorage.getItem('token');
+    const [isLoggedIn, setIsAuthenticated] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/auth/check', {
+          withCredentials: true
+        });
+
+        setIsAuthenticated(response.status === 200);
+      } catch (error) {
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+    if (loading) return <div>Cargando...</div>;
 
     return (
             <div className="menu-container">

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../../styles/Login/registro.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { MensajeErrores } from '../MensajeErrores'
-import servicioUsuarios from '../SERVICIOS/ServicioUsuarios'; // Importa la instancia, no la clase
+import servicioUsuarios from '../SERVICIOS/ServicioUsuarios';
 
 
 

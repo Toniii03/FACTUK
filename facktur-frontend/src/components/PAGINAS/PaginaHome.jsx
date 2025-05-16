@@ -1,16 +1,33 @@
-import React from 'react'
-import "../../styles/home/styleHome.css"
-import { PaginaInfoUsuario } from './PaginaInfoUsuario'
-import { Link } from 'react-router-dom'  // Importamos Link para navegar a la página de login
+import React, { useEffect, useState } from 'react';
+import "../../styles/home/styleHome.css";
+import { PaginaInfoUsuario } from './PaginaInfoUsuario';
+import { Link } from 'react-router-dom';
+import axios from 'axios'; 
 
 export const PaginaHome = () => {
-
-    // Obtener el tipo de usuario que está autenticado de localStorage o del token
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const [loading, setLoading] = useState(true);
     const tipoUsuario = localStorage.getItem("tipo"); 
-    const token = localStorage.getItem("token");  // Comprobamos si hay un token de autenticación
-    
-    // Si no hay tipo de usuario o token, consideramos que el usuario no está autenticado
-    const estaAutenticado = tipoUsuario && token;
+
+    useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/auth/check', {
+          withCredentials: true
+        });
+
+        setIsAuthenticated(response.status === 200);
+      } catch (error) {
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+    if (loading) return <div>Cargando...</div>;
 
     return (
         <div className='div-home'>
@@ -18,7 +35,7 @@ export const PaginaHome = () => {
                 <div className='div_invisible'>{/*Este div simula el div del menu flotante*/}</div>
                 
                 {/* Si el usuario está autenticado */}
-                {estaAutenticado ? (
+                {isAuthenticated ? (
                     <div className='div-contenido_visible'>
                         {tipoUsuario === "ADM" ? (
                             // Página para el usuario administrador

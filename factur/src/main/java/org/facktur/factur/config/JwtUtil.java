@@ -1,5 +1,6 @@
 package org.facktur.factur.config;
 
+import java.util.Base64;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.security.Key;
 
@@ -41,10 +44,23 @@ public class JwtUtil {
     }
     
     private Key getSigningKey() {
-        byte[] keyBytes = secretKey.getBytes(java.nio.charset.StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
+    	byte[] keyBytes = Base64.getDecoder().decode(secretKey);
+    	return Keys.hmacShaKeyFor(keyBytes);
     }
     
+    public String getUsernameFromToken(String token) {
+        Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(secretKey));
+
+        Claims claims = Jwts
+                .parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
+    }
+
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
@@ -79,5 +95,16 @@ public class JwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+    
+    public String getTokenFromCookies(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("AUTH_TOKEN".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }
