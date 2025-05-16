@@ -23,23 +23,28 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException, java.io.IOException {
-        // Obtener el token desde la solicitud HTTP
-        String token = jwtUtil.getTokenFromRequest(request);
+
+        String token = null;
+        if (request.getCookies() != null) {
+            for (var cookie : request.getCookies()) {
+                if ("AUTH_TOKEN".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
 
         if (token != null && jwtUtil.validateToken(token)) {
-            // Si el token es válido, obtenemos el nombre de usuario del token
             String username = jwtUtil.getUsernameFromToken(token);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                // Aquí deberías cargar los detalles del usuario (por ejemplo, desde la base de datos o un servicio)
-                // Suponiendo que tengas un servicio UserDetailsService configurado, podrías usarlo para obtener el UserDetails
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(username, null, null);  // Aquí puedes agregar los roles si tienes roles
+                        new UsernamePasswordAuthenticationToken(username, null, null);
 
-                // Establecer la autenticación en el contexto de seguridad de Spring
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }

@@ -2,7 +2,6 @@ package org.facktur.factur.controlador;
 
 import java.util.Map;
 
-import org.facktur.factur.EntidadesDTO.AuthResponse;
 import org.facktur.factur.EntidadesDTO.LoginRequest;
 import org.facktur.factur.EntidadesDTO.UsuarioRequest;
 import org.facktur.factur.config.JwtUtil;
@@ -10,13 +9,14 @@ import org.facktur.factur.entidades.Usuario;
 import org.facktur.factur.repositorios.UsuarioRepositorio;
 import org.facktur.factur.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -26,50 +26,69 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwtUtil;
-    
+
     @Autowired
     private ServicioUsuario servicioUsuario;
-    
+
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        // Validar las credenciales usando el servicio de autenticación
-        Usuario usuario = servicioUsuario.authenticate(loginRequest.getNombreUsuario(), loginRequest.getPassword());
-        
-        if (usuario != null) {
-            // Generar el token JWT
-            String token = jwtUtil.generateToken(loginRequest.getNombreUsuario());
-            AuthResponse authResponse = new AuthResponse(
-                token,
-                usuario.getNombreUsuario(),
-                usuario.getNombre(),
-                usuario.getEmail(),
-                usuario.getTipo()
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+        try {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getNombreUsuario(), request.getPassword())
             );
-            return ResponseEntity.ok(authResponse);
-        } else {
-            return ResponseEntity.status(401).body("Credenciales invalidas");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
         }
+
+        String token = jwtUtil.generateToken(request.getNombreUsuario());
+
+        ResponseCookie cookie = ResponseCookie.from("AUTH_TOKEN", token)
+            .httpOnly(true)
+            .secure(false) // Cambia a true en producción con HTTPS
+            .path("/")
+            .maxAge(60 * 60) // 1 hora
+            .sameSite("Lax")
+            .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return ResponseEntity.ok(Map.of("status", "ok", "message", "Login exitoso"));
     }
-    
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("AUTH_TOKEN", "")
+            .httpOnly(true)
+            .secure(false)
+            .path("/")
+            .maxAge(0) // Eliminar cookie
+            .sameSite("Lax")
+            .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return ResponseEntity.ok(Map.of("status", "ok", "message", "Sesión cerrada"));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> registrarUsuario(@RequestBody UsuarioRequest request) {
-        System.out.println(request);
 
         if (usuarioRepositorio.existsByEmail(request.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
+            return ResponseEntity.badRequest()
                     .body(Map.of("status", "error", "message", "El correo ya está registrado."));
         }
 
         if (usuarioRepositorio.existsByNombreUsuario(request.getNombreUsuario())) {
-            return ResponseEntity
-                    .badRequest()
+            return ResponseEntity.badRequest()
                     .body(Map.of("status", "error", "message", "El nombre de usuario ya está en uso."));
         }
 
@@ -83,5 +102,5 @@ public class AuthController {
         usuarioRepositorio.save(usuario);
 
         return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario registrado correctamente"));
-    }    
+    }
 }

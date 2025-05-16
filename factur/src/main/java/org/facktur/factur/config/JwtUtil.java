@@ -60,12 +60,14 @@ public class JwtUtil {
 	    }
 	}
 
-    // Extraer token desde la solicitud
-    public String getTokenFromRequest(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7);
-        }
-        return null;
-    }
+	public String getTokenFromRequest(HttpServletRequest request) {
+	    if (request.getCookies() != null) {
+	        for (var cookie : request.getCookies()) {
+	            if ("AUTH_TOKEN".equals(cookie.getName())) {
+	                return cookie.getValue();
+	            }
+	        }
+	    }
+	    return null;
+	}
 }
