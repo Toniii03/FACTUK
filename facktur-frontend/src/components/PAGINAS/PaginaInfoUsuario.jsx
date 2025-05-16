@@ -10,7 +10,6 @@ export const PaginaInfoUsuario = () => {
 
   useEffect(() => {
     const usuarioGuardado = localStorage.getItem("usuario")
-    console.log(usuarioGuardado);
     if (usuarioGuardado) {
     setUsuario(JSON.parse(usuarioGuardado))
     }

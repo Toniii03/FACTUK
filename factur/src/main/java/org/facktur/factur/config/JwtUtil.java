@@ -5,13 +5,17 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletRequest;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
+import io.jsonwebtoken.security.Keys;
+
 import java.security.Key;
+
+import java.util.function.Function;
+
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 
 @Component
@@ -19,12 +23,39 @@ public class JwtUtil {
 
     @Value("${jwt.secret}")
     private String secretKey;
-
+    
     @Value("${jwt.expiration}")
     private long expirationTime;
     
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+    
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+    
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+    
     private Key getSigningKey() {
-        return new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), SignatureAlgorithm.HS256.getJcaName());
+        byte[] keyBytes = secretKey.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+    
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }  
+
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
     // Crear token JWT
@@ -36,38 +67,17 @@ public class JwtUtil {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-   
-
-    public String getUsernameFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    
+    public Boolean validateToken(String token) {
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
     }
-
-
-	public boolean validateToken(String token) {
-	    try {
-	        Jwts.parserBuilder()
-	                .setSigningKey(getSigningKey())
-	                .build()
-	                .parseClaimsJws(token);
-	        return true;
-	    } catch (JwtException | IllegalArgumentException e) {
-	        return false;
-	    }
-	}
-
-	public String getTokenFromRequest(HttpServletRequest request) {
-	    if (request.getCookies() != null) {
-	        for (var cookie : request.getCookies()) {
-	            if ("AUTH_TOKEN".equals(cookie.getName())) {
-	                return cookie.getValue();
-	            }
-	        }
-	    }
-	    return null;
-	}
+    
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
 }

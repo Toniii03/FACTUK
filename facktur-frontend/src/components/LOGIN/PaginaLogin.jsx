@@ -34,7 +34,6 @@ export const PaginaLogin = () => {
         );
 
         // LOGIN EXITOSO
-        console.log('Login exitoso:', response.data);
         const { token, nombreUsuario: nameUser, nombre, email, tipo } = response.data;
         localStorage.setItem('token', token);
         localStorage.setItem('tipo', tipo);
