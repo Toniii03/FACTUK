@@ -1,13 +1,16 @@
 package org.facktur.factur.controlador;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.facktur.factur.EntidadesDTO.AuthResponse;
 import org.facktur.factur.EntidadesDTO.LoginRequest;
 import org.facktur.factur.EntidadesDTO.UsuarioRequest;
+import org.facktur.factur.EntidadesDTO.usuarioDtoRequest;
 import org.facktur.factur.config.JwtUtil;
 import org.facktur.factur.entidades.Usuario;
 import org.facktur.factur.repositorios.UsuarioRepositorio;
+import org.facktur.factur.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,9 +37,16 @@ public class AuthController {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    
+    @Autowired
+    private ServicioUsuario servicioUsuario;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    AuthController(ServicioUsuario servicioUsuario) {
+        this.servicioUsuario = servicioUsuario;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletResponse response) {
@@ -57,7 +67,7 @@ public class AuthController {
             .httpOnly(true)
             .secure(false)  // Cambia a true en producción con HTTPS
             .path("/")
-            .maxAge(60 * 60) // 1 hora
+            .maxAge(60 * 60 * 24) // 24 horas
             .sameSite("Lax")
             .build();
         
@@ -113,6 +123,27 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario registrado correctamente"));
     }
     
+    @GetMapping("/usuarios/{id}")
+    public Optional<Usuario> buscarUsuarioPorID(@PathVariable Long id){
+    	Optional<Usuario> usuario = servicioUsuario.findUsuarioByID(id);
+		return usuario;
+    		
+    }
+    
+    @PutMapping("/usuario/{id}")
+    public ResponseEntity<?> actualizarUsuario(@RequestBody usuarioDtoRequest usuarioRequest, @PathVariable Long id){
+    	try {
+        	usuarioDtoRequest usuario = servicioUsuario.updateUsuario(id,usuarioRequest);
+        	if (usuario != null) {
+            	return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario Actualizado correctamente"));
+        	}else {
+        		return ResponseEntity.ok(Map.of("status", "error", "message", "No se ha encontrado el usuario"));
+        	}
+		} catch (Exception e) {
+			return ResponseEntity.ok(Map.of("status", "error", "message", e));
+		} 			
+    }
+    
     @GetMapping("/check")
     public ResponseEntity<?> checkAuth(HttpServletRequest request) {
         String token = jwtUtil.getTokenFromCookies(request);
@@ -131,4 +162,7 @@ public class AuthController {
             "tipo", usuario.getTipo()
         ));
     }
+    
+    
+    
 }

@@ -11,6 +11,9 @@ import { PaginaPagos } from './components/PAGINAS/PaginaPagos';
 import { PaginaGestionUsuarios } from './components/PAGINAS/PaginaGestionUsuarios';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { MensajeErrores } from './components/MensajeErrores';
+import { MensajeCorrectos } from './components/MensajeCorrectos';
+import { MensajesProvider, useMensajes } from './context/MensajesContext';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -22,7 +25,6 @@ function App() {
         const response = await axios.get('http://localhost:8080/auth/check', {
           withCredentials: true
         });
-
         setIsAuthenticated(response.status === 200);
       } catch (error) {
         setIsAuthenticated(false);
@@ -37,15 +39,18 @@ function App() {
   if (loading) return <div>Cargando...</div>;
 
   return (
-    <Router>
-      <AppContent isAuthenticated={isAuthenticated} />
-    </Router>
+    <MensajesProvider>
+      <Router>
+        <AppContent isAuthenticated={isAuthenticated} />
+      </Router>
+    </MensajesProvider>
   );
 }
 
 const AppContent = ({ isAuthenticated }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { error, mensaje, cerrarError, cerrarMensaje } = useMensajes();
 
   const showMenu = !(location.pathname === '/auth/login' || location.pathname === '/auth/register');
 
@@ -57,6 +62,9 @@ const AppContent = ({ isAuthenticated }) => {
 
   return (
     <div className="App">
+      {error && <MensajeErrores mensaje={error} onClose={cerrarError} />}
+      {mensaje && <MensajeCorrectos mensaje={mensaje} onClose={cerrarMensaje} />}
+
       {showMenu && (
         <div className='div-menu'>
           <Menu />
@@ -64,13 +72,9 @@ const AppContent = ({ isAuthenticated }) => {
       )}
 
       <Routes>
-        {/* Rutas públicas */}
         <Route path="/auth/login" element={<PaginaLogin />} />
         <Route path="/auth/register" element={<PaginaRegistro />} />
         <Route path="/" element={<PaginaHome />} />
-
-        {/* Rutas protegidas */}
-        <Route path="/usuarios" element={<ProtectedRoute element={<PaginaGestionUsuarios />} />} />
         <Route path="/usuarios" element={<ProtectedRoute element={<PaginaGestionUsuarios />} />} />
         <Route path="/resumen" element={<ProtectedRoute element={<PaginaResumen />} />} />
         <Route path="/facturas" element={<ProtectedRoute element={<PaginaFacturas />} />} />

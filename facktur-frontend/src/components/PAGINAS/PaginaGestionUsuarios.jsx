@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Paginacion from "../COMPONENTES/Paginacion";
 import "../../styles/paginas/paginaGestionUsuarios.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { MenuFlotanteAcciones } from "../COMPONENTES/MenuFlotanteAcciones";
+import { PortalVerUsuario } from "../PORTALES/PortalVerUsuario";
+
 
 export const PaginaGestionUsuarios = () => {
+
     const Usuarios = [
         {
-            id: 1,
+            id: 16,
             nombreUsuario: "antonio_superlargoasdasdasdsadadsasadsad",
             nombre: "Antonio",
             email: "antonio@example.com",
@@ -86,9 +91,15 @@ export const PaginaGestionUsuarios = () => {
         },
     ];
 
+    const [menuOpciones, setMenuOpciones] = useState(null);
+    const [menuPosicion, setMenuPosicion] = useState({ top: 0, left: 0 });
+
     const [busqueda, setBusqueda] = useState("");
     const [paginaActual, setPaginaActual] = useState(1);
     const [usuariosPorPaginas, setUsariosPorPaginas] = useState(8);
+
+    const [mostrarModalUsuario, setMostrarModalUsuario] = useState(false);
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
 
     const indiceInicio = (paginaActual - 1) * usuariosPorPaginas;
     const indiceFin = indiceInicio + usuariosPorPaginas;
@@ -116,8 +127,7 @@ export const PaginaGestionUsuarios = () => {
         if (paginaActual > totalPaginas) {
             setPaginaActual(1);
         }
-
-    }, [usuariosFiltrados.length, usuariosPorPaginas]);
+    }, [paginaActual, totalPaginas]);
 
     const handleTipoClick = (tipo) => {
         if (tipo === "todo") {
@@ -147,7 +157,6 @@ export const PaginaGestionUsuarios = () => {
             setTiposSeleccionados(nuevosTipos);
         }
     };
-
 
     return (
         <div className="div-home">
@@ -189,25 +198,30 @@ export const PaginaGestionUsuarios = () => {
                         </div>
 
                         <div className="filtro-vista">
-                            <button
-                                className={`filtro-boton ${modoVista === "cuadricula" ? "activo" : ""}`}
-                                onClick={() => setModoVista("cuadricula")}
-                                title="Vista de cuadrícula"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" fill="currentColor">
-                                    <path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z" />
-                                </svg>
-                            </button>
-                            <button
-                                className={`filtro-boton ${modoVista === "lista" ? "activo" : ""}`}
-                                onClick={() => setModoVista("lista")}
-                                title="Vista de lista"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" fill="currentColor">
-                                    <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 0h14V7H7v2zm0 4h14v-2H7v2zm0 4h14v-2H7v2z" />
-                                </svg>
-                            </button>
+                            <button className="boton-crearFactura"> Nuevo <i className="bi bi-person fs-4"></i></button>
+
                         </div>
+                    </div>
+
+                    <div className="filtro-vista">
+                        <button
+                            className={`filtro-boton ${modoVista === "cuadricula" ? "activo" : ""}`}
+                            onClick={() => setModoVista("cuadricula")}
+                            title="Vista de cuadrícula"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" fill="currentColor">
+                                <path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z" />
+                            </svg>
+                        </button>
+                        <button
+                            className={`filtro-boton ${modoVista === "lista" ? "activo" : ""}`}
+                            onClick={() => setModoVista("lista")}
+                            title="Vista de lista"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" fill="currentColor">
+                                <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 0h14V7H7v2zm0 4h14v-2H7v2zm0 4h14v-2H7v2z" />
+                            </svg>
+                        </button>
                     </div>
 
                     <div className={`usuarios-grid ${modoVista}`}>
@@ -236,9 +250,40 @@ export const PaginaGestionUsuarios = () => {
                                     <span className="label">Tipo:</span>
                                     <span className={`tipo-badge ${usuario.tipo.toLowerCase()}`}>{usuario.tipo}</span>
                                 </div>
-                                <div className="usuario-Footer">
-
-                                </div>
+                                {modoVista !== "cuadricula" && (
+                                    <div
+                                        className="menu-hover-wrapper"
+                                        onMouseLeave={() => setMenuOpciones(null)}
+                                        style={{ position: "relative", display: "inline-block" }}
+                                    >
+                                        <div className="usuario-Footer">
+                                            <i
+                                                onMouseEnter={(e) => {
+                                                    const rect = e.currentTarget.getBoundingClientRect();
+                                                    setMenuOpciones(usuario.id);
+                                                    setMenuPosicion({
+                                                        top: rect.bottom + window.scrollY,
+                                                        left: rect.right - 130 + window.scrollX,
+                                                    });
+                                                }}
+                                                className="bi bi-three-dots-vertical"
+                                                style={{ fontSize: "1.2rem", cursor: "pointer" }}
+                                            ></i>
+                                        </div>
+                                        {menuOpciones === usuario.id && (
+                                            <MenuFlotanteAcciones
+                                                position={menuPosicion}
+                                                mostrarModalUser={() => {
+                                                    setMenuOpciones(false);
+                                                    setUsuarioSeleccionado(usuario);
+                                                    setMostrarModalUsuario(true);
+                                                }}
+                                                onEditar={() => console.log(usuario.id)}
+                                                onEliminar={() => console.log(usuario.id)}
+                                            />
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -253,6 +298,18 @@ export const PaginaGestionUsuarios = () => {
                             setPaginaActual(1);
                         }}
                     />
+                </div>
+                <div id="portal-root"></div>
+                <div id="portal-verUsuario">
+                    {mostrarModalUsuario && (
+                        <PortalVerUsuario
+                            idUsuario={usuarioSeleccionado.id}
+                            onClose={() => {
+                                setMostrarModalUsuario(false);
+                                setUsuarioSeleccionado(null);
+                            }}
+                        />
+                    )}
                 </div>
             </div>
         </div>

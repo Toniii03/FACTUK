@@ -3,11 +3,16 @@ import '../../styles/Login/registro.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { MensajeErrores } from '../MensajeErrores'
 import servicioUsuarios from '../SERVICIOS/ServicioUsuarios';
+import { useMensajes } from '../../context/MensajesContext';
 
 
 
-  
+
+
 export const PaginaRegistro = () => {
+
+  const { mostrarError, mostrarMensaje } = useMensajes();
+
 
   const { crearUsuario } = servicioUsuarios;
   const navigate = useNavigate();
@@ -22,28 +27,27 @@ export const PaginaRegistro = () => {
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [contrasena2, setContrasena2] = useState('');
-  const [error, setError] = useState('');
 
   const comprobarErrores = async (e) => {
     e.preventDefault();
-    setError('');
+    mostrarError('');
 
     if (!nombre || !nombreUsuario || !email || !contrasena || !contrasena2) {
-      setError('Por favor, completa todos los campos');
+      mostrarError('Por favor, completa todos los campos');
       return;
     }
     if (!comprobarEmail.test(email)) {
-      setError('Por favor, ingresa un correo electrónico válido');
+      mostrarError('Por favor, ingresa un correo electrónico válido');
       return;
     }
 
     if (contrasena !== contrasena2) {
-      setError('Las contraseñas no coinciden');
+      mostrarError('Las contraseñas no coinciden');
       return;
     }
 
     if (!contrasenaCorreta.test(contrasena)) {
-      setError('La contraseña debe tener al menos:\n- 8 caracteres\n- Una letra mayúscula\n- Una letra minúscula\n- Un carácter especial (.- @ # ! $ % & / = ? ¿ +)');
+      mostrarError('La contraseña debe tener al menos:\n- 8 caracteres\n- Una letra mayúscula\n- Una letra minúscula\n- Un carácter especial (.- @ # ! $ % & / = ? ¿ +)');
       return;
     }
 
@@ -58,21 +62,18 @@ export const PaginaRegistro = () => {
     try {
       const response = await crearUsuario(usuario);
       if (response.status === 'ok') {
-        alert('Usuario creado exitosamente');
+        mostrarMensaje('Usuario creado exitosamente');
         navigate('/auth/login');
       } else {
-        setError('Error al crear el usuario. ' + response.message);
+        mostrarError('Error al crear el usuario. ' + response.message);
       }
     } catch (err) {
-      setError('Hubo un error al registrar al usuario.');
+      mostrarError('Hubo un error al registrar al usuario.');
     }
   };
 
   return (
     <div className='contenido'>
-      <div>
-        {error && <MensajeErrores mensaje={error} onClose={() => setError('')} />}
-      </div>
       <div className='container'>
         <h2>Registro de Usuario</h2>
         <form onSubmit={comprobarErrores}>

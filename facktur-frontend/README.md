@@ -1,7 +1,7 @@
 # Dependencias necesarias (npm install)
  - axios
  - react-router-dom
- - bootstrap
+ - bootstrap, npm install bootstrap-icons
  - recharts
 
 

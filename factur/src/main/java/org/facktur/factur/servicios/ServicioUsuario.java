@@ -3,6 +3,7 @@ package org.facktur.factur.servicios;
 import java.util.List;
 import java.util.Optional;
 
+import org.facktur.factur.EntidadesDTO.usuarioDtoRequest;
 import org.facktur.factur.entidades.Usuario;
 import org.facktur.factur.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,30 @@ public class ServicioUsuario implements UserDetailsService {
     public List<Usuario> findAll() {
         return usuarioRepositorio.findAll();
     }
+    
+    public usuarioDtoRequest convertirAUsuarioDTO(Usuario usuario) {
+        return new usuarioDtoRequest(
+            usuario.getNombreUsuario(),
+            usuario.getNombre(),
+            usuario.getEmail(),
+            usuario.getTipo()
+        );
+    }
+
+	public usuarioDtoRequest updateUsuario(Long id, usuarioDtoRequest usuarioRequest) {
+		
+		Usuario usuario = usuarioRepositorio.findById(id)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+		
+		usuario.setNombreUsuario(usuarioRequest.getNombreUsuario());
+		usuario.setNombre(usuarioRequest.getNombre());
+		usuario.setEmail(usuarioRequest.getEmail());
+		usuario.setTipo(usuarioRequest.getTipo());
+		
+		System.out.println("USUARIO A MODIFICAAAAAR" + usuario);
+		
+		Usuario actualizado = usuarioRepositorio.save(usuario);
+		
+		return convertirAUsuarioDTO(actualizado);
+	}
 }

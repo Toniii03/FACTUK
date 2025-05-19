@@ -1,0 +1,53 @@
+.modal-content,
+.modal-dialog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-usuario-detalle {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-group label {
+  font-size: larger;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #fac563;
+  box-shadow: 0 0 10px 2px #fac563b7;
+}
+
+.div-boton {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
