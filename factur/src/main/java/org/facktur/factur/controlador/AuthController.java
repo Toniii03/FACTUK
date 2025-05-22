@@ -1,9 +1,11 @@
 package org.facktur.factur.controlador;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.facktur.factur.EntidadesDTO.AuthResponse;
+import org.facktur.factur.EntidadesDTO.CambioPasswordRequest;
 import org.facktur.factur.EntidadesDTO.LoginRequest;
 import org.facktur.factur.EntidadesDTO.UsuarioRequest;
 import org.facktur.factur.EntidadesDTO.usuarioDtoRequest;
@@ -123,11 +125,26 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario registrado correctamente"));
     }
     
+    @GetMapping("/usuarios")
+    public List<Usuario> listadoUsuarios() {
+    	return servicioUsuario.findAll();	
+    }
+    
     @GetMapping("/usuarios/{id}")
     public Optional<Usuario> buscarUsuarioPorID(@PathVariable Long id){
     	Optional<Usuario> usuario = servicioUsuario.findUsuarioByID(id);
 		return usuario;
     		
+    }
+    
+    @DeleteMapping("/usuarios/{id}")
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id){
+    	try {
+	    	servicioUsuario.eliminarUsuario(id);
+	    	return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario eliminado correctamente"));
+    	}catch (Exception e) {
+			return ResponseEntity.ok(Map.of("status", "error", "message", "No se ha podido eliminar el usuario"));
+		}
     }
     
     @PutMapping("/usuario/{id}")
@@ -142,6 +159,21 @@ public class AuthController {
 		} catch (Exception e) {
 			return ResponseEntity.ok(Map.of("status", "error", "message", e));
 		} 			
+    }
+    
+    @PutMapping("/usuarios/{idUsuario}/cambiar-password")
+    public ResponseEntity<?> cambiarPassUser(@PathVariable("idUsuario") Long id, @RequestBody CambioPasswordRequest request) {
+        try {
+        	System.out.println(request.getNuevaContrasena());
+            Usuario usuario = servicioUsuario.cambiosDePassword(id, request);
+            if (usuario != null) {
+                return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario actualizado correctamente"));
+            } else {
+                return ResponseEntity.ok(Map.of("status", "error", "message", "No se ha encontrado el usuario"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(Map.of("status", "error", "message", "ERROR AL GUARDAR LA PASSWORD"));
+        }
     }
     
     @GetMapping("/check")

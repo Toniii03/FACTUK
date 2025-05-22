@@ -4,7 +4,7 @@ import "../../styles/paginas/menuFlotanteAcciones.css";
 export const MenuFlotanteAcciones = ({
     position,
     mostrarModalUser,
-    onEditar,
+    onEditarPassword,
     onEliminar,
 }) => {
     return createPortal(
@@ -15,12 +15,13 @@ export const MenuFlotanteAcciones = ({
                 left: position.left,
                 zIndex: 9999,
                 minWidth: "130px",
+                maxWidth: "250px",
             }}
         >
             <div onClick={mostrarModalUser} className="menu-item">
                 <i className="bi bi-pencil"></i> Editar
             </div>
-            <div onClick={onEditar} className="menu-item">
+            <div onClick={onEditarPassword} className="menu-item">
                 <i className="bi bi-lock"></i> Cambiar contraseña
             </div>
             <div onClick={onEliminar} className="menu-item text-danger">

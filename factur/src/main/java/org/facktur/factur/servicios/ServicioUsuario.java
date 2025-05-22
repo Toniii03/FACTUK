@@ -3,13 +3,16 @@ package org.facktur.factur.servicios;
 import java.util.List;
 import java.util.Optional;
 
+import org.facktur.factur.EntidadesDTO.CambioPasswordRequest;
 import org.facktur.factur.EntidadesDTO.usuarioDtoRequest;
+import org.facktur.factur.config.PasswordEncoderUtil;
 import org.facktur.factur.entidades.Usuario;
 import org.facktur.factur.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -62,10 +65,23 @@ public class ServicioUsuario implements UserDetailsService {
 		usuario.setEmail(usuarioRequest.getEmail());
 		usuario.setTipo(usuarioRequest.getTipo());
 		
-		System.out.println("USUARIO A MODIFICAAAAAR" + usuario);
-		
 		Usuario actualizado = usuarioRepositorio.save(usuario);
 		
 		return convertirAUsuarioDTO(actualizado);
+	}
+
+	public void eliminarUsuario(Long id) {
+		Usuario usuario = usuarioRepositorio.findById(id)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+		usuarioRepositorio.delete(usuario);
+	}
+
+	public Usuario cambiosDePassword(Long id, CambioPasswordRequest request) {
+	    Usuario usuario = usuarioRepositorio.findById(id)
+	            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+	    
+	    usuario.setContrasena(PasswordEncoderUtil.encode(request.getNuevaContrasena()));
+
+	    return usuarioRepositorio.save(usuario);
 	}
 }

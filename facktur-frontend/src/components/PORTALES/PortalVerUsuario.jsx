@@ -5,10 +5,38 @@ import servicioUsuarios from "../SERVICIOS/ServicioUsuarios";
 import { CheckBoxTipoUsuario } from "../COMPONENTES/CheckBoxTipoUsuario";
 import { useMensajes } from '../../context/MensajesContext';
 
-export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
+export const PortalVerUsuario = ({ idUsuario, onClose }) => {
 
     const { mostrarError, mostrarMensaje } = useMensajes();
     const { BuscarUsuarioPorId, ActualizarusuarioPorId } = servicioUsuarios;
+    const [errores, setErrores] = useState({});
+
+    const validarCampos = () => {
+        const nuevosErrores = {};
+
+        if (!formData.nombreUsuario.trim()) {
+            nuevosErrores.nombreUsuario = "El nombre de usuario es obligatorio.";
+        } else if (formData.nombreUsuario.length > 50) {
+            nuevosErrores.nombreUsuario = "Máximo 50 caracteres.";
+        }
+
+        if (!formData.nombre.trim()) {
+            nuevosErrores.nombre = "El nombre completo es obligatorio.";
+        }
+
+        if (!formData.email.trim()) {
+            nuevosErrores.email = "El correo electrónico es obligatorio.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            nuevosErrores.email = "El correo electrónico debe tener un formato válido.";
+        }
+
+        setErrores(nuevosErrores);
+
+        return Object.keys(nuevosErrores).length === 0;
+    };
+
+
+
 
     useEffect(() => {
         const fetchUsuario = async () => {
@@ -38,11 +66,13 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!validarCampos()) return;
+
         const datosParaEnviar = {
             nombreUsuario: formData.nombreUsuario,
             nombre: formData.nombre,
             email: formData.email,
-            tipo: formData.tipo
+            tipo: formData.tipo,
         };
 
         try {
@@ -52,14 +82,12 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
         } catch (error) {
             mostrarError("Error actualizando usuario:");
         }
-    };;
+    }
 
     return createPortal(
         <>
-            {/* Fondo oscuro (backdrop) */}
             <div className="modal-backdrop fade show" style={{ zIndex: 1040 }} />
 
-            {/* Modal flotante */}
             <div
                 className="modal show d-block"
                 style={{
@@ -98,7 +126,7 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={`form-control ${errores.nombreUsuario ? 'is-invalid' : ''}`}
                                             id="nombreUsuario"
                                             name="nombreUsuario"
                                             value={formData.nombreUsuario}
@@ -107,6 +135,7 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
                                             maxLength={50}
                                             placeholder="ej: usuario123"
                                         />
+                                        {errores.nombreUsuario && (<div className="invalid-feedback">{errores.nombreUsuario}</div>)}
                                     </div>
 
                                     <div className="form-group">
@@ -115,7 +144,7 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
                                         </label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={`form-control ${errores.nombreUsuario ? 'is-invalid' : ''}`}
                                             id="nombre"
                                             name="nombre"
                                             value={formData.nombre}
@@ -124,6 +153,7 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
                                             maxLength={100}
                                             placeholder="ej: Nombre Apellidos"
                                         />
+                                        {errores.nombre && (<div className="invalid-feedback">{errores.nombre}</div>)}
                                     </div>
 
                                     <div className="form-group">
@@ -132,7 +162,7 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
                                         </label>
                                         <input
                                             type="email"
-                                            className="form-control"
+                                            className={`form-control ${errores.nombreUsuario ? 'is-invalid' : ''}`}
                                             id="email"
                                             name="email"
                                             value={formData.email}
@@ -141,6 +171,7 @@ export const PortalVerUsuario = ({ idUsuario, children, onClose }) => {
                                             maxLength={100}
                                             placeholder="ej: example@example.com"
                                         />
+                                        {errores.email && (<div className="invalid-feedback">{errores.email}</div>)}
                                     </div>
                                 </div>
 

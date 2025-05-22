@@ -22,7 +22,7 @@ export const MensajeCorrectos = ({ mensaje, onClose }) => {
             setTimeout(() => {
               setShow(false);
               if (onClose) onClose();
-            }, 250);
+            });
             return 0;
           }
           return prevProgress - 1;

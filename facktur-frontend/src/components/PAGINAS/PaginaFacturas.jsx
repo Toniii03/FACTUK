@@ -41,7 +41,7 @@ export const PaginaFacturas = () => {
       <div className="div_invisible"></div>
 
       <div className="div-visible">
-        <div className="div-filtros">
+        <div className="div-filtros-facturas">
           <div className="filtro-item">
             <label htmlFor="buscarUsuario">Buscar por usuario:</label>
             <input

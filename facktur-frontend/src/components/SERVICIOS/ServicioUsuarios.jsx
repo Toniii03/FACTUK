@@ -30,6 +30,23 @@ class ServicioUsuarios {
         }
     }
 
+    async loadUsuarios() {
+        try {
+            const response = await axios.get(
+                'http://localhost:8080/auth/usuarios',
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
+            )
+            return response.data;
+        } catch (error) {
+            return error;
+        }
+    }
+
 
     async crearUsuario(usuario) {
         try {
@@ -63,7 +80,6 @@ class ServicioUsuarios {
     }
 
     async ActualizarusuarioPorId(idUsuario, usuario) {
-        console.log("usuario:", usuario);
         try {
             const url = `http://localhost:8080/auth/usuario/${idUsuario}`;
             const response = await axios.put(url, usuario, {
@@ -76,6 +92,35 @@ class ServicioUsuarios {
             return { status: "error", message: error.message };
         }
     }
+
+    async EliminarUsuario(idUsuario) {
+        try {
+            const url = `http://localhost:8080/auth/usuarios/${idUsuario}`;
+            await axios.delete(url, {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            });
+
+            return "Usuario Eliminado correctamente";
+        } catch (error) {
+            return { status: "error", message: error.message };
+        }
+    }
+
+    cambiarContrasena = async (idUsuario, nuevaContrasena) => {
+        try {
+            const url = `http://localhost:8080/auth/usuarios/${idUsuario}/cambiar-password`;
+            await axios.put(url, {
+                nuevaContrasena: nuevaContrasena.trim(),
+            }, {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            });
+        } catch (error) {
+            throw new Error("Error al cambiar la contraseña");
+        }
+    };
+
 
     logout() {
         localStorage.clear();

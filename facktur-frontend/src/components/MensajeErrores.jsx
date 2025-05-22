@@ -21,7 +21,7 @@ export const MensajeErrores = ({ mensaje, onClose }) => {
             setTimeout(() => {
               setShow(false);
               if (onClose) onClose();
-            }, 250); // retraso para que de tiempo a terminar la animacion
+            },);
             return 0;
           }
           return prevProgress - 1;

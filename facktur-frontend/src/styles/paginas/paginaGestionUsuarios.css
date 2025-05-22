@@ -1,12 +1,10 @@
-
 .usuarios-grid {
-    margin-top:1rem ;
+    margin-top: 1rem;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .usuarios-grid.cuadricula {
     display: grid;
@@ -14,13 +12,11 @@
     gap: 1.5rem;
 }
 
-
 .usuarios-grid.lista {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
-
 
 .usuario-card {
     background: white;
@@ -41,20 +37,19 @@
     align-items: center;
     padding: 1rem 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     background-color: #fff;
     transition: box-shadow 0.25s ease, transform 0.2s ease;
 }
 
 .usuario-card.lista:hover {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
     transform: translateY(-3px);
 }
 
-
 .usuario-card.lista .usuario-header {
-    background: linear-gradient(to right, #fac56398, #fac563);
-    color: #000000;
+    background: linear-gradient(to right, #fac56398, #dfa63e);
+    color: rgb(56, 56, 56);
     padding: 1rem 1.5rem;
     margin-right: 1.5rem;
     border-radius: 12px;
@@ -68,11 +63,6 @@
     transition: background 0.3s ease;
 }
 
-.usuario-card.lista .usuario-header:hover {
-    background: linear-gradient(to right, #fac56398, #ad9b78);
-}
-
-
 .usuario-card.lista .usuario-nombre-usuario {
     font-size: 1.25rem;
     font-weight: 700;
@@ -80,7 +70,6 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
 
 .usuario-card.lista .usuario-detalle {
     display: flex;
@@ -105,29 +94,40 @@
     overflow: hidden;
 }
 
-
 .usuario-card.lista .usuario-detalle:not(:last-child) {
     border-right: 1px solid #e0e0e0;
     padding-right: 1rem;
     margin-right: 1rem;
 }
 
-
 .usuario-header {
-    background: linear-gradient(to right, #fac56398, #fac563);
-    color: rgb(58, 58, 58);
+    background: linear-gradient(to right, #fac56398, #dfa63e);
+    color: rgb(56, 56, 56);
     padding: 1rem;
+    width: 100%;
+    display: flex;
+    font-weight: 600;
+    flex-direction: row;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
 }
 
+.usuario-nombre-cuadricula {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
 
 .usuario-nombre-usuario {
     font-size: 1.2rem;
     margin: 0;
     font-weight: 600;
 }
-
 
 .usuario-detalle {
     display: flex;
@@ -142,7 +142,6 @@
     font-weight: 600;
     color: #555;
 }
-
 
 .tipo-badge {
     padding: 0.25rem 0.6rem;
@@ -170,27 +169,30 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.boton-crearFactura:hover{
+.boton-crearFactura:hover {
     color: #fac563;
     background-color: #272727;
 }
 
-.tipo-badge.admin {
+.leyenda-tipos {
+    padding: 0rem 1rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    align-items: center;
+}
+
+.tipo-badge.adm {
     background-color: #0a5a8e;
 }
 
-.tipo-badge.usuario {
+.tipo-badge.nor {
     background-color: #2e7d32;
 }
 
-.tipo-badge.empleado {
+.tipo-badge.emp {
     background-color: #f57c00;
 }
-
-.tipo-badge.superadmin {
-    background-color: #6a1b9a;
-}
-
 
 .filtros-contenedor {
     display: flex;
@@ -216,7 +218,7 @@
     transition: border 0.3s ease;
 }
 
-.usuario-Footer{
+.usuario-Footer {
     display: flex;
     font-size: x-large;
     justify-content: center;
@@ -230,11 +232,10 @@
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
-
 .div-filtros {
     margin: 2rem 0rem;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr auto;
     padding: 1rem 0rem 1rem 2rem;
     width: 100%;
     justify-content: flex-start;
@@ -246,10 +247,10 @@
 }
 
 .menu-flotante {
-  top: 100%;
-  right: 0;
-  min-width: 120px;
-  z-index: 1000;
+    top: 100%;
+    right: 0;
+    min-width: 120px;
+    z-index: 1000;
 }
 
 .filtro-tipos {
@@ -261,10 +262,10 @@
 }
 
 .filtro-vista {
-    margin-right: 2rem;
-    display: flex;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 90% auto auto;
     gap: 0.5rem;
-    justify-content: flex-end;
 }
 
 .filtro-boton {
@@ -288,6 +289,103 @@
     color: #272727;
 }
 
+.item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cuadro {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+}
+
+.admin {
+    background-color: #0a5a8e;
+}
+
+.usuario {
+    background-color: #2e7d32;
+}
+
+.empresa {
+    background-color: #f57c00;
+}
+
+.modal-overlay-cambiarPass {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeInOverlay 0.5s ease forwards;
+}
+
+.form-group input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.modal-cambiarPass {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    min-width: 320px;
+    height: fit-content;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    padding: 1rem 0rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1050;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-around; */
+}
+
+.modal-buttons-cambiarPass {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.btnConfirmar {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background-color: #fac463;
+    color: #202020;
+}
+
+.btnCancelar {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background-color: #555;
+    color: white;
+}
 
 @media (max-width: 600px) {
     .usuario-card.lista {
