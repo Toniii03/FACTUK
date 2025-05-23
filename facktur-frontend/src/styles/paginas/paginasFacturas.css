@@ -104,22 +104,92 @@
 }
 
 .factura-card {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #f9fafb;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 51, 102, 0.15); 
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.factura-card h3 {
-  font-size: 18px;
-  color: #003366;
-  margin-bottom: 10px;
+.factura-linea{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.factura-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 51, 102, 0.3);
 }
 
 .factura-card p {
-  font-size: 14px;
-  color: #333;
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: #003366;
+}
+
+.factura-card p strong {
+  color: #001f3f;
+}
+
+.botones-factura {
+  margin-top: 15px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.factura-numero {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.factura-estado {
+  font-weight: 700;
+  padding: 0.5rem;
+  border-radius: 10px;
+  color: white;
+  width: fit-content;
+  user-select: none;
+  font-size: small;
+}
+
+.factura-estado.PENDIENTE {
+  background-color: #f0ad4e;
+}
+
+.factura-estado.PAGADO {
+  background-color: #5cb85c
+}
+
+.factura-estado.CANCELADO {
+  background-color: #d9534f;
+}
+
+.botones-factura button {
+  background-color: #003366;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.botones-factura button:hover {
+  background-color: #00509e;
+}
+
+.botones-factura img {
+  width: 18px;
+  height: 18px;
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
 }
 
 .tooltip {
@@ -146,46 +216,13 @@
 .boton-crearFactura{
   padding: 5px 10px;
   font-size: 16px;
-  color: #fff;
-  background-color: #003366;
+  color: #333;
+  background-color: #fac463;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-button {
-  position: relative;
-  padding: 10px;
-  font-size: 14px;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  height: 40px;
-}
-
-.btn-imprimir {
-  background-color: #003366;
-}
-
-.btn-editar {
-  background-color: #fac463;
-}
-
-.btn-borrar {
-  background-color: #F44336;
-}
-
-button:hover {
-  opacity: 0.9;
-  transform: scale(0.98);
 }
 
 

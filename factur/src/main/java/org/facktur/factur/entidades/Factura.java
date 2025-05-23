@@ -20,16 +20,20 @@ public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(unique = true, nullable = false)
+    private String numeroFactura;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
-
-    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<FacturaArticulo> facturaArticulos; 
-
-    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Pago> pagos;
+    
+    @Column(nullable = false)
+    private String usuarioReceptor;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
+    private Date fechaEmision;
 
     @Column(nullable = false)
     private Double total;
@@ -44,13 +48,4 @@ public class Factura {
     @Column(nullable = false)
     private Date fechaLimitePago;
 
-    public Double calcularTotal() {
-        return facturaArticulos.stream()
-                .mapToDouble(fa -> fa.getArticulo().getPrecio() * fa.getCantidad())
-                .sum();
-    }
-
-    public Double calcularTotalPagado() {
-        return pagos.stream().mapToDouble(Pago::getMontoPagado).sum();
-    }
 }

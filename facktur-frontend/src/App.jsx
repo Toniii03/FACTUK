@@ -7,6 +7,7 @@ import { PaginaRegistro } from './components/LOGIN/PaginaRegistro';
 import { Menu } from './components/MENU/Menu';
 import { PaginaResumen } from './components/PAGINAS/PaginaResumen';
 import { PaginaFacturas } from './components/PAGINAS/PaginaFacturas';
+import { PaginaCrearFactura }  from './components/PAGINAS/paginaCrearFactura';
 import { PaginaPagos } from './components/PAGINAS/PaginaPagos';
 import { PaginaGestionUsuarios } from './components/PAGINAS/PaginaGestionUsuarios';
 import { useEffect, useState } from 'react';
@@ -78,6 +79,7 @@ const AppContent = ({ isAuthenticated }) => {
         <Route path="/usuarios" element={<ProtectedRoute element={<PaginaGestionUsuarios />} />} />
         <Route path="/resumen" element={<ProtectedRoute element={<PaginaResumen />} />} />
         <Route path="/facturas" element={<ProtectedRoute element={<PaginaFacturas />} />} />
+        <Route path="/facturas/crear" element={<ProtectedRoute element={<PaginaCrearFactura />} />} />
         <Route path="/pagos" element={<ProtectedRoute element={<PaginaPagos />} />} />
       </Routes>
     </div>

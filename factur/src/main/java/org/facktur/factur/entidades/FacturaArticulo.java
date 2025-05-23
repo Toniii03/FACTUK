@@ -20,11 +20,10 @@ public class FacturaArticulo {
 
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = false)
-    private Factura factura;  // Relación con la factura
+    private Factura factura; 
 
-    @ManyToOne
-    @JoinColumn(name = "articulo_id", nullable = false)
-    private Articulo articulo;
+    @Column(nullable = false)
+    private String articulo;
 
     @Column(nullable = false)
     private Integer cantidad;
@@ -32,7 +31,4 @@ public class FacturaArticulo {
     @Column(nullable = false)
     private Double precioUnitario;
 
-    public Double getSubtotal() {
-        return cantidad * precioUnitario;
-    }
 }
