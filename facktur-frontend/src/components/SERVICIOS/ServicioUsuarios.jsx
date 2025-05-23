@@ -122,12 +122,17 @@ class ServicioUsuarios {
     };
 
 
-    logout() {
+    async logout() {
         localStorage.clear();
-        axios.post('http://localhost:8080/auth/logout', {}, {
-            withCredentials: true
-        });
+        try {
+            await axios.post('http://localhost:8080/auth/logout', {}, {
+                withCredentials: true
+            });
+        } catch (error) {
+            console.error("Error cerrando sesión:", error);
+        }
     }
+
 }
 
 const servicioUsuarios = new ServicioUsuarios();

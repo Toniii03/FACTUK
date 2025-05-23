@@ -111,7 +111,7 @@ export const PaginaGestionUsuarios = () => {
         nuevosTipos = ["todo"];
       }
 
-      const tiposValidos = ["admin", "usuario", "empresas"];
+      const tiposValidos = ["ADM", "NOR", "EMP"];
       if (tiposValidos.every((t) => nuevosTipos.includes(t))) {
         nuevosTipos = ["todo"];
       }
@@ -143,17 +143,21 @@ export const PaginaGestionUsuarios = () => {
             </div>
 
             <div className="filtro-tipos">
-              {["Todo", "Admin", "Usuario", "Empresas"].map((tipo) => {
-                const tipoLower = tipo.toLowerCase();
-                const activo = tiposSeleccionados.includes(tipoLower);
+              {[
+                { label: "Todo", value: "todo" },
+                { label: "Admin", value: "adm" },
+                { label: "Usuario", value: "nor" },
+                { label: "Empresas", value: "emp" },
+              ].map(({ label, value }) => {
+                const activo = tiposSeleccionados.includes(value);
 
                 return (
                   <button
-                    key={tipo}
+                    key={value}
                     className={`filtro-boton ${activo ? "activo" : ""}`}
-                    onClick={() => handleTipoClick(tipoLower)}
+                    onClick={() => handleTipoClick(value)}
                   >
-                    {tipo}
+                    {label}
                   </button>
                 );
               })}
