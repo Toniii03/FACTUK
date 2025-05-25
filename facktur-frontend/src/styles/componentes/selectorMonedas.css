@@ -1,0 +1,24 @@
+.selector-moneda {
+  appearance: none; /* Quita estilos nativos */
+  background-color: #fff;
+  border: 2px solid #007BFF; /* azul moderno */
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  width: 150px; /* ancho fijo pero puedes ajustar */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.selector-moneda:hover {
+  border-color: #0056b3; /* azul más oscuro al hover */
+}
+
+.selector-moneda:focus {
+  outline: none;
+  border-color: #004085;
+  box-shadow: 0 0 5px #80bdff;
+}

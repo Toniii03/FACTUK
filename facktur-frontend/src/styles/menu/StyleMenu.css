@@ -125,6 +125,7 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     text-align: center;
     z-index: 1050;
+    padding: 1rem;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -148,17 +149,16 @@
 .modal .modal-buttons button {
     font-weight: bold;
     font-size: 18px;
-    padding: 16px 24px;
+    padding: 0.5rem 0.5rem;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    margin: 10px;
+    box-shadow: 0 6px 12px rgba(92, 92, 92, 0.1);
 }
 
 .modal .btnConfirm {
     background-color: #FAC463;
-    color: #202020; 
+    color: #333; 
 }
 
 .modal .btnConfirm:hover {

@@ -24,9 +24,9 @@ export const Menu = () => {
         setShowConfirmModal(false);
     };
 
-    const confirmLogout = () => {
+    const confirmLogout = async () => {
         closeModal();
-        ServicioUsuarios.logout();
+        await ServicioUsuarios.logout();
         navigate("/auth/login");
     };
 

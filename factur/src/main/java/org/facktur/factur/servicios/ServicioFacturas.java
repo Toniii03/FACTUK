@@ -3,8 +3,10 @@ package org.facktur.factur.servicios;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.facktur.factur.EntidadesDTO.FacturaEditarRequest;
 import org.facktur.factur.EntidadesDTO.FacturaRequest;
 import org.facktur.factur.entidades.Factura;
 import org.facktur.factur.entidades.FacturaArticulo;
@@ -26,8 +28,9 @@ public class ServicioFacturas {
     
     @Autowired
     private FacturaArticuloRepositorio facturaArticuloRepositorio;
+
 	
-	 public Factura crearFactura(FacturaRequest datosFactura) {
+	public Factura crearFactura(FacturaRequest datosFactura) {
 	        String numero = generarNumeroFactura();
 	        Usuario usuario = usuarioRepositorio.findById(datosFactura.getUsuarioId())
 					.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -78,7 +81,43 @@ public class ServicioFacturas {
 	    }
 
 	public List<Factura> findAll() {
-		return facturaRepositorio.findAll();
+		    return facturaRepositorio.findAllByOrderByFechaLimitePagoAsc();
 	}
+
+
+	
+	public Factura EditarFactura(Long idFactura,FacturaEditarRequest nuevaFactura) {
+		
+		 Factura factura = facturaRepositorio.findById(idFactura)
+			        .orElseThrow(() -> new RuntimeException("Factura no encontrada con ID: " + idFactura));
+		 
+		 factura.setUsuarioReceptor(nuevaFactura.getCliente());
+		 factura.setFechaLimitePago(nuevaFactura.getFechaLimitePago());
+		 return facturaRepositorio.save(factura);
+	}
+
+	public Factura eliminarFactura(Long id) {
+		 Factura factura = facturaRepositorio.findById(id)
+		            .orElseThrow(() -> new RuntimeException("Factura no encontrada con ID: " + id));
+		 
+		 List<FacturaArticulo> articulos = facturaArticuloRepositorio.findByFacturaId(id);
+		 facturaArticuloRepositorio.deleteAll(articulos);
+		 
+		 facturaRepositorio.delete(factura);
+		
+		 return factura;
+	}
+
+	public Optional<Factura> findById(Long id) {
+		return facturaRepositorio.findById(id);
+	}
+
+	public List<FacturaArticulo> findArticulosById(Long id) {
+		return facturaArticuloRepositorio.findByFacturaId(id);
+	}
+
+	public List<FacturaArticulo> obtenerArticulosByFacturaId(Long id) {
+		return facturaArticuloRepositorio.findByFacturaId(id);
+	};
 
 }

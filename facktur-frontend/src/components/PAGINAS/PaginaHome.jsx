@@ -32,9 +32,8 @@ export const PaginaHome = () => {
     return (
         <div className='div-home'>
             <div className='div-contentido'>
-                <div className='div_invisible'>{/*Este div simula el div del menu flotante*/}</div>
+                <div className='div_invisible'></div>
                 
-                {/* Si el usuario está autenticado */}
                 {isAuthenticated ? (
                     <div className='div-contenido_visible'>
                         {tipoUsuario === "ADM" ? (

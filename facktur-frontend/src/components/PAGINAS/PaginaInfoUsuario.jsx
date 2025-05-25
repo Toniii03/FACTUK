@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import "../../styles/paginas/paginaInfoUsuario.css"
+import SelectorMoneda from '../COMPONENTES/SelectorMoneda'
+import { useMoneda } from '../COMPONENTES/MonedaContext'
 
 const DEFAULT_DATA = {}
 
 export const PaginaInfoUsuario = () => {
   const [editando, setEditando] = useState(false)
+  const { moneda } = useMoneda();
 
   const [usuario, setUsuario] = useState(DEFAULT_DATA)
 
   useEffect(() => {
     const usuarioGuardado = localStorage.getItem("usuario")
     if (usuarioGuardado) {
-    setUsuario(JSON.parse(usuarioGuardado))
+      setUsuario(JSON.parse(usuarioGuardado))
     }
   }, [])
 
@@ -64,12 +67,21 @@ export const PaginaInfoUsuario = () => {
               )}
             </div>
           </form>
+
+          <div style={{padding:"1rem 0rem"}}>
+            <div>
+              <SelectorMoneda />
+              <p>Moneda seleccionada: {moneda}</p>
+            </div>
+
+          </div>
+
         </div>
 
         <div className='div-recuperarContraseña'>
           <h3>¿Has olvidado tu contraseña?</h3>
           <p>
-            No te preocupes, es algo común. Puedes restablecer tu contraseña fácilmente haciendo clic en el siguiente enlace. 
+            No te preocupes, es algo común. Puedes restablecer tu contraseña fácilmente haciendo clic en el siguiente enlace.
             Asegúrate de tener acceso al correo electrónico con el que registraste tu cuenta.
           </p>
           <a href="/recuperar-contraseña" className="enlace-recuperar">
@@ -77,7 +89,7 @@ export const PaginaInfoUsuario = () => {
           </a>
         </div>
 
-      </div> 
+      </div>
     </div>
   )
 }

@@ -15,6 +15,8 @@ import axios from 'axios';
 import { MensajeErrores } from './components/MensajeErrores';
 import { MensajeCorrectos } from './components/MensajeCorrectos';
 import { MensajesProvider, useMensajes } from './context/MensajesContext';
+import { MonedaProvider } from './components/COMPONENTES/MonedaContext';
+import { PaginaFacturaDetalles } from './components/PAGINAS/PaginaFacturaDetalles';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -41,9 +43,11 @@ function App() {
 
   return (
     <MensajesProvider>
-      <Router>
-        <AppContent isAuthenticated={isAuthenticated} />
-      </Router>
+      <MonedaProvider>
+        <Router>
+          <AppContent isAuthenticated={isAuthenticated} />
+        </Router>
+      </MonedaProvider>
     </MensajesProvider>
   );
 }
@@ -79,6 +83,7 @@ const AppContent = ({ isAuthenticated }) => {
         <Route path="/usuarios" element={<ProtectedRoute element={<PaginaGestionUsuarios />} />} />
         <Route path="/resumen" element={<ProtectedRoute element={<PaginaResumen />} />} />
         <Route path="/facturas" element={<ProtectedRoute element={<PaginaFacturas />} />} />
+        <Route path="/factura/:id" element={<ProtectedRoute element={<PaginaFacturaDetalles  />} />} />
         <Route path="/facturas/crear" element={<ProtectedRoute element={<PaginaCrearFactura />} />} />
         <Route path="/pagos" element={<ProtectedRoute element={<PaginaPagos />} />} />
       </Routes>

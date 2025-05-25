@@ -3,8 +3,8 @@ import "../../styles/paginas/menuFlotanteAcciones.css";
 
 export const MenuFlotanteAccionesFacturas = ({
     position,
-    mostrarModalUser,
-    onEditarPassword,
+    onVerFactura,
+    onEditar,
     onEliminar,
 }) => {
     return createPortal(
@@ -18,11 +18,11 @@ export const MenuFlotanteAccionesFacturas = ({
                 maxWidth: "250px",
             }}
         >
-            <div onClick={mostrarModalUser} className="menu-item">
-                <i className="bi bi-pencil"></i> Clonar Factura
+            <div onClick={onVerFactura} className="menu-item">
+                 <i className="bi bi-files"></i> Ver Factura
             </div>
-            <div onClick={onEditarPassword} className="menu-item">
-                <i className="bi bi-lock"></i> Editar Factura
+            <div onClick={onEditar} className="menu-item">
+                <i className="bi bi-pencil"></i> Editar Factura
             </div>
             <div onClick={onEliminar} className="menu-item text-danger">
                 <i className="bi bi-trash"></i> Eliminar
