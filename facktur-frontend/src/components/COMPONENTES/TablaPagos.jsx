@@ -110,27 +110,27 @@ const getEstadoColor = (estado, fechaPago) => {
   const diferenciaDias = Math.ceil((fecha - hoy) / (1000 * 60 * 60 * 24));
 
   if (estado === "Pagado") {
-    return "#d4edda"; // Verde claro
+    return "#d4edda";
   }
   if (estado === "Parcial") {
-    return "#fff3cd"; // Amarillo claro
+    return "#fff3cd"; 
   }
 
   if (estado === "Pendiente") {
     if (diferenciaDias < 0) {
-      return "#f8d7da"; // Rojo claro 
+      return "#f8d7da";
     } else {
-      return "#ffffff"; // Blanco 
+      return "#ffffff";
     }
   }
 
-  return "#ffffff"; // Color por defecto
+  return "#ffffff";
 };
 
 const TablaPagos = () => {
   const [pagos, setPagos] = useState(pagosData);
   const [paginaActual, setPaginaActual] = useState(1);
-  const [pagosPorPagina, setPagosPorPagina] = useState(5); // Estado para el número de elementos por página
+  const [pagosPorPagina, setPagosPorPagina] = useState(5); 
 
   const indiceInicio = (paginaActual - 1) * pagosPorPagina;
   const indiceFin = indiceInicio + pagosPorPagina;

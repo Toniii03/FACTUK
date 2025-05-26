@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "../../styles/menu/StyleMenu.css"
 import logo from "../../logo.png"
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
@@ -57,7 +57,7 @@ export const Menu = () => {
         <div className="menu-container">
             <div className="menu-img">
                 <div className='div-menu-img'>
-                    <Link to="/"><img id='imagen-logo' src={logo} alt="Imagen de menú" /></Link>
+                    <NavLink to="/"><img id='imagen-logo' src={logo} alt="Imagen de menú" /></NavLink>
                 </div>
 
                 <div className="menu-links">
@@ -65,19 +65,19 @@ export const Menu = () => {
                         if (tipoUsuario === "ADM") {
                             return (
                                 <div className="card-nelace-menu">
-                                    <Link to="/usuarios">Gestion de usuarios</Link>
+                                    <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/usuarios">Gestion de usuarios</NavLink>
                                 </div>
                             );
                         }
                     })()}
                     <div className="card-nelace-menu">
-                        <Link to="/resumen">Resumen</Link>
+                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/resumen">Resumen</NavLink>
                     </div>
                     <div className="card-nelace-menu">
-                        <Link to="/facturas">Facturas</Link>
+                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/facturas">Facturas</NavLink>
                     </div>
                     <div className="card-nelace-menu">
-                        <Link to="/pagos">Pagos</Link>
+                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/pagos">Pagos</NavLink>
                     </div>
                 </div>
             </div>
@@ -85,13 +85,13 @@ export const Menu = () => {
             <div className='div-botones-login'>
                 {isLoggedIn ? (
                     <>
-                        <div className='btnLogin'><Link to="/">Mi cuenta</Link></div>
-                        <div className='btnLogin'><Link onClick={openModal}>Salir</Link></div>
+                        <div className='btnLogin'><NavLink to="/">Mi cuenta</NavLink></div>
+                        <div className='btnLogin'><NavLink onClick={openModal}>Salir</NavLink></div>
                     </>
                 ) : (
                     <>
-                        <div className='btnLogin'><Link to="/auth/login">Iniciar Sesion</Link></div>
-                        <div className='btnLogin'><Link to="/auth/register">Registrarme</Link></div>
+                        <div className='btnLogin'><NavLink to="/auth/login">Iniciar Sesion</NavLink></div>
+                        <div className='btnLogin'><NavLink to="/auth/register">Registrarme</NavLink></div>
                     </>
                 )}
             </div>

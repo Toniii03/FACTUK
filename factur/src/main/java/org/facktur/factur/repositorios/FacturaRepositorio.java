@@ -1,7 +1,10 @@
 package org.facktur.factur.repositorios;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import org.facktur.factur.EntidadesDTO.FacturacionSemanalDTO;
 import org.facktur.factur.entidades.Factura;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +16,13 @@ public interface FacturaRepositorio extends JpaRepository<Factura, Long>{
     String findUltimoNumeroFacturaConPrefijo(@Param("prefijo") String prefijo);
     
     List<Factura> findAllByOrderByFechaLimitePagoAsc();
-
+    
+ // En el repositorio
+    @Query("""
+        SELECT f.fechaEmision, f.estado, f.total
+        FROM Factura f
+        WHERE f.fechaEmision BETWEEN :startDate AND :endDate
+    """)
+    List<Object[]> obtenerDatosFacturasPorPeriodo(
+        @Param("startDate") java.util.Date start, @Param("endDate") java.util.Date end);
 }

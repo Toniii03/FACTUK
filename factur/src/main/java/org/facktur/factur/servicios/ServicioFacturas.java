@@ -1,13 +1,20 @@
 package org.facktur.factur.servicios;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.facktur.factur.EntidadesDTO.FacturaEditarRequest;
 import org.facktur.factur.EntidadesDTO.FacturaRequest;
+import org.facktur.factur.EntidadesDTO.FacturacionSemanalDTO;
 import org.facktur.factur.entidades.Factura;
 import org.facktur.factur.entidades.FacturaArticulo;
 import org.facktur.factur.entidades.Usuario;
@@ -118,6 +125,56 @@ public class ServicioFacturas {
 
 	public List<FacturaArticulo> obtenerArticulosByFacturaId(Long id) {
 		return facturaArticuloRepositorio.findByFacturaId(id);
-	};
+	}
+	
+	private int getSemanaDelMes(LocalDate fecha) {
+	    LocalDate primerDiaMes = fecha.withDayOfMonth(1);
+	    int primerDiaSemana = primerDiaMes.getDayOfWeek().getValue();
+	    int diaDelMes = fecha.getDayOfMonth();
+	    return ((diaDelMes + primerDiaSemana - 2) / 7) + 1;
+	}
+
+	public List<FacturacionSemanalDTO> obtenerResumenPorPeriodo(String startDate, String endDate) {
+		String mes = startDate.substring(0, 7);
+        Date start = java.sql.Date.valueOf(startDate);
+        Date end = java.sql.Date.valueOf(endDate);
+
+	    List<Object[]> resultados = facturaRepositorio.obtenerDatosFacturasPorPeriodo(start, end);
+
+	    Map<Integer, FacturacionSemanalDTO> mapaSemanas = new HashMap<>();
+
+	    for (int i = 1; i <= 5; i++) {
+	        FacturacionSemanalDTO dtoVacio = new FacturacionSemanalDTO();
+	        dtoVacio.setSemana(i);
+	        dtoVacio.setMes(mes);
+	        dtoVacio.setPagadas(0);
+	        dtoVacio.setPendientes(0);
+	        dtoVacio.setTotalPagado(0.0);
+	        dtoVacio.setTotalPendiente(0.0);
+	        mapaSemanas.put(i, dtoVacio);
+	    }
+
+	    for (Object[] fila : resultados) {
+	        Timestamp ts = (Timestamp) fila[0];
+	        LocalDate fecha = ts.toLocalDateTime().toLocalDate();
+	        String estado = (String) fila[1];
+	        double total = ((Number) fila[2]).doubleValue();
+
+	        int semanaDelMes = getSemanaDelMes(fecha);
+	        FacturacionSemanalDTO dto = mapaSemanas.get(semanaDelMes);
+
+	        if ("PAGADA".equals(estado)) {
+	            dto.setPagadas(dto.getPagadas() + 1);
+	            dto.setTotalPagado(dto.getTotalPagado() + total);
+	        } else if ("PENDIENTE".equals(estado)) {
+	            dto.setPendientes(dto.getPendientes() + 1);
+	            dto.setTotalPendiente(dto.getTotalPendiente() + total);
+	        }
+}
+
+	    return mapaSemanas.values().stream()
+	            .sorted(Comparator.comparingInt(FacturacionSemanalDTO::getSemana))
+	            .toList();
+	}
 
 }
