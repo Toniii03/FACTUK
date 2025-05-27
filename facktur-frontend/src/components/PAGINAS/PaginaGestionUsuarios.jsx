@@ -166,17 +166,17 @@ export const PaginaGestionUsuarios = () => {
 
           <div className="filtro-vista">
             <div className="leyenda-tipos">
-              <div class="item">
-                <div class="cuadro admin"></div>
-                <span class="label">Administrador</span>
+              <div className="item">
+                <div className="cuadro admin"></div>
+                <span className="label">Administrador</span>
               </div>
-              <div class="item">
-                <div class="cuadro usuario"></div>
-                <span class="label">Usuario</span>
+              <div className="item">
+                <div className="cuadro usuario"></div>
+                <span className="label">Usuario</span>
               </div>
-              <div class="item">
-                <div class="cuadro empresa"></div>
-                <span class="label">Empresa</span>
+              <div className="item">
+                <div className="cuadro empresa"></div>
+                <span className="label">Empresa</span>
               </div>
             </div>
 

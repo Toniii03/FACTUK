@@ -4,11 +4,14 @@ import {
 } from 'recharts';
 import axios from 'axios';
 import '../../styles/paginas/GraficoFacturas.css';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const FacturacionMensual = () => {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0');
+  const navigate = useNavigate();
 
   const [year, setYear] = useState(currentYear.toString());
   const [month, setMonth] = useState(currentMonth);
@@ -45,14 +48,30 @@ const FacturacionMensual = () => {
     const lastDay = getLastDayOfMonth(parseInt(year), parseInt(month));
     const end = `${year}-${month}-${lastDay.toString().padStart(2, '0')}`;
 
+    const userCookie = Cookies.get('user');
+    if (!userCookie) {
+      navigate('/login');
+      return;
+    }
+
+    const user = JSON.parse(userCookie);
+    const userId = user?.id;
+
     axios.get(`${API_URL}facturacion-mensual`, {
-      params: { start, end },
+      params: { start, end, userId },
       withCredentials: true
     })
       .then(response => setData(response.data))
-      .catch(() => setError('Error al cargar datos de facturación mensual'))
+      .catch(error => {
+        if (error.response?.status === 401) {
+          navigate('/login');
+        } else {
+          setError('Error al cargar datos de facturación mensual');
+        }
+      })
       .finally(() => setLoading(false));
   };
+
 
   const getLastDayOfMonth = (year, month) => {
     return new Date(year, month, 0).getDate();

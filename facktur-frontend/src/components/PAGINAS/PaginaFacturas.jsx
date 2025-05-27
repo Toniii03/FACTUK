@@ -70,6 +70,7 @@ export const PaginaFacturas = () => {
   useEffect(() => {
     const cargarFacturas = async () => {
       const data = await loadfacturas();
+        console.log(data)
       setFactList(data);
     };
     cargarFacturas();

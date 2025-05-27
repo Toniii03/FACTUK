@@ -1,17 +1,35 @@
-// src/services/servicioFacturas.js
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const API_URL = "http://localhost:8080/";
 
 const loadfacturas = async () => {
     try {
+        const userCookie = Cookies.get('user');
+        if (!userCookie) throw new Error("Usuario no autenticado");
+
+        const user = JSON.parse(userCookie);
         const url = `${API_URL}facturas`;
-        const response = await axios.get(url,
-            {
-                withCredentials: true
-            });
-        return response.data;
+
+        const response = await axios.get(url, {
+            withCredentials: true
+        });
+
+        console.log("Facturas cargadas:", response.data);
+        console.log("Usuario:", user);
+
+        if (user.tipo === "admin" || user.cargo === "admin" || user.rol === "admin") {
+            return response.data;
+        }
+
+        const facturasFiltradas = response.data.filter(factura =>
+            factura.usuario?.id === user.id
+        );
+
+        return facturasFiltradas;
+
     } catch (error) {
+        console.error("Error cargando facturas:", error);
         throw error.response?.data?.mensaje || "Error al obtener las facturas.";
     }
 };

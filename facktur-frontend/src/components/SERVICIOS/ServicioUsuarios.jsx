@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 class ServicioUsuarios {
 
@@ -13,11 +14,14 @@ class ServicioUsuarios {
                     },
                     withCredentials: true
                 }
-            )
+            );
 
             const { tipo, usuario } = response.data;
+
             localStorage.setItem('tipo', tipo);
             localStorage.setItem('usuario', JSON.stringify(usuario));
+
+            Cookies.set('user', JSON.stringify(usuario), { secure: true, sameSite: 'Lax' });
 
             return { status: 'ok', message: 'Login exitoso' };
         } catch (error) {
@@ -29,6 +33,7 @@ class ServicioUsuarios {
             return { status: 'error', message: errorMessage };
         }
     }
+
 
     async loadUsuarios() {
         try {
@@ -123,13 +128,23 @@ class ServicioUsuarios {
 
 
     async logout() {
-        localStorage.clear();
         try {
-            await axios.post('http://localhost:8080/auth/logout', {}, {
+            await axios.post('http://localhost:8080/auth/logout', null, {
                 withCredentials: true
             });
+
+            Cookies.remove('user');
+
+            localStorage.removeItem('usuario');
+            localStorage.removeItem('tipo');
+
+            return { status: 'ok', message: 'Sesión cerrada' };
         } catch (error) {
-            console.error("Error cerrando sesión:", error);
+            const errorMessage =
+                error.response?.data?.message ||
+                error.message ||
+                'Error al cerrar sesión';
+            return { status: 'error', message: errorMessage };
         }
     }
 

@@ -134,12 +134,13 @@ public class ServicioFacturas {
 	    return ((diaDelMes + primerDiaSemana - 2) / 7) + 1;
 	}
 
-	public List<FacturacionSemanalDTO> obtenerResumenPorPeriodo(String startDate, String endDate) {
+	public List<FacturacionSemanalDTO> obtenerResumenPorPeriodo(String startDate, String endDate, Long userId) {
 		String mes = startDate.substring(0, 7);
         Date start = java.sql.Date.valueOf(startDate);
         Date end = java.sql.Date.valueOf(endDate);
+        
+        List<Object[]> resultados = facturaRepositorio.obtenerDatosFacturasPorPeriodoYUsuario(start, end, userId);
 
-	    List<Object[]> resultados = facturaRepositorio.obtenerDatosFacturasPorPeriodo(start, end);
 
 	    Map<Integer, FacturacionSemanalDTO> mapaSemanas = new HashMap<>();
 

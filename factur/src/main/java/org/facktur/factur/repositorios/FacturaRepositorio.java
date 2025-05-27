@@ -17,12 +17,16 @@ public interface FacturaRepositorio extends JpaRepository<Factura, Long>{
     
     List<Factura> findAllByOrderByFechaLimitePagoAsc();
     
- // En el repositorio
+
     @Query("""
-        SELECT f.fechaEmision, f.estado, f.total
-        FROM Factura f
-        WHERE f.fechaEmision BETWEEN :startDate AND :endDate
-    """)
-    List<Object[]> obtenerDatosFacturasPorPeriodo(
-        @Param("startDate") java.util.Date start, @Param("endDate") java.util.Date end);
+    	    SELECT f.fechaEmision, f.estado, f.total
+    	    FROM Factura f
+    	    WHERE f.fechaEmision BETWEEN :startDate AND :endDate
+    	      AND f.usuario.id = :userId
+    	""")
+    List<Object[]> obtenerDatosFacturasPorPeriodoYUsuario(
+    	    @Param("startDate") java.util.Date start,
+    	    @Param("endDate") java.util.Date end,
+    	    @Param("userId") Long userId
+    	);
 }

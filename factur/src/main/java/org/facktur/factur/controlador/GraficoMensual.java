@@ -20,8 +20,13 @@ public class GraficoMensual {
     private ServicioFacturas servicioFacturas;
 
     @GetMapping
-    public ResponseEntity<?> obtenerResumen(@RequestParam String start, @RequestParam String end) {
-        List<FacturacionSemanalDTO> resultados = servicioFacturas.obtenerResumenPorPeriodo(start, end);
+    public ResponseEntity<?> obtenerResumen(
+            @RequestParam String start,
+            @RequestParam String end,
+            @RequestParam Long userId) {
+
+        List<FacturacionSemanalDTO> resultados = servicioFacturas.obtenerResumenPorPeriodo(start, end, userId);
+        System.out.print("ID USUARIOOO"+userId);
         return ResponseEntity.ok(resultados);
     }
 

@@ -74,7 +74,7 @@ export const PaginaRegistro = () => {
 
   return (
     <div className='contenido'>
-      <div className='container'>
+      <div className='container' style={{maxWidth:"900px"}}>
         <h2>Registro de Usuario</h2>
         <form onSubmit={comprobarErrores}>
           <input type="text" className="input-field" placeholder="Nombre Completo" onChange={(e) => setNombre(e.target.value)}></input>

@@ -4,6 +4,7 @@ import logo from "../../logo.png"
 import { NavLink, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 
@@ -24,11 +25,19 @@ export const Menu = () => {
         setShowConfirmModal(false);
     };
 
-    const confirmLogout = async () => {
-        closeModal();
-        await ServicioUsuarios.logout();
+const confirmLogout = async () => {
+    closeModal();
+    const result = await ServicioUsuarios.logout();
+
+    if (result.status === 'ok') {
+        localStorage.clear();
+        Cookies.remove('user');
+
+        setIsAuthenticated(false);
+
         navigate("/auth/login");
-    };
+    }
+};
 
     const [isLoggedIn, setIsAuthenticated] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -98,7 +107,7 @@ export const Menu = () => {
 
             {showConfirmModal && (
                 <div className="modal-overlay">
-                    <div className="modal">
+                    <div className="modal" style={{maxHeight: "200px"}}>
                         <h3>¿Estás seguro de que quieres salir?</h3>
                         <div className="modal-buttons">
                             <button className="btnConfirm" onClick={confirmLogout}>Sí, salir</button>
