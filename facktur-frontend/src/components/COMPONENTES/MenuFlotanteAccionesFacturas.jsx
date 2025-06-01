@@ -1,11 +1,12 @@
 import { createPortal } from "react-dom";
-import "../../styles/paginas/menuFlotanteAcciones.css"; 
+import "../../styles/paginas/menuFlotanteAcciones.css";
 
 export const MenuFlotanteAccionesFacturas = ({
     position,
     onVerFactura,
     onEditar,
     onEliminar,
+    onPagar
 }) => {
     return createPortal(
         <div
@@ -19,10 +20,13 @@ export const MenuFlotanteAccionesFacturas = ({
             }}
         >
             <div onClick={onVerFactura} className="menu-item">
-                 <i className="bi bi-files"></i> Ver Factura
+                <i className="bi bi-files"></i> Ver Factura
             </div>
             <div onClick={onEditar} className="menu-item">
                 <i className="bi bi-pencil"></i> Editar Factura
+            </div>
+            <div onClick={onPagar} className="menu-item text-success">
+                <i className="bi bi-cash"></i> Pagar Factura
             </div>
             <div onClick={onEliminar} className="menu-item text-danger">
                 <i className="bi bi-trash"></i> Eliminar

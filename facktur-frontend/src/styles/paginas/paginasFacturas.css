@@ -199,7 +199,7 @@ input[type="date"].factura-input {
   background-color: #f0ad4e;
 }
 
-.factura-estado.PAGADO {
+.factura-estado.pagada {
   background-color: #5cb85c
 }
 

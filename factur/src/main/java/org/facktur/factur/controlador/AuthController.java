@@ -1,5 +1,6 @@
 package org.facktur.factur.controlador;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -10,8 +11,11 @@ import org.facktur.factur.EntidadesDTO.LoginRequest;
 import org.facktur.factur.EntidadesDTO.UsuarioRequest;
 import org.facktur.factur.EntidadesDTO.usuarioDtoRequest;
 import org.facktur.factur.config.JwtUtil;
+import org.facktur.factur.entidades.PasswordResetToken;
 import org.facktur.factur.entidades.Usuario;
+import org.facktur.factur.repositorios.PasswordResetTokenRepository;
 import org.facktur.factur.repositorios.UsuarioRepositorio;
+import org.facktur.factur.servicios.PasswordResetEncoderService;
 import org.facktur.factur.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,12 +44,18 @@ public class AuthController {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+
+    @Autowired
+    private PasswordResetEncoderService passwordResetService;
     
     @Autowired
     private ServicioUsuario servicioUsuario;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     AuthController(ServicioUsuario servicioUsuario) {
         this.servicioUsuario = servicioUsuario;
@@ -195,6 +206,41 @@ public class AuthController {
         ));
     }
     
-    
-    
+    @PostMapping("/obtener-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
+       Usuario usuario = usuarioRepositorio.findByEmail(email)
+                .orElse(null);
+
+       if (usuario == null) {
+          return ResponseEntity.badRequest().body("No existe un usuario con ese correo.");
+       }
+
+       String token = passwordResetService.createPasswordResetToken(usuario);
+       passwordResetService.sendPasswordResetEmail(email, token);
+
+       return ResponseEntity.ok("Correo de recuperación enviado.");
+        
+    }
+        
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+        String newPassword = body.get("newPassword");
+
+        if (token == null || newPassword == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Faltan parámetros"));
+        }
+
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token);
+        if (resetToken == null || resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Token inválido o expirado."));
+        }
+
+        Usuario usuario = resetToken.getUsuario();
+        usuario.setContrasena(new BCryptPasswordEncoder().encode(newPassword));
+        usuarioRepositorio.save(usuario);
+        passwordResetTokenRepository.delete(resetToken);
+        System.out.println("Respuesta enviada: " + Map.of("message", "Contraseña actualizada correctamente."));
+        return ResponseEntity.ok(Map.of("message", "Contraseña actualizada correctamente."));
+    }      
 }

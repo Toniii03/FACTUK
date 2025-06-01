@@ -35,8 +35,8 @@ export const PaginaFacturaDetalles = () => {
 
     const tasasCambio = {
         EUR: 1,
-        USD: 1.10,  // 1 EUR = 1.10 USD
-        GBP: 0.85,  // 1 EUR = 0.85 GBP
+        USD: 1.10,
+        GBP: 0.85,
     };
 
 

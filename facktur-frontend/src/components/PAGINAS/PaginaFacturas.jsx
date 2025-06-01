@@ -7,6 +7,7 @@ import { servicioFacturas } from "../../components/SERVICIOS/servicioFacturas";
 import { MenuFlotanteAccionesFacturas } from "../COMPONENTES/MenuFlotanteAccionesFacturas";
 import { useMensajes } from '../../context/MensajesContext';
 import { useMoneda } from '../../components/COMPONENTES/MonedaContext';
+import ModalPago from "../COMPONENTES/ModalPago";
 
 
 export const PaginaFacturas = () => {
@@ -20,6 +21,8 @@ export const PaginaFacturas = () => {
   const { moneda } = useMoneda();
   const navigate = useNavigate();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [modalPagarAbierto, setModalPagarAbierto] = useState(false);
+
 
   const { loadfacturas, editarFactura, eliminarFactura } = servicioFacturas;
 
@@ -48,16 +51,6 @@ export const PaginaFacturas = () => {
     navigate(`/factura/${facturaSeleccionada.id}`);
   };
 
-
-  const formatearFechaDDMMYYYY = (fecha) => {
-    if (!fecha) return "";
-    const d = new Date(fecha);
-    const dia = String(d.getDate()).padStart(2, "0");
-    const mes = String(d.getMonth() + 1).padStart(2, "0");
-    const anio = d.getFullYear();
-    return `${dia}/${mes}/${anio}`;
-  };
-
   const facturasOrdenadas = [...facturasFiltradas].sort((a, b) => {
     const fechaA = new Date(a.fechaLimitePago);
     const fechaB = new Date(b.fechaLimitePago);
@@ -70,7 +63,6 @@ export const PaginaFacturas = () => {
   useEffect(() => {
     const cargarFacturas = async () => {
       const data = await loadfacturas();
-        console.log(data)
       setFactList(data);
     };
     cargarFacturas();
@@ -260,6 +252,12 @@ export const PaginaFacturas = () => {
                     >
                       <MenuFlotanteAccionesFacturas
                         position={menuPosicion}
+                        onPagar={() => {
+                          setMenuOpcionesCard(null);
+                          setFacturaSeleccionada(factura);
+                          setModalPagarAbierto(true);
+                        }}
+
                         onVerFactura={() => {
                           setMenuOpcionesCard(null);
                           setFacturaSeleccionada(factura);
@@ -272,6 +270,7 @@ export const PaginaFacturas = () => {
                           setModoEdicion(true);
                         }}
                         onEliminar={() => {
+                          setMenuOpcionesCard(null);
                           setShowConfirmModal(true);
                           setFacturaAEliminar(factura.id);
                         }}
@@ -309,7 +308,10 @@ export const PaginaFacturas = () => {
 
                 <div className="factura-linea">
                   <p><strong>Importe:</strong></p>
-                  {formatearImporte(convertirImporte(factura.total, moneda), moneda)}
+                  <label htmlFor="">
+                    {formatearImporte(convertirImporte(factura.total, moneda), moneda)}
+                    <label htmlFor="" style={{marginLeft:'0.6rem', fontSize:'1rem', color:'grey'}}>({formatearImporte(convertirImporte(factura.totalPagado, moneda), moneda)})</label>
+                  </label>
                 </div>
                 <div className="factura-linea">
                   <p><strong>Fecha de Expedición:</strong></p>
@@ -355,6 +357,7 @@ export const PaginaFacturas = () => {
         />
       </div>
       <div id="portal-root"></div>
+
       {showConfirmModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -363,6 +366,24 @@ export const PaginaFacturas = () => {
               <button className="btnConfirm" onClick={confirmLogout}>Sí, Eliminar</button>
               <button className="btnCancel" onClick={closeModal}>Cancelar</button>
             </div>
+          </div>
+        </div>
+      )}
+      {modalPagarAbierto && facturaSeleccionada && (
+        <div className="modal-overlay" sty>
+          <div className="" style={{ width: '30%', padding: '0px', margin: '0px' }}>
+            <ModalPago
+              factura={facturaSeleccionada}
+              usuarioId={JSON.parse(localStorage.getItem('usuario'))?.id}
+              isOpen={modalPagarAbierto}
+              onClose={() => setModalPagarAbierto(false)}
+              onPagoRealizado={async () => {
+                const data = await servicioFacturas.loadfacturas();
+                setFactList(data);
+                setModalPagarAbierto(false);
+                mostrarMensaje("Pago registrado correctamente.");
+              }}
+            />
           </div>
         </div>
       )}

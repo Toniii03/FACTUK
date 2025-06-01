@@ -89,11 +89,13 @@ export const PortalVerUsuario = ({ idUsuario, onClose }) => {
             <div className="modal-backdrop fade show" style={{ zIndex: 1040 }} />
 
             <div
-                className="modal show d-block"
+                className="modal show"
                 style={{
+                    boxShadow:'0px 0px 0px',
                     width: "65vw",
                     height: "75vh",
                     position: "fixed",
+                    background:'transparent',
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",

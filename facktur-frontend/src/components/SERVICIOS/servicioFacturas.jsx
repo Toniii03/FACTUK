@@ -15,9 +15,6 @@ const loadfacturas = async () => {
             withCredentials: true
         });
 
-        console.log("Facturas cargadas:", response.data);
-        console.log("Usuario:", user);
-
         if (user.tipo === "admin" || user.cargo === "admin" || user.rol === "admin") {
             return response.data;
         }

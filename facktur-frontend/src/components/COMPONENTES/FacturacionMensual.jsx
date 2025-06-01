@@ -81,8 +81,6 @@ const FacturacionMensual = () => {
     cargarDatos();
   }, [year, month]);
 
-  console.log("Datos de facturación mensual:", data);
-
   return (
     <div className="container">
       <div className="form-row">

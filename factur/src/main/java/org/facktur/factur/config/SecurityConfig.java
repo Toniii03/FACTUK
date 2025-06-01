@@ -27,7 +27,7 @@ public class SecurityConfig {
     private ServicioUsuario servicioUsuario;
 
     @Autowired
-    private JwtFilter jwtFilter; // Lo crearemos en paso 3
+    private JwtFilter jwtFilter;
     
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,10 +52,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     	http
-    		.csrf(csrf -> csrf.disable()) // desactivar CSRF
+    		.csrf(csrf -> csrf.disable())
     		.cors(cors -> cors.configurationSource(corsConfigurationSource()))
     		.authorizeHttpRequests(auth -> auth
-    				.requestMatchers("/auth/login", "/auth/register", "/auth/check").permitAll()
+    				.requestMatchers("/auth/login", "/auth/register", "/auth/check", "/auth/reset-password","/auth/obtener-password").permitAll()
                     .anyRequest().authenticated()
                 );
     	return http.build();

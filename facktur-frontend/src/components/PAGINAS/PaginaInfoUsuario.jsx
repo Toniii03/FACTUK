@@ -2,12 +2,22 @@ import React, { useState, useEffect } from 'react'
 import "../../styles/paginas/paginaInfoUsuario.css"
 import SelectorMoneda from '../COMPONENTES/SelectorMoneda'
 import { useMoneda } from '../COMPONENTES/MonedaContext'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useMensajes } from '../../context/MensajesContext';
 
 const DEFAULT_DATA = {}
 
 export const PaginaInfoUsuario = () => {
   const [editando, setEditando] = useState(false)
   const { moneda } = useMoneda();
+  const { mostrarError, mostrarMensaje } = useMensajes();
+  const [cargando, setCargando] = useState(false);
+
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState('');
+
+  const email = JSON.parse(localStorage.getItem("usuario"))?.email;
 
   const [usuario, setUsuario] = useState(DEFAULT_DATA)
 
@@ -29,9 +39,27 @@ export const PaginaInfoUsuario = () => {
 
   const handleGuardar = () => {
     setEditando(false)
-    console.log("Datos guardados:", usuario)
-    // petición para actualizar el usuario en el backend
   }
+
+const handleRecuperar = async () => {
+  setCargando(true);
+  try {
+    await axios.post(
+      'http://localhost:8080/auth/obtener-password',
+      null,
+      {
+        params: { email },
+        withCredentials: true,
+      }
+    );
+    mostrarMensaje("Mensaje de recuperación enviado");
+  } catch (error) {
+    mostrarError("Error al enviar el correo de recuperación");
+  } finally {
+    setCargando(false);
+  }
+};
+
 
   return (
     <div className="contenedor-principal">
@@ -68,7 +96,7 @@ export const PaginaInfoUsuario = () => {
             </div>
           </form>
 
-          <div style={{padding:"1rem 0rem"}}>
+          <div style={{ padding: "1rem 0rem" }}>
             <div>
               <SelectorMoneda />
               <p>Moneda seleccionada: {moneda}</p>
@@ -78,15 +106,25 @@ export const PaginaInfoUsuario = () => {
 
         </div>
 
-        <div className='div-recuperarContraseña'>
+        <div className="div-recuperarContraseña">
           <h3>¿Has olvidado tu contraseña?</h3>
           <p>
             No te preocupes, es algo común. Puedes restablecer tu contraseña fácilmente haciendo clic en el siguiente enlace.
             Asegúrate de tener acceso al correo electrónico con el que registraste tu cuenta.
           </p>
-          <a href="/recuperar-contraseña" className="enlace-recuperar">
-            Recuperar Contraseña
-          </a>
+          <button
+            onClick={handleRecuperar}
+            className="enlace-recuperar"
+            style={{ border: "none" }}
+            disabled={cargando}
+          >
+            {cargando ? "Enviando..." : "Enviar correo de recuperación"}
+          </button>
+
+
+
+          {mensaje && <p className="mensaje-exito">{mensaje}</p>}
+          {error && <p className="mensaje-error">{error}</p>}
         </div>
 
       </div>

@@ -58,6 +58,17 @@ public class facturasControler {
     	
     	
     }
+    
+    @PostMapping("/crear")
+    public ResponseEntity<?> crearFactura(@RequestBody FacturaRequest datosFactura) {
+        try {
+        	servicioFacturas.crearFactura(datosFactura);
+        	return ResponseEntity.ok(Map.of("mensaje", "Factura creada correctamente"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body(Map.of("mensaje", e.getMessage()));
+        }
+    }
 
     @PutMapping("/editar/{id}")
 	public ResponseEntity<Map<String, Object>> crearFactura(

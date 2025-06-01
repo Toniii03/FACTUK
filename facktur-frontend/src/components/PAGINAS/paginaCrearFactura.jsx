@@ -7,32 +7,37 @@ import { useMoneda } from "../COMPONENTES/MonedaContext";
 
 export const PaginaCrearFactura = () => {
   const [articulos, setArticulos] = useState([]);
-  const navigate = useNavigate();
-  const [errorMensaje, setErrorMensaje] = useState("");
-  const [errorOculto, setErrorOculto] = useState(false);
-  const [cliente, setCliente] = useState("");
-  const [fechaLimite, setFechaLimite] = useState("");
-  const { crearFactura } = servicioFacturas;
-
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  const { confirmNavigation, cancelNavigation } = usePrompt(
-    "Tienes cambios sin guardar. ¿Deseas salir?",
-    articulos.length > 0,
-    () => setShowConfirmModal(true)
-  );
-
   const [nuevoArticulo, setNuevoArticulo] = useState({
     nombre: "",
     cantidad: 1,
     precio: "",
   });
+  const [cliente, setCliente] = useState("");
+  const [fechaLimite, setFechaLimite] = useState("");
+  const [errorMensaje, setErrorMensaje] = useState("");
+  const [errorOculto, setErrorOculto] = useState(false);
+  const [formEnviado, setFormEnviado] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  const navigate = useNavigate();
+  const { crearFactura } = servicioFacturas;
   const { moneda } = useMoneda();
 
+  const { confirmNavigation, cancelNavigation } = usePrompt(
+    "Tienes cambios sin guardar. ¿Deseas salir?",
+    articulos.length > 0 && !formEnviado,
+    () => {
+      if (formEnviado) {
+        confirmNavigation(); // no mostrar modal si ya se ha enviado
+      } else {
+        setShowConfirmModal(true); // mostrar modal si hay cambios sin guardar
+      }
+    }
+  );
+
   const formatoImporte = (cantidad) => {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
+    return new Intl.NumberFormat("es-ES", {
+      style: "currency",
       currency: moneda,
     }).format(cantidad);
   };
@@ -47,15 +52,12 @@ export const PaginaCrearFactura = () => {
 
   const agregarArticulo = () => {
     if (!nuevoArticulo.nombre || nuevoArticulo.cantidad <= 0 || nuevoArticulo.precio <= 0) return;
-
-    const nuevos = [...articulos, nuevoArticulo];
-    setArticulos(nuevos);
+    setArticulos([...articulos, nuevoArticulo]);
     setNuevoArticulo({ nombre: "", cantidad: 1, precio: "" });
   };
 
   const eliminarArticulo = (index) => {
-    const nuevos = articulos.filter((_, i) => i !== index);
-    setArticulos(nuevos);
+    setArticulos(articulos.filter((_, i) => i !== index));
   };
 
   const cancelarFactura = () => {
@@ -64,14 +66,14 @@ export const PaginaCrearFactura = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
-      if (articulos.length > 0) {
+      if (articulos.length > 0 && !formEnviado) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [articulos]);
+  }, [articulos, formEnviado]);
 
   const confirmLogout = () => {
     setShowConfirmModal(false);
@@ -89,7 +91,6 @@ export const PaginaCrearFactura = () => {
     if (articulos.length === 0) {
       setErrorMensaje("* Debe haber al menos 1 artículo en la factura *");
       setErrorOculto(false);
-
       setTimeout(() => setErrorOculto(true), 4000);
       setTimeout(() => setErrorMensaje(""), 4300);
       return;
@@ -99,29 +100,23 @@ export const PaginaCrearFactura = () => {
       usuarioId: JSON.parse(localStorage.getItem("usuario"))?.id,
       usuarioReceptor: cliente,
       articulos: articulos,
-      fechaEmision: new Date().toISOString(),
+      fechaEmision: new Date().toISOString().split("T")[0],
       total: articulos.reduce((acc, art) => acc + art.cantidad * art.precio, 0),
-      fechaLimitePago: new Date(fechaLimite).toISOString(),
+      fechaLimitePago: fechaLimite,
       estado: "PENDIENTE",
     };
 
     setErrorMensaje("");
 
     try {
-      const respuesta = await crearFactura(factura);
-
-      if (respuesta.ok) {
-        setCliente("");
-        setArticulos([]);
-        setFechaLimite("");
-
-        navigate("/facturas");
-      } else {
-        const data = await respuesta.json();
-        setErrorMensaje(data.mensaje || "Error al crear la factura");
-      }
+      setFormEnviado(true); // importante: marcar como enviado antes de navegar
+      await crearFactura(factura);
+      setCliente("");
+      setArticulos([]);
+      setFechaLimite("");
+      navigate("/facturas"); // ahora el prompt no interfiere
     } catch (error) {
-      setErrorMensaje("Error de red o del servidor");
+      setErrorMensaje(error.message || "Error de red o del servidor");
     }
   };
 
@@ -140,9 +135,8 @@ export const PaginaCrearFactura = () => {
                 id="remitente"
                 name="remitente"
                 value={JSON.parse(localStorage.getItem("usuario"))?.nombreUsuario}
-                placeholder="Quién emite la factura"
-                required
                 readOnly
+                required
               />
             </div>
             <div className="grupo-campo">
@@ -188,13 +182,13 @@ export const PaginaCrearFactura = () => {
           </div>
         </form>
 
-
         <div className="formulario-articulo">
           <div style={{ display: "flex", justifyContent: "space-between", height: "20px" }}>
             {errorMensaje && (
               <p className={`mensaje-error ${errorOculto ? "oculto" : ""}`}>{errorMensaje}</p>
             )}
           </div>
+
           <div style={{ display: "flex", width: "100%", gap: "10px", justifyContent: "space-between" }}>
             <div className="grupo-campo">
               <label htmlFor="nombre">Artículo</label>

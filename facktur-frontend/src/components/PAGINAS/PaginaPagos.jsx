@@ -39,7 +39,6 @@ export const PaginaPagos = () => {
               id="buscarUsuario"
               placeholder="Introduce un nombre de usuario"
               className="input-filtro"
-              onChange={(e) => console.log("Buscando:", e.target.value)}
             />
           </div>
 
@@ -48,7 +47,6 @@ export const PaginaPagos = () => {
             <select
               id="ordenFecha"
               className="input-filtro"
-              onChange={(e) => console.log("Ordenar por:", e.target.value)}
             >
               <option value="reciente">Más reciente</option>
               <option value="antiguo">Más antiguo</option>
