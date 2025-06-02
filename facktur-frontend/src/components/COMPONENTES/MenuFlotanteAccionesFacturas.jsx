@@ -6,7 +6,8 @@ export const MenuFlotanteAccionesFacturas = ({
     onVerFactura,
     onEditar,
     onEliminar,
-    onPagar
+    onPagar,
+    estaPagada
 }) => {
     return createPortal(
         <div
@@ -25,9 +26,11 @@ export const MenuFlotanteAccionesFacturas = ({
             <div onClick={onEditar} className="menu-item">
                 <i className="bi bi-pencil"></i> Editar Factura
             </div>
-            <div onClick={onPagar} className="menu-item text-success">
-                <i className="bi bi-cash"></i> Pagar Factura
-            </div>
+            {!estaPagada && (
+                <div onClick={onPagar} className="menu-item text-success">
+                    <i className="bi bi-cash"></i> Pagar Factura
+                </div>
+            )}
             <div onClick={onEliminar} className="menu-item text-danger">
                 <i className="bi bi-trash"></i> Eliminar
             </div>

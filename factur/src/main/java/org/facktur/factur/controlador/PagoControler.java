@@ -2,6 +2,7 @@ package org.facktur.factur.controlador;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.facktur.factur.servicios.ServicioFacturas;
 import org.facktur.factur.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,23 @@ public class PagoControler {
 
     @Autowired
     private FacturaRepositorio facturaRepositorio;
+    
+    @Autowired
+    private PagosServicios pagosServicios;
+    
+    @GetMapping
+    public ResponseEntity<?> obtenerPagosDelUsuarioAutenticado() {
+        Optional<Usuario> usuarioOpt = servicioUsuario.obtenerUsuarioAutenticado();
+
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.status(401).body("Usuario no autenticado");
+        }
+
+        Usuario usuario = usuarioOpt.get();
+        List<Pago> pagos = pagosServicios.obtenerPagosPorUsuario(usuario);
+
+        return ResponseEntity.ok(pagos);
+    }
 
     @PostMapping
     public ResponseEntity<?> registrarPago(@RequestBody PagoDTO pagoDTO) {

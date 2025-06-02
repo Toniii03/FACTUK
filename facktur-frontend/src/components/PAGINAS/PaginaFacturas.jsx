@@ -217,6 +217,7 @@ export const PaginaFacturas = () => {
                   ) : (
                     <i
                       onMouseEnter={(e) => {
+                        console.log(factura.estado)
                         if (bloquearMenuTemporal) return;
                         const rect = e.currentTarget.getBoundingClientRect();
                         const menuWidth = 200;
@@ -274,6 +275,7 @@ export const PaginaFacturas = () => {
                           setShowConfirmModal(true);
                           setFacturaAEliminar(factura.id);
                         }}
+                        estaPagada={factura.estado === "pagada"}
                       />
                     </div>
                   )}

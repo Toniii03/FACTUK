@@ -29,4 +29,6 @@ public interface FacturaRepositorio extends JpaRepository<Factura, Long>{
     	    @Param("endDate") java.util.Date end,
     	    @Param("userId") Long userId
     	);
+
+	List<Factura> findByEstadoNotAndFechaLimitePagoBefore(String string, LocalDate hoy);
 }

@@ -1,5 +1,6 @@
 package org.facktur.factur.EntidadesDTO;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -16,5 +17,5 @@ import lombok.ToString;
 public class FacturaEditarRequest {
 
 	private String cliente;
-	private Date fechaLimitePago;
+	private LocalDate fechaLimitePago;
 }

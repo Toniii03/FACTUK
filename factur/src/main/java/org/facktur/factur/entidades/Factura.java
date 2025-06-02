@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -44,8 +45,7 @@ public class Factura {
     @Column(nullable = false)
     private String estado; 
 
-    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date fechaLimitePago;
+    private LocalDate fechaLimitePago;
 
 }

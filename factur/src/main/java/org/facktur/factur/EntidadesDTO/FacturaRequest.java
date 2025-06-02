@@ -1,5 +1,6 @@
 package org.facktur.factur.EntidadesDTO;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class FacturaRequest {
 	private List<ArticuloRequest> articulos;
 	private Date fechaEmision;
     private Double total;
-	private Date fechaLimitePago;
+	private LocalDate fechaLimitePago;
 	private String estado;
 	    
 }

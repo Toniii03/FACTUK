@@ -9,6 +9,8 @@ import org.facktur.factur.config.PasswordEncoderUtil;
 import org.facktur.factur.entidades.Usuario;
 import org.facktur.factur.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -84,4 +86,16 @@ public class ServicioUsuario implements UserDetailsService {
 
 	    return usuarioRepositorio.save(usuario);
 	}
+
+	public Optional<Usuario> obtenerUsuarioAutenticado() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Usuario usuario = (Usuario) authentication.getPrincipal();
+		Long idUsuario = usuario.getId();
+	    if (authentication != null && authentication.isAuthenticated()) {
+	        String username = authentication.getName();
+	        return usuarioRepositorio.findById(idUsuario);
+	    }
+	    return Optional.empty();
+	}
+
 }
