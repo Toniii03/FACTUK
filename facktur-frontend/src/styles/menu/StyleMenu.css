@@ -1,223 +1,277 @@
 :root {
-    --color-primario: #fac463;
-    --color-secundario: #444;
-    --color-secundario-hover: #555;
-    --color-texto: #fff;
-    --color-texto-oscuro: #333;
-    --color-overlay: rgba(0, 0, 0, 0.5);
-    --transicion-rapida: all 0.3s ease;
-    --borde-radio: 8px;
+  --color-primario: #fac463;
+  --color-secundario: #444;
+  --color-secundario-hover: #555;
+  --color-texto: #fff;
+  --color-texto-oscuro: #333;
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --transicion-rapida: all 0.3s ease;
+  --borde-radio: 8px;
 }
 
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .menu-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .div-menu-img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.5rem;
 }
 
 #imagen-logo {
-    width: 100%;
-    max-width: 180px;
+  width: 100%;
+  max-width: 180px;
 }
 
 .menu-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .card-nelace-menu {
-    background-color: var(--color-secundario);
-    border-radius: var(--borde-radio);
-    transition: var(--transicion-rapida);
+  background-color: var(--color-secundario);
+  border-radius: var(--borde-radio);
+  transition: var(--transicion-rapida);
 }
 
 .card-nelace-menu a {
-    display: block;
-    padding: 0.75rem 1rem;
-    color: var(--color-texto);
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: color 0.3s;
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--color-texto);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
 .card-nelace-menu.active-link {
-    background-color: #222222;
-    color: #fac463;
-    border-left: 4px solid var(--color-primario);
+  background-color: #222222;
+  color: #fac463;
+  border-left: 4px solid var(--color-primario);
 }
 
 .card-nelace-menu.active-link a {
-    color: #fac463;
-    font-weight: 600;
+  color: #fac463;
+  font-weight: 600;
 }
 
 .card-nelace-menu a:hover {
-    color: #fac463;
+  color: #fac463;
 }
 
 .div-botones-login {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 0.5rem;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
 }
 
 .btnLogin {
-    display: block;
-    border-radius: 0.5rem;
-    background-color: var(--color-secundario);
-    padding: 0.6rem 1rem;
-    color: var(--color-texto);
-    text-decoration: none;
-    font-weight: 500;
-    text-align: center;
-    transition: var(--transicion-rapida);
-    cursor: pointer;
+  display: block;
+  border-radius: 0.5rem;
+  background-color: var(--color-secundario);
+  padding: 0.6rem 1rem;
+  color: var(--color-texto);
+  text-decoration: none;
+  font-weight: 500;
+  text-align: center;
+  transition: var(--transicion-rapida);
+  cursor: pointer;
 }
 
 .btnLogin a {
-    color: inherit;
-    text-decoration: none;
-    display: block;
+  color: inherit;
+  text-decoration: none;
+  display: block;
 }
 
 .btnLogin:hover {
-    background-color: var(--color-secundario-hover);
-    transform: translateY(-3px);
+  background-color: var(--color-secundario-hover);
+  transform: translateY(-3px);
 }
 
 .btnLogin:hover a:first-child {
-    color: var(--color-primario);
+  color: var(--color-primario);
 }
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-overlay);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    animation: fadeInOverlay 0.5s ease forwards;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeInOverlay 0.5s ease forwards;
 }
 
 @keyframes fadeInOverlay {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal {
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    max-height: fit-content;
-    transform: translate(-50%, -50%);
-    width: 30%;
-    min-width: 320px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    z-index: 1050;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    text-align: center;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  max-height: fit-content;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  min-width: 320px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: center;
 }
 
 .modal h3 {
-    color: var(--color-texto-oscuro);
-    margin: 0;
-    font-size: 1.25rem;
+  color: var(--color-texto-oscuro);
+  margin: 0;
+  font-size: 1.25rem;
 }
 
 .modal-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
 }
 
 .modal-buttons button {
-    flex: 1;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--borde-radio);
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: var(--transicion-rapida);
+  flex: 1;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--borde-radio);
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: var(--transicion-rapida);
 }
 
 .btnConfirm {
-    background-color: var(--color-primario);
-    color: var(--color-texto-oscuro);
+  background-color: var(--color-primario);
+  color: var(--color-texto-oscuro);
 }
 
 .btnConfirm:hover {
-    background-color: #e0aa43;
-    transform: scale(1.05);
+  background-color: #e0aa43;
+  transform: scale(1.05);
 }
 
 .btnConfirm:active {
-    background-color: #e6b800;
+  background-color: #e6b800;
 }
 
 .btnCancel {
-    background-color: var(--color-secundario-hover);
-    color: white;
+  background-color: var(--color-secundario-hover);
+  color: white;
 }
 
 .btnCancel:hover {
-    background-color: #6c757d;
-    transform: scale(1.05);
+  background-color: #6c757d;
+  transform: scale(1.05);
 }
 
 .btnCancel:active {
-    background-color: #333;
+  background-color: #333;
 }
 
-@media (max-width: 768px) {
-    .modal {
-        width: 90%;
-        height: auto;
-        padding: 1rem;
-    }
+@media (max-width: 800px) {
+  .div-menu {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background-color: #333;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    overflow-x: auto;
+    gap: 1rem;
+  }
 
-    .modal h3 {
-        font-size: 1.1rem;
-    }
+  .div_invisible{
+    display: none;
+  }
 
-    .modal-buttons button {
-        font-size: 0.95rem;
-        padding: 0.5rem;
-    }
+  .menu-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .div-menu-img {
+    padding-bottom: 0;
+  }
+
+  #imagen-logo {
+    max-width: 100px;
+  }
+
+  .menu-links {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .card-nelace-menu {
+    border-radius: 4px;
+  }
+
+  .card-nelace-menu a {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .div-botones-login {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.25rem;
+  }
+
+  .modal {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .modal h3 {
+    font-size: 1.1rem;
+  }
+
+  .modal-buttons button {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
 }

@@ -298,7 +298,6 @@ export const PaginaFacturas = () => {
                     }
                     readOnly={!modoEdicion || facturaSeleccionada?.id !== factura.id}
                     className="factura-input"
-                    style={{ maxWidth: "350px", width: "350px" }}
                     onChange={(e) =>
                       setFacturaEditada((prev) => ({
                         ...prev,
@@ -312,7 +311,7 @@ export const PaginaFacturas = () => {
                   <p><strong>Importe:</strong></p>
                   <label htmlFor="">
                     {formatearImporte(convertirImporte(factura.total, moneda), moneda)}
-                    <label htmlFor="" style={{marginLeft:'0.6rem', fontSize:'1rem', color:'grey'}}>({formatearImporte(convertirImporte(factura.totalPagado, moneda), moneda)})</label>
+                    <label htmlFor="" style={{ marginLeft: '0.6rem', fontSize: '1rem', color: 'grey' }}>({formatearImporte(convertirImporte(factura.totalPagado, moneda), moneda)})</label>
                   </label>
                 </div>
                 <div className="factura-linea">

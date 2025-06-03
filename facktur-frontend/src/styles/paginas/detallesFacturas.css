@@ -1,22 +1,24 @@
 .pagina-factura-detalles {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
+    padding: 1rem;
 }
 
 .container {
     background-color: #fff;
     border-radius: 15px;
-    padding: 40px 50px;
+    padding: 2.5rem 2rem;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     width: 100%;
-    max-width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;
     text-align: center;
     opacity: 0;
     animation: fadeIn 0.5s ease-out 0.2s forwards;
 }
 
 .loading {
-    padding: 20px;
+    padding: 1.25rem;
     font-size: 1.2rem;
     text-align: center;
     color: #555;
@@ -24,8 +26,8 @@
 
 .titulo-factura {
     border-bottom: 2px solid #fac463;
-    padding-bottom: 8px;
-    margin-bottom: 20px;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
     color: #333;
     font-size: 2rem;
     font-weight: 600;
@@ -35,14 +37,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .dato,
 .dato-estado {
     flex: 1 1 45%;
     font-size: 1rem;
+    text-align: left;
 }
 
 .dato-estado span {
@@ -52,19 +55,23 @@
 .totales {
     margin-top: 1rem;
     display: flex;
-    gap: 3rem;
+    flex-wrap: wrap;
+    gap: 2rem;
     font-size: 1.1rem;
     color: #003366;
     font-weight: 600;
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
+    justify-content: center;
 }
 
 .total,
 .total-pagado {
     background-color: #e9f1ff;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
     border: 1px solid #a3c0f9;
+    min-width: 140px;
+    text-align: center;
 }
 
 .total-pagado {
@@ -76,14 +83,16 @@
     font-size: 1.5rem;
     color: #333;
     border-bottom: 1px solid #ccc;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
 }
 
 .tabla-articulos {
     width: 100%;
     border-collapse: collapse;
     font-size: 1rem;
+    overflow-x: auto;
 }
 
 .tabla-articulos thead tr {
@@ -94,7 +103,7 @@
 
 .tabla-articulos th,
 .tabla-articulos td {
-    padding: 8px;
+    padding: 0.5rem;
     border: 1px solid #ddd;
 }
 
@@ -107,6 +116,7 @@
     cursor: default;
 }
 
+/* Estado de la factura */
 .dato-estado.pendiente span {
     color: #ffc107;
 }
@@ -119,4 +129,66 @@
     color: #dc3545;
 }
 
+/* Animación */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
 
+/* ------------------- RESPONSIVE DESIGN ------------------- */
+@media (max-width: 768px) {
+    .container {
+        padding: 2rem 1.5rem;
+    }
+
+    .titulo-factura {
+        font-size: 1.6rem;
+    }
+
+    .datos-factura {
+        flex-direction: column;
+    }
+
+    .dato,
+    .dato-estado {
+        flex: 1 1 100%;
+    }
+
+    .totales {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .titulo-articulos {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1.5rem 1rem;
+    }
+
+    .titulo-factura {
+        font-size: 1.4rem;
+    }
+
+    .tabla-articulos {
+        font-size: 0.9rem;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .tabla-articulos thead,
+    .tabla-articulos tbody,
+    .tabla-articulos tr {
+        display: table;
+        width: 100%;
+    }
+
+    .totales {
+        gap: 1rem;
+    }
+}
