@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { TiThMenu } from "react-icons/ti";
 
 import ServicioUsuarios from '../SERVICIOS/ServicioUsuarios';
 
@@ -13,23 +14,23 @@ export const Menu = () => {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isLoggedIn, setIsAuthenticated] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [menuOpen, setMenuOpen] = useState(false);
+
     const navigate = useNavigate();
 
-    const openModal = () => setShowConfirmModal(true);
+    const toggleMenu = () => setMenuOpen(!menuOpen);
     const closeModal = () => setShowConfirmModal(false);
+    const openModal = () => setShowConfirmModal(true);
 
     const confirmLogout = async () => {
         closeModal();
         try {
             const result = await ServicioUsuarios.logout();
-
             if (result.status === 'ok') {
                 localStorage.clear();
                 Cookies.remove('user');
                 setIsAuthenticated(false);
-                setLoading(true); // Forzar el re-render para pasar por la verificación
-
-                // 🔁 Redirige manualmente
+                setLoading(true);
                 navigate("/auth/login", { replace: true });
             }
         } catch (error) {
@@ -50,7 +51,6 @@ export const Menu = () => {
                 setLoading(false);
             }
         };
-
         checkAuth();
     }, []);
 
@@ -64,38 +64,48 @@ export const Menu = () => {
 
     return (
         <div className="menu-container">
-            <div className="menu-img">
+            <div className="menu-left">
                 <div className='div-menu-img'>
-                    <NavLink to="/"><img id='imagen-logo' src={logo} alt="Imagen de menú" /></NavLink>
+                    <NavLink to="/"><img id='imagen-logo' src={logo} alt="Logo" /></NavLink>
                 </div>
 
-                <div className="menu-links">
-                    {tipoUsuario === "ADM" && (
+
+                <div className=''>
+                    <div className="menu-links">
+                        {tipoUsuario === "ADM" && (
+                            <div className="card-nelace-menu">
+                                <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/usuarios">
+                                    Gestión de usuarios
+                                </NavLink>
+                            </div>
+                        )}
                         <div className="card-nelace-menu">
-                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/usuarios">
-                                Gestión de usuarios
+                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/resumen">
+                                Resumen
                             </NavLink>
                         </div>
-                    )}
-                    <div className="card-nelace-menu">
-                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/resumen">
-                            Resumen
-                        </NavLink>
-                    </div>
-                    <div className="card-nelace-menu">
-                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/facturas">
-                            Facturas
-                        </NavLink>
-                    </div>
-                    <div className="card-nelace-menu">
-                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/pagos">
-                            Pagos
-                        </NavLink>
+                        <div className="card-nelace-menu">
+                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/facturas">
+                                Facturas
+                            </NavLink>
+                        </div>
+                        <div className="card-nelace-menu">
+                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/pagos">
+                                Pagos
+                            </NavLink>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
-            <div className='div-botones-login'>
+            <div>
+                <div className='hamburger'>
+                    <TiThMenu size={50}/>
+                </div>  
+            </div>
+
+            <div className='menu-right'>
                 {isLoggedIn ? (
                     <>
                         <div className='btnLogin'><NavLink to="/">Mi cuenta</NavLink></div>
@@ -111,7 +121,7 @@ export const Menu = () => {
 
             {showConfirmModal && (
                 <div className="modal-overlay">
-                    <div className="modal" style={{ maxHeight: "200px" }}>
+                    <div className="modal">
                         <h3>¿Estás seguro de que quieres salir?</h3>
                         <div className="modal-buttons">
                             <button className="btnConfirm" onClick={confirmLogout}>Sí, salir</button>
