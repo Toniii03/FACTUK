@@ -18,7 +18,7 @@ const FacturacionMensual = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const API_URL = "http://localhost:8080/";
+ const API_URL = process.env.REACT_APP_API_URL;
 
   const years = [];
   for (let y = 2020; y <= currentYear + 1; y++) {

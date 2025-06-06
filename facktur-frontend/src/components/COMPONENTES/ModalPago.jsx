@@ -7,7 +7,7 @@ import { useMensajes } from '../../context/MensajesContext';
 export default function ModalPago({ factura, usuarioId, isOpen, onClose, onPagoRealizado }) {
     const { mostrarError, mostrarMensaje } = useMensajes();
 
-    const API_URL = "http://localhost:8080/";
+    const API_URL = process.env.REACT_APP_API_URL;
 
     if (!isOpen || !factura) return null;
 

@@ -217,7 +217,6 @@ export const PaginaFacturas = () => {
                   ) : (
                     <i
                       onMouseEnter={(e) => {
-                        console.log(factura.estado)
                         if (bloquearMenuTemporal) return;
                         const rect = e.currentTarget.getBoundingClientRect();
                         const menuWidth = 200;
@@ -284,7 +283,7 @@ export const PaginaFacturas = () => {
               <div style={{ padding: "1rem", fontSize: "1.2rem", textTransform: "uppercase" }}>
                 <div className="factura-linea">
                   <p><strong>Hecha por:</strong></p>
-                  {factura.usuario.nombreUsuario}
+                  <p>{factura.usuario.nombreUsuario}</p>
                 </div>
 
                 <div className="factura-linea">
@@ -293,7 +292,7 @@ export const PaginaFacturas = () => {
                     type="text"
                     value={
                       modoEdicion && facturaSeleccionada?.id === factura.id
-                        ? facturaEditada.usuarioReceptor
+                        ?  <p></p>
                         : factura.usuarioReceptor
                     }
                     readOnly={!modoEdicion || facturaSeleccionada?.id !== factura.id}
