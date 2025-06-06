@@ -101,6 +101,8 @@
 }
 
 .enlace {
+  border: 0;
+  background-color: transparent;
   color: #fac463;
   text-decoration: none;
   font-weight: bold;
@@ -110,6 +112,11 @@
 
 .enlace:hover {
   color: #555;
+}
+
+.fila-form-footer{
+  display: flex;
+  justify-content: space-between;
 }
 
 @keyframes fadeIn {
