@@ -10,6 +10,7 @@ import { TiThMenu } from "react-icons/ti";
 import ServicioUsuarios from '../SERVICIOS/ServicioUsuarios';
 
 export const Menu = () => {
+    const API_URL = process.env.REACT_APP_API_URL;
     const tipoUsuario = localStorage.getItem("tipo") || "NOR";
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isLoggedIn, setIsAuthenticated] = useState(null);
@@ -41,7 +42,8 @@ export const Menu = () => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/auth/check', {
+                const url = `${API_URL}auth/check`;
+                const response = await axios.get(url, {
                     withCredentials: true
                 });
                 setIsAuthenticated(response.status === 200);

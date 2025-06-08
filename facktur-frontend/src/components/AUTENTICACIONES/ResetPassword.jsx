@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 
 export const ResetPassword = () => {
+  const API_URL = process.env.REACT_APP_API_URL;
   const token = new URLSearchParams(window.location.search).get("token");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -23,8 +24,8 @@ export const ResetPassword = () => {
     }),
     onSubmit: async (values) => {
       try {
-        console.log(token)
-        const response = await axios.post('http://localhost:8080/auth/reset-password', {
+        const url = `${API_URL}auth/reset-password`;
+        const response = await axios.post(url, {
           token,
           newPassword: values.password,
         });

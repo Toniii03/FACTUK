@@ -20,13 +20,15 @@ import { PaginaFacturaDetalles } from './components/PAGINAS/PaginaFacturaDetalle
 import { ResetPassword } from './components/AUTENTICACIONES/ResetPassword';
 
 function App() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/auth/check', {
+        const url = `${API_URL}auth/check`;
+        const response = await axios.get(url, {
           withCredentials: true
         });
         setIsAuthenticated(response.status === 200);

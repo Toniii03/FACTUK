@@ -3,17 +3,19 @@ import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 export const ProtectedRoute = ({ element }) => {
-  
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/auth/check', {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
-          });
+        const url = `${API_URL}auth/check`;
+        const response = await axios.get(url, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        });
 
         if (response.status === 200) {
           setIsAuthenticated(true);

@@ -4,6 +4,8 @@ import "../../styles/paginas/paginaPagos.css";
 import TablaPagos from "../COMPONENTES/TablaPagos";
 
 export const PaginaPagos = () => {
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const [pagos, setPagos] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [pagosPorPagina, setPagosPorPagina] = useState(8);
@@ -11,7 +13,7 @@ export const PaginaPagos = () => {
   useEffect(() => {
     const obtenerPagos = async () => {
       try {
-        const url = 'http://localhost:8080/pagos' 
+        const url = `${API_URL}pagos`;
         const response = await fetch(url, {
           credentials: "include",
         });
