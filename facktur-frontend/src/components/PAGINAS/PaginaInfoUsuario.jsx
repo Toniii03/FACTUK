@@ -9,6 +9,7 @@ import { useMensajes } from '../../context/MensajesContext';
 const DEFAULT_DATA = {}
 
 export const PaginaInfoUsuario = () => {
+  const API_URL = process.env.REACT_APP_API_URL;
   const [editando, setEditando] = useState(false)
   const { moneda } = useMoneda();
   const { mostrarError, mostrarMensaje } = useMensajes();
@@ -41,24 +42,24 @@ export const PaginaInfoUsuario = () => {
     setEditando(false)
   }
 
-const handleRecuperar = async () => {
-  setCargando(true);
-  try {
-    await axios.post(
-      'http://localhost:8080/auth/obtener-password',
-      null,
-      {
-        params: { email },
-        withCredentials: true,
-      }
-    );
-    mostrarMensaje("Mensaje de recuperación enviado");
-  } catch (error) {
-    mostrarError("Error al enviar el correo de recuperación");
-  } finally {
-    setCargando(false);
-  }
-};
+  const handleRecuperar = async () => {
+    setCargando(true);
+    try {
+      const url = `${API_URL}auth/obtener-password`;
+      await axios.post(url,
+        null,
+        {
+          params: { email },
+          withCredentials: true,
+        }
+      );
+      mostrarMensaje("Mensaje de recuperación enviado");
+    } catch (error) {
+      mostrarError("Error al enviar el correo de recuperación");
+    } finally {
+      setCargando(false);
+    }
+  };
 
 
   return (

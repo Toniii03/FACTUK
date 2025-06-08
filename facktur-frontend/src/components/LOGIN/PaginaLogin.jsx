@@ -8,6 +8,7 @@ import { useMensajes } from "../../context/MensajesContext";
 import axios from "axios";
 
 export const PaginaLogin = () => {
+  const API_URL = process.env.REACT_APP_API_URL;
   const { mostrarError, mostrarMensaje } = useMensajes();
   const navigate = useNavigate();
   const { login } = servicioUsuarios;
@@ -28,7 +29,8 @@ export const PaginaLogin = () => {
 
     setCargandoRecuperacion(true);
     try {
-      await axios.post("http://localhost:8080/auth/obtener-password", null, {
+      const url = `${API_URL}auth/obtener-password`;
+      await axios.post(url, null, {
         params: { email: correoRecuperacion },
         withCredentials: true,
       });
