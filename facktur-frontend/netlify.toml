@@ -1,0 +1,9 @@
+[build]
+  base = "facktur-frontend"
+  publish = "facktur-frontend/build"
+  command = "npm install --legacy-peer-deps && npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 
