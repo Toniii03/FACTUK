@@ -22,7 +22,7 @@ export const PaginaHome = () => {
         setIsAuthenticated(response.status === 200);
       } catch (error) {
         setIsAuthenticated(false);
-        navigate("/auth/login");
+        //navigate("/auth/login");
       } finally {
         setLoading(false);
       }
