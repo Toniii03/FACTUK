@@ -1,14 +1,13 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 
-
 const API_URL = process.env.REACT_APP_API_URL;
 
 class ServicioUsuarios {
 
     async login(nombreUsuario, password) {
         try {
-            const url = `${API_URL}/auth/login`;
+            const url = `${API_URL}auth/login`;
             const response = await axios.post(url,
                 { nombreUsuario, password },
                 {
@@ -40,7 +39,7 @@ class ServicioUsuarios {
 
     async loadUsuarios() {
         try {
-            const url = `${API_URL}/auth/usuarios`;
+            const url = `${API_URL}auth/usuarios`;
             const response = await axios.get(url,
                 {
                     headers: {
@@ -58,7 +57,7 @@ class ServicioUsuarios {
 
     async crearUsuario(usuario) {
         try {
-            const url = `${API_URL}/auth/register`;
+            const url = `${API_URL}auth/register`;
             const response = await axios.post(url, usuario, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -77,7 +76,7 @@ class ServicioUsuarios {
 
     async BuscarUsuarioPorId(idUsuario) {
         try {
-            const url = `${API_URL}/auth/usuarios/${idUsuario}`;
+            const url = `${API_URL}auth/usuarios/${idUsuario}`;
             const response = await axios.get(url, {
                 withCredentials: true
             });
@@ -90,7 +89,7 @@ class ServicioUsuarios {
 
     async ActualizarusuarioPorId(idUsuario, usuario) {
         try {
-            const url = `${API_URL}/auth/usuario/${idUsuario}`;
+            const url = `${API_URL}auth/usuario/${idUsuario}`;
             const response = await axios.put(url, usuario, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -104,7 +103,7 @@ class ServicioUsuarios {
 
     async EliminarUsuario(idUsuario) {
         try {
-            const url = `${API_URL}/auth/usuarios/${idUsuario}`;
+            const url = `${API_URL}auth/usuarios/${idUsuario}`;
             await axios.delete(url, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -118,7 +117,7 @@ class ServicioUsuarios {
 
     cambiarContrasena = async (idUsuario, nuevaContrasena) => {
         try {
-            const url = `${API_URL}/auth/usuarios/${idUsuario}/cambiar-password`;
+            const url = `${API_URL}auth/usuarios/${idUsuario}/cambiar-password`;
             await axios.put(url, {
                 nuevaContrasena: nuevaContrasena.trim(),
             }, {
@@ -133,7 +132,7 @@ class ServicioUsuarios {
 
     async logout() {
         try {
-            const url = `${API_URL}/auth/logout`;
+            const url = `${API_URL}auth/logout`;
             await axios.post(url, null, {
                 withCredentials: true
             });
