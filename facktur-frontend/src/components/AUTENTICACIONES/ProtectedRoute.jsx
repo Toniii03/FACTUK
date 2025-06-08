@@ -16,7 +16,6 @@ export const ProtectedRoute = ({ element }) => {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
         });
-        alert('Auth check response:', response)
         if (response.status === 200) {
           setIsAuthenticated(true);
         } else {
