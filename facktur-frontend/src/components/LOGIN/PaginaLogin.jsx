@@ -54,7 +54,7 @@ export const PaginaLogin = () => {
         mostrarMensaje("¡Inicio de sesión correcto!");
         navigate("/");
       } else {
-        mostrarError("Compruebe que el usuario y la contraseña son correctos");
+        mostrarError(result.message || "Compruebe que el usuario y la contraseña son correctos");
       }
     } else {
       mostrarError("Por favor, completa todos los campos");
