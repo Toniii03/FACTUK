@@ -129,6 +129,24 @@ class ServicioUsuarios {
         }
     };
 
+    ActualizarUsuarioLogueado = async (data) => {
+        const datos = {
+            nombreUsuario: data.nombreUsuario.trim(),
+            nombre: data.nombre.trim(),
+            email: data.email.trim(),
+            tipo: data.tipo
+        };
+
+        try {
+            const url = `${API_URL}auth/usuarioLogueado/${data.id}`;
+            await axios.put(url, datos, {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            });
+        } catch (error) {
+            throw new Error("Error al actualizar los datos del usuario");
+        }
+    };
 
     async logout() {
         try {

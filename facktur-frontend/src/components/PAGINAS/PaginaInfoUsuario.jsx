@@ -3,6 +3,7 @@ import "../../styles/paginas/paginaInfoUsuario.css"
 import SelectorMoneda from '../COMPONENTES/SelectorMoneda'
 import { useMoneda } from '../COMPONENTES/MonedaContext'
 import axios from 'axios';
+import servicioUsuarios from "../SERVICIOS/ServicioUsuarios";
 import { useMensajes } from '../../context/MensajesContext';
 
 
@@ -36,9 +37,17 @@ export const PaginaInfoUsuario = () => {
     setEditando(true)
   }
 
-  const handleGuardar = () => {
-    setEditando(false)
-  }
+  const handleGuardar = async () => {
+    try {
+      await servicioUsuarios.ActualizarUsuarioLogueado(usuario);
+      mostrarMensaje("Datos actualizados correctamente");
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+      setEditando(false);
+    } catch (error) {
+      console.error("Error al actualizar el usuario:", error);
+      mostrarError("Error al guardar los cambios");
+    }
+  };
 
   const handleRecuperar = async () => {
     setCargando(true);

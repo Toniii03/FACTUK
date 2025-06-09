@@ -78,7 +78,7 @@ export const PaginaFacturas = () => {
       await editarFactura(id, datosFactura);
       const facturas = await loadfacturas();
       setFactList(facturas);
-      mostrarMensaje("Factura editada:");
+      mostrarMensaje("Factura editada");
     } catch (error) {
       mostrarError("Error al editar la factura:");
     }
@@ -292,7 +292,7 @@ export const PaginaFacturas = () => {
                     type="text"
                     value={
                       modoEdicion && facturaSeleccionada?.id === factura.id
-                        ?  <p></p>
+                        ? facturaEditada?.usuarioReceptor ?? ''
                         : factura.usuarioReceptor
                     }
                     readOnly={!modoEdicion || facturaSeleccionada?.id !== factura.id}

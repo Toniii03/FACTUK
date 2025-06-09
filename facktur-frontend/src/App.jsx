@@ -12,6 +12,7 @@ import { PaginaPagos } from './components/PAGINAS/PaginaPagos';
 import { PaginaGestionUsuarios } from './components/PAGINAS/PaginaGestionUsuarios';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { MensajeErrores } from './components/MensajeErrores';
 import { MensajeCorrectos } from './components/MensajeCorrectos';
 import { MensajesProvider, useMensajes } from './context/MensajesContext';

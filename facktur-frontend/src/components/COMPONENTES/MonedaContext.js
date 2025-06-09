@@ -1,9 +1,15 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const MonedaContext = createContext();
 
 export const MonedaProvider = ({ children }) => {
-  const [moneda, setMoneda] = useState("EUR");
+  const [moneda, setMoneda] = useState(() => {
+    return localStorage.getItem("moneda") || "EUR";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("moneda", moneda);
+  }, [moneda]);
 
   const cambiarMoneda = (nuevaMoneda) => {
     setMoneda(nuevaMoneda);

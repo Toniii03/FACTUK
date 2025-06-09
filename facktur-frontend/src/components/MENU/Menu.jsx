@@ -97,6 +97,17 @@ export const Menu = () => {
 
     return (
         <div className="menu-container">
+            <div className={`menu-desplegable ${menuOpen ? 'abierto' : ''}`}>
+                <div className="menu-header">
+                    <h4>Menú</h4>
+                    <button onClick={toggleMenu} className="cerrar-menu">✕</button>
+                </div>
+                <ul className="menu-opciones">
+                    <li><NavLink to="/perfil">Mi Perfil</NavLink></li>
+                    <li><NavLink to="/configuracion">Configuración</NavLink></li>
+                    <li><NavLink to="#" onClick={openModal}>Cerrar sesión</NavLink></li>
+                </ul>
+            </div>
             <div className="menu-left">
                 <div className='div-menu-img'>
                     <NavLink to="/"><img id='imagen-logo' src={logo} alt="Logo" /></NavLink>
@@ -149,6 +160,7 @@ export const Menu = () => {
                         <div className='btnLogin'><NavLink to="/auth/register">Registrarme</NavLink></div>
                     </>
                 )}
+
             </div>
 
             {showConfirmModal && (

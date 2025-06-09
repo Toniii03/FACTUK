@@ -183,6 +183,20 @@ public class AuthController {
 		} 			
     }
     
+    @PutMapping("/usuarioLogueado/{id}")
+    public ResponseEntity<?> actualizarUsuarioLogueado(@RequestBody usuarioDtoRequest usuarioRequest, @PathVariable Long id){
+    	try {
+        	usuarioDtoRequest usuario = servicioUsuario.updateUsuario(id,usuarioRequest);
+        	if (usuario != null) {
+            	return ResponseEntity.ok(Map.of("status", "ok", "message", "Usuario Actualizado correctamente"));
+        	}else {
+        		return ResponseEntity.ok(Map.of("status", "error", "message", "No se ha encontrado el usuario"));
+        	}
+		} catch (Exception e) {
+			return ResponseEntity.ok(Map.of("status", "error", "message", e));
+		} 			
+    }
+    
     @PutMapping("/usuarios/{idUsuario}/cambiar-password")
     public ResponseEntity<?> cambiarPassUser(@PathVariable("idUsuario") Long id, @RequestBody CambioPasswordRequest request) {
         try {
