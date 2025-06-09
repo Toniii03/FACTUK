@@ -11,7 +11,8 @@ import ServicioUsuarios from '../SERVICIOS/ServicioUsuarios';
 
 export const Menu = () => {
     const API_URL = process.env.REACT_APP_API_URL;
-    const tipoUsuario = localStorage.getItem("tipo") || "NOR";
+
+    const [tipoUsuario, setTipoUsuario] = useState("NOR");
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isLoggedIn, setIsAuthenticated] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -54,13 +55,33 @@ export const Menu = () => {
             }
         };
         checkAuth();
-    }, []);
+    }, [API_URL]);
 
     useEffect(() => {
         if (!loading && isLoggedIn === false) {
             navigate("/auth/login", { replace: true });
         }
     }, [isLoggedIn, loading, navigate]);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (isLoggedIn) {
+                try {
+                    const url = `${API_URL}auth/tipo-usuario`;
+                    const response = await axios.get(url, {
+                        withCredentials: true
+                    });
+                    if (response.status === 200 && response.data) {
+                        setTipoUsuario(response.data.tipo || "NOR");
+                    }
+                } catch (error) {
+                    console.error("Error al obtener datos de usuario", error);
+                    setTipoUsuario("NOR");
+                }
+            }
+        };
+        fetchUserData();
+    }, [isLoggedIn, API_URL]);
 
     if (loading)
         return (
@@ -80,7 +101,6 @@ export const Menu = () => {
                 <div className='div-menu-img'>
                     <NavLink to="/"><img id='imagen-logo' src={logo} alt="Logo" /></NavLink>
                 </div>
-
 
                 <div className=''>
                     <div className="menu-links">
@@ -112,7 +132,7 @@ export const Menu = () => {
             </div>
 
             <div>
-                <div className='hamburger'>
+                <div className='hamburger' onClick={toggleMenu}>
                     <TiThMenu size={50} />
                 </div>
             </div>

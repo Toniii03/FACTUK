@@ -98,4 +98,20 @@ public class ServicioUsuario implements UserDetailsService {
 	    return Optional.empty();
 	}
 
+	public String findTipoUsuarioActual() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+
+        String nombreUsuario = authentication.getName();
+        Usuario usuario = usuarioRepositorio.findByNombreUsuario(nombreUsuario);
+
+        if (usuario != null) {
+            return usuario.getTipo();
+        }
+
+        return null;
+    }
+
 }

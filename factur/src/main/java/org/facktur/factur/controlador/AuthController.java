@@ -93,9 +93,9 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from("AUTH_TOKEN", "")
             .httpOnly(true)
-            .secure(false)
+            .secure(true)
             .path("/")
-            .maxAge(0)  // Elimina cookie
+            .maxAge(0)
             .sameSite("None")
             .build();
 
@@ -139,6 +139,17 @@ public class AuthController {
     @GetMapping("/usuarios")
     public List<Usuario> listadoUsuarios() {
     	return servicioUsuario.findAll();	
+    }
+    
+    @GetMapping("/tipo-usuario")
+    public ResponseEntity<?> tipoUsuario() {
+    	 String tipoUsuario = servicioUsuario.findTipoUsuarioActual();
+
+         if (tipoUsuario == null) {
+             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no autenticado");
+         }
+
+         return ResponseEntity.ok(Map.of("tipo", tipoUsuario));
     }
     
     @GetMapping("/usuarios/{id}")

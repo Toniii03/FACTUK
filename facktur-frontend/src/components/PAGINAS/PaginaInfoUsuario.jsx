@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react'
 import "../../styles/paginas/paginaInfoUsuario.css"
 import SelectorMoneda from '../COMPONENTES/SelectorMoneda'
 import { useMoneda } from '../COMPONENTES/MonedaContext'
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useMensajes } from '../../context/MensajesContext';
 
-const DEFAULT_DATA = {}
 
 export const PaginaInfoUsuario = () => {
   const API_URL = process.env.REACT_APP_API_URL;
@@ -20,7 +18,7 @@ export const PaginaInfoUsuario = () => {
 
   const email = JSON.parse(localStorage.getItem("usuario"))?.email;
 
-  const [usuario, setUsuario] = useState(DEFAULT_DATA)
+  const [usuario, setUsuario] = useState({ nombre: "" });
 
   useEffect(() => {
     const usuarioGuardado = localStorage.getItem("usuario")
@@ -121,7 +119,6 @@ export const PaginaInfoUsuario = () => {
           >
             {cargando ? "Enviando..." : "Enviar correo de recuperación"}
           </button>
-
 
 
           {mensaje && <p className="mensaje-exito">{mensaje}</p>}

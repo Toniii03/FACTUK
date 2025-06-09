@@ -41,7 +41,6 @@ public class Usuario implements UserDetails {
     @Column(name = "tipo", nullable = false, length = 10)
     private String tipo;
 
-    // Implementación de UserDetails
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -60,21 +59,21 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // o lógica propia si tienes
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // o lógica propia
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // o lógica propia
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // o lógica propia
+        return true;
     }
 }

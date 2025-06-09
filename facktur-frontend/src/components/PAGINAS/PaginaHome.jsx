@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import "../../styles/home/styleHome.css";
 import { PaginaInfoUsuario } from './PaginaInfoUsuario';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const PaginaHome = () => {
   const API_URL = process.env.REACT_APP_API_URL;
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [tipoUsuario, setTipoUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
-  const tipoUsuario = localStorage.getItem("tipo");
   const navigate = useNavigate();
+
+  const getCookieValue = (name) => {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -28,7 +32,21 @@ export const PaginaHome = () => {
       }
     };
 
+    const extractTipoUsuario = () => {
+      const rawUserCookie = getCookieValue("user");
+      if (rawUserCookie) {
+        try {
+          const decoded = decodeURIComponent(rawUserCookie);
+          const user = JSON.parse(decoded);
+          setTipoUsuario(user.tipo);
+        } catch (err) {
+          console.error("Error al parsear la cookie 'user':", err);
+        }
+      }
+    };
+
     checkAuth();
+    extractTipoUsuario();
   }, []);
 
   if (loading)
@@ -51,15 +69,12 @@ export const PaginaHome = () => {
         {isAuthenticated ? (
           <div className='div-contenido_visible'>
             {tipoUsuario === "ADM" ? (
-              // Página para el usuario administrador
               <PaginaInfoUsuario />
             ) : (
-              // Página para el usuario normal
               <PaginaInfoUsuario />
             )}
           </div>
         ) : (
-          // Si no esta autenticado, mostramos un mensaje
           <div className='div-contenido_visible'>
             <div className='mensaje-contenedor'>
               <h2 className='mensaje-titulo'>No estás registrado</h2>
@@ -72,5 +87,5 @@ export const PaginaHome = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
