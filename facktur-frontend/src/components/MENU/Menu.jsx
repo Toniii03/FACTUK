@@ -97,49 +97,65 @@ export const Menu = () => {
 
     return (
         <div className="menu-container">
+
             <div className={`menu-desplegable ${menuOpen ? 'abierto' : ''}`}>
                 <div className="menu-header">
                     <h4>Menú</h4>
                     <button onClick={toggleMenu} className="cerrar-menu">✕</button>
                 </div>
                 <ul className="menu-opciones">
-                    <li><NavLink to="/perfil">Mi Perfil</NavLink></li>
-                    <li><NavLink to="/configuracion">Configuración</NavLink></li>
-                    <li><NavLink to="#" onClick={openModal}>Cerrar sesión</NavLink></li>
+                    {tipoUsuario === "ADM" && (
+                        <li>
+                            <NavLink to="/usuarios" onClick={toggleMenu}>Gestión de usuarios</NavLink>
+                        </li>
+                    )}
+                    <li>
+                        <NavLink to="/resumen" onClick={toggleMenu}>Resumen</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/facturas" onClick={toggleMenu}>Facturas</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/pagos" onClick={toggleMenu}>Pagos</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/" onClick={toggleMenu}>Mi Perfil</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="#" onClick={() => { openModal(); toggleMenu(); }}>Cerrar sesión</NavLink>
+                    </li>
                 </ul>
             </div>
+
             <div className="menu-left">
                 <div className='div-menu-img'>
                     <NavLink to="/"><img id='imagen-logo' src={logo} alt="Logo" /></NavLink>
                 </div>
 
-                <div className=''>
-                    <div className="menu-links">
-                        {tipoUsuario === "ADM" && (
-                            <div className="card-nelace-menu">
-                                <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/usuarios">
-                                    Gestión de usuarios
-                                </NavLink>
-                            </div>
-                        )}
+                <div className="menu-links">
+                    {tipoUsuario === "ADM" && (
                         <div className="card-nelace-menu">
-                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/resumen">
-                                Resumen
+                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/usuarios">
+                                Gestión de usuarios
                             </NavLink>
                         </div>
-                        <div className="card-nelace-menu">
-                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/facturas">
-                                Facturas
-                            </NavLink>
-                        </div>
-                        <div className="card-nelace-menu">
-                            <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/pagos">
-                                Pagos
-                            </NavLink>
-                        </div>
+                    )}
+                    <div className="card-nelace-menu">
+                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/resumen">
+                            Resumen
+                        </NavLink>
+                    </div>
+                    <div className="card-nelace-menu">
+                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/facturas">
+                            Facturas
+                        </NavLink>
+                    </div>
+                    <div className="card-nelace-menu">
+                        <NavLink className={({ isActive }) => isActive ? "card-nelace-menu active-link" : "card-nelace-menu"} to="/pagos">
+                            Pagos
+                        </NavLink>
                     </div>
                 </div>
-
             </div>
 
             <div>
@@ -160,7 +176,6 @@ export const Menu = () => {
                         <div className='btnLogin'><NavLink to="/auth/register">Registrarme</NavLink></div>
                     </>
                 )}
-
             </div>
 
             {showConfirmModal && (
