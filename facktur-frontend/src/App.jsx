@@ -1,5 +1,4 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { PaginaHome } from './components/PAGINAS/PaginaHome';
 import { PaginaLogin } from './components/LOGIN/PaginaLogin';
 import { ProtectedRoute } from './components/AUTENTICACIONES/ProtectedRoute';
@@ -19,6 +18,7 @@ import { MensajesProvider, useMensajes } from './context/MensajesContext';
 import { MonedaProvider } from './components/COMPONENTES/MonedaContext';
 import { PaginaFacturaDetalles } from './components/PAGINAS/PaginaFacturaDetalles';
 import { ResetPassword } from './components/AUTENTICACIONES/ResetPassword';
+import { HashRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 function App() {
   const API_URL = process.env.REACT_APP_API_URL;
