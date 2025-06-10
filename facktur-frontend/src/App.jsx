@@ -94,8 +94,8 @@ const AppContent = ({ isAuthenticated }) => {
         <Route path="/auth/login" element={<PaginaLogin />} />
         <Route path="/auth/register" element={<PaginaRegistro />} />
         <Route path="/forgot-password" element={<ResetPassword />} />
-        <Route path="/" element={<PaginaHome />} />
 
+        <Route path="/" element={<ProtectedRoute element={<PaginaHome />} />} />
         <Route path="/usuarios" element={<ProtectedRoute element={<PaginaGestionUsuarios />} />} />
         <Route path="/resumen" element={<ProtectedRoute element={<PaginaResumen />} />} />
         <Route path="/facturas" element={<ProtectedRoute element={<PaginaFacturas />} />} />

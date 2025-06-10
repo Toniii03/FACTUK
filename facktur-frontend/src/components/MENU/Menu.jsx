@@ -59,7 +59,9 @@ export const Menu = () => {
 
     useEffect(() => {
         if (!loading && isLoggedIn === false) {
-            navigate("/auth/login", { replace: true });
+            if (window.location.pathname !== "/auth/login") {
+                navigate("/auth/login", { replace: true });
+            }
         }
     }, [isLoggedIn, loading, navigate]);
 

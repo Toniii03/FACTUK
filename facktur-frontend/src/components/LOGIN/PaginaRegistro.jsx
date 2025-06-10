@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
-import '../../styles/Login/registro.css'
+import "../../styles/Login/registro.css";
 import { Link, useNavigate } from 'react-router-dom'
 import { MensajeErrores } from '../MensajeErrores'
 import servicioUsuarios from '../SERVICIOS/ServicioUsuarios';
 import { useMensajes } from '../../context/MensajesContext';
-
-
-
-
 
 export const PaginaRegistro = () => {
 
@@ -73,22 +69,37 @@ export const PaginaRegistro = () => {
   };
 
   return (
-    <div className='contenido'>
-      <div className='container' style={{maxWidth:"900px"}}>
+    <div className='contenido-registro'>
+      <div className='container-registro'>
         <h2>Registro de Usuario</h2>
         <form onSubmit={comprobarErrores}>
-          <input type="text" className="input-field" placeholder="Nombre Completo" onChange={(e) => setNombre(e.target.value)}></input>
-          <input type="text" className="input-field" placeholder="Nombre Usuario" onChange={(e) => setNombreUsuario(e.target.value)}></input>
-          <input type="email" className="input-field" placeholder="Correo electrónico" onChange={(e) => setEmail(e.target.value)}></input>
-          <input type="password" className="input-field" placeholder="Contraseña" onChange={(e) => setContrasena(e.target.value)}></input>
-          <input type="password" className="input-field" placeholder="Confirmar contraseña" onChange={(e) => setContrasena2(e.target.value)}></input>
+          <div className="form-row-registro">
+            <label>Nombre completo</label>
+            <input type="text" className="input-field" placeholder="Nombre Completo" onChange={(e) => setNombre(e.target.value)} />
+          </div>
+          <div className="form-row-registro">
+            <label>Nombre de usuario</label>
+            <input type="text" className="input-field" placeholder="Nombre Usuario" onChange={(e) => setNombreUsuario(e.target.value)} />
+          </div>
+          <div className="form-row-registro">
+            <label>Correo Electrónico</label>
+            <input type="email" className="input-field" placeholder="Correo electrónico" onChange={(e) => setEmail(e.target.value)} />
+          </div>
+          <div className="form-row-registro">
+            <label>Contraseña</label>
+            <input type="password" className="input-field" placeholder="Contraseña" onChange={(e) => setContrasena(e.target.value)} />
+          </div>
+          <div className="form-row-registro">
+            <label>Confirmar Contraseña</label>
+            <input type="password" className="input-field" placeholder="Confirmar contraseña" onChange={(e) => setContrasena2(e.target.value)} />
+          </div>
           <button type="submit" className="submit-btn">Registrar</button>
         </form>
-
         <div className="footer">
-          <p>¿Ya tienes cuenta? <Link to="/auth/login">Inicia sesión</Link></p>
+          <p style={{ color: 'white' }}>¿Ya tienes cuenta? <Link to="/auth/login">Inicia sesión</Link></p>
         </div>
       </div>
     </div>
+
   )
 }

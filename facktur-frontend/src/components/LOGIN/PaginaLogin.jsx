@@ -91,7 +91,7 @@ export const PaginaLogin = () => {
 
                 <div className="fila-form-footer">
                   <div>
-                    ¿No tienes cuenta?{" "}
+                    <label style={{color:'white'}}>¿No tienes cuenta?{" "}</label>
                     <Link className="enlace" to={"/auth/register"}>
                       Crear cuenta
                     </Link>
