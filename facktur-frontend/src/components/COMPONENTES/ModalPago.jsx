@@ -60,7 +60,6 @@ export default function ModalPago({ factura, usuarioId, isOpen, onClose, onPagoR
             >
                 {({ isSubmitting, values, setFieldValue }) => (
                     <Form>
-                        {/* Importe */}
                         <div className="mb-4">
                             <label htmlFor="montoPagado" className="form-label fw-semibold" style={{ color: '#333' }}>
                                 Importe a pagar
@@ -86,7 +85,6 @@ export default function ModalPago({ factura, usuarioId, isOpen, onClose, onPagoR
                             </div>
                         </div>
 
-                        {/* Método */}
                         <div className="mb-4">
                             <label htmlFor="metodoPago" className="form-label fw-semibold" style={{ color: '#333' }}>
                                 Método de pago <span className="text-muted fw-normal">(opcional)</span>
@@ -99,7 +97,6 @@ export default function ModalPago({ factura, usuarioId, isOpen, onClose, onPagoR
                             />
                         </div>
 
-                        {/* Botones */}
                         <div className="d-flex justify-content-end gap-3 pt-2">
                             <button
                                 type="button"

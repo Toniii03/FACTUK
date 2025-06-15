@@ -1,152 +1,410 @@
-
-.div-estrutura-info-usuario{
-    display: grid;
-    grid-template-columns: 60% 40%;
-    height: 98%;
+:root {
+  --primary-color: #333;
+  --secondary-color: #444;
+  --accent-color: #FAC463;
+  --accent-hover: #e0aa43;
+  --text-primary: #222;
+  --text-secondary: #444444;
+  --border-color: #ccc;
+  --border-radius: 8px;
+  --border-radius-lg: 10px;
+  --shadow-focus: 0 0 10px rgba(250, 196, 99, 0.4);
+  --transition: all 0.3s ease;
+  --spacing-xs: 0.2rem;
+  --spacing-sm: 0.7rem;
+  --spacing-md: 0.8rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
+  --spacing-5xl: 5rem;
 }
 
-.contenedor-principal{
-    height: 100%;
+.div-estrutura-info-usuario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  height: 98%;
+  min-height: 600px;
+  max-width: 1400px;
+  padding: 0 1rem;
+}
+
+.contenedor-principal {
+  height: 100%;
+  min-height: 500px;
 }
 
 .user-info {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 2rem 0rem 0rem 1rem;
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-  
-  .formulario-usuario{
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--spacing-2xl) var(--spacing-lg) 0 var(--spacing-lg);
+  animation: fadeIn 0.5s ease-out forwards;
+}
 
-  .formulario-usuario > div {
-    display: flex;
-    flex-direction: column;
-  }
+.formulario-usuario {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 2rem);
+  flex: 1;
+}
 
-  .label {
-    font-weight: 600;
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 0.2rem;
-  }
-  
-  .input-datos {
-    padding: 0.8rem;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 2px solid #ccc;
-    width: 100%;
-    transition: all 0.3s ease;
-  }
-  
-  .input-datos:focus {
-    outline: none;
-    border-color: #FAC463;
-    box-shadow: 0 0 10px rgba(250, 196, 99, 0.4);
-  }
-  
-  .input-datos[readonly] {
-    background-color: #c4c4c4;
-    color: #444;
-  }
-  
-  .input-datos[readonly]:hover {
-    cursor: not-allowed;
-  }
+.formulario-usuario > div {
+  display: flex;
+  flex-direction: column;
+}
 
-  .input-datos[readonly]:focus {
-    border-color: #ccc;
-    box-shadow: none;
+
+.label {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 16px);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.2;
+}
+
+
+.input-datos {
+  padding: var(--spacing-md);
+  font-size: clamp(14px, 2vw, 16px);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--border-color);
+  width: 100%;
+  transition: var(--transition);
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
+.input-datos:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: var(--shadow-focus);
+}
+
+.input-datos[readonly] {
+  background-color: #c4c4c4;
+  color: var(--secondary-color);
+  cursor: not-allowed;
+}
+
+.input-datos[readonly]:hover {
+  cursor: not-allowed;
+}
+
+.input-datos[readonly]:focus {
+  border-color: var(--border-color);
+  box-shadow: none;
+}
+
+.button {
+  width: fit-content;
+  min-width: 120px;
+  font-weight: bold;
+  font-size: clamp(14px, 2vw, 16px);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  touch-action: manipulation;
+  min-height: 44px;
+}
+
+.btnGuardarCambios {
+  background-color: var(--accent-color);
+  color: var(--text-primary);
+  width: fit-content;
+  min-width: 140px;
+  font-weight: bold;
+  font-size: clamp(14px, 2vw, 16px);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  touch-action: manipulation;
+  min-height: 44px;
+}
+
+.btnGuardarCambios:hover {
+  background-color: var(--secondary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background-color: var(--accent-color);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.div-recuperarContraseña {
+  padding: 3rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.div-recuperarContraseña h3 {
+  color: var(--text-primary);
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.div-recuperarContraseña p {
+  line-height: 1.6;
+  text-align: justify;
+  color: var(--text-secondary);
+  font-size: clamp(14px, 2vw, 16px);
+  margin-bottom: 1.5rem;
+}
+
+.enlace-recuperar {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: var(--text-primary);
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 16px);
+  transition: var(--transition);
+  min-height: 44px;
+  line-height: 1.5;
+  touch-action: manipulation;
+}
+
+.enlace-recuperar:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .div-estrutura-info-usuario {
+    grid-template-columns: 55% 45%;
+    gap: 0.75rem;
+    padding: 0 0.75rem;
   }
   
-  .button {
-    width: fit-content;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 0.7rem 1.5rem;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .btnGuardarCambios{
-    background-color: #FAC463;
-    color: #222;
-    width: fit-content;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .btnGuardarCambios:hover{
-    background-color: #444;
-    color: white;
-    transform: translateY(-3px);
+  .user-info {
+    padding: 1.5rem 0.75rem 0 0.75rem;
   }
   
-  .button:hover {
-    background-color: #FAC463;
-    color: #222;
-    transform: translateY(-3px);
-  }
-
   .div-recuperarContraseña {
-    padding: 2rem 5rem 0rem 5rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    text-align: center;
-    color: #222;
+    padding: 1.5rem clamp(0.75rem, 6vw, 3rem) 0 clamp(0.75rem, 6vw, 3rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .div-estrutura-info-usuario {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    height: auto;
+    min-height: auto;
+    padding: 0 0.5rem;
   }
   
-  .div-recuperarContraseña h3 {
-    color: #222;
+  .contenedor-principal {
+    height: auto;
+    min-height: auto;
+  }
+  
+  .user-info {
+    height: auto;
+    padding: 1rem 0.5rem 0 0.5rem;
+  }
+  
+  .formulario-usuario {
+    gap: 1.5rem;
+  }
+  
+  .div-recuperarContraseña {
+    padding: 1rem;
+    height: auto;
+    margin-top: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
   }
   
   .div-recuperarContraseña p {
-    line-height: 1.5;
-    text-align: justify;
-    color: #444444;
+    text-align: center;
+  }
+  
+  .button,
+  .btnGuardarCambios {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
   }
   
   .enlace-recuperar {
-    display: inline-block;
-    background-color: #FAC463;
-    color: #222;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    max-width: 250px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .div-estrutura-info-usuario {
+    padding: 0 0.25rem;
+    gap: 0.75rem;
   }
   
+  .user-info {
+    padding: 0.75rem 0.25rem 0 0.25rem;
+  }
+  
+  .formulario-usuario {
+    gap: 1.25rem;
+  }
+  
+  .input-dados {
+    padding: 0.6rem;
+  }
+  
+  .div-recuperarContraseña {
+    padding: 0.75rem;
+  }
+  
+  .button,
+  .btnGuardarCambios {
+    padding: 0.6rem 1rem;
+    font-size: 14px;
+  }
+  
+  .enlace-recuperar {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  .formulario-usuario {
+    gap: 1rem;
+  }
+  
+  .input-dados {
+    padding: 0.5rem;
+    font-size: 14px;
+  }
+  
+  .label {
+    font-size: 14px;
+  }
+  
+  .div-recuperarContraseña h3 {
+    font-size: 1.1rem;
+  }
+  
+  .div-recuperarContraseña p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
+  .div-estrutura-info-usuario {
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+    min-height: 500px;
+  }
+  
+  .user-info {
+    padding: 1rem 0.75rem 0 0.75rem;
+  }
+  
+  .formulario-usuario {
+    gap: 1rem;
+  }
+  
+  .div-recuperarContraseña {
+    padding: 1rem;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .button:hover,
+  .btnGuardarCambios:hover,
   .enlace-recuperar:hover {
-    background-color: #e0aa43;
+    transform: none;
   }
   
+  .button:active,
+  .btnGuardarCambios:active {
+    transform: scale(0.98);
+  }
   
+  .enlace-recuperar:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .user-info {
+    animation: none;
+  }
+  
+  .button,
+  .btnGuardarCambios,
+  .enlace-recuperar {
+    transition: background-color 0.2s ease;
+  }
+  
+  .button:hover,
+  .btnGuardarCambios:hover,
+  .enlace-recuperar:hover {
+    transform: none;
+  }
   
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+@media (prefers-contrast: high) {
+  .input-dados {
+    border-width: 3px;
   }
   
+  .input-dados:focus {
+    border-width: 3px;
+    box-shadow: 0 0 0 2px var(--accent-color);
+  }
+  
+  .button,
+  .btnGuardarCambios {
+    border: 2px solid transparent;
+  }
+  
+  .button:focus,
+  .btnGuardarCambios:focus,
+  .enlace-recuperar:focus {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+}

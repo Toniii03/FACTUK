@@ -18,7 +18,8 @@ const FacturacionMensual = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
- const API_URL = process.env.REACT_APP_API_URL;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const years = [];
   for (let y = 2020; y <= currentYear + 1; y++) {
@@ -39,6 +40,14 @@ const FacturacionMensual = () => {
     { value: '11', name: 'Noviembre' },
     { value: '12', name: 'Diciembre' },
   ];
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const cargarDatos = () => {
     setLoading(true);
@@ -72,7 +81,6 @@ const FacturacionMensual = () => {
       .finally(() => setLoading(false));
   };
 
-
   const getLastDayOfMonth = (year, month) => {
     return new Date(year, month, 0).getDate();
   };
@@ -81,8 +89,39 @@ const FacturacionMensual = () => {
     cargarDatos();
   }, [year, month]);
 
+  // Aquí recalculamos los importes pendientes ajustados para tabla y gráfico
+  const importeTotalMes = data.reduce((acc, item) => acc + item.totalPagado + (item.totalPendiente ?? 0), 0);
+  let acumuladoPagado = 0;
+  const dataAjustada = data.map(item => {
+    acumuladoPagado += item.totalPagado;
+    return {
+      ...item,
+      totalPendienteAjustado: importeTotalMes - acumuladoPagado
+    };
+  });
+
+  const customTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip">
+          <p className="tooltip-label">{`Semana: ${label}`}</p>
+          {payload.map((entry, index) => (
+            <p key={index} className="tooltip-item" style={{ color: entry.color }}>
+              {(entry.name.toLowerCase().includes('dinero') ||
+                entry.name.toLowerCase().includes('pagado') ||
+                entry.name.toLowerCase().includes('pendiente'))
+                ? `${entry.name}: €${entry.value.toFixed(2)}`
+                : `${entry.name}: ${entry.value}`}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="container">
+    <div className="container-resumen">
       <div className="form-row">
         <div className="input-wrapper">
           <label htmlFor="year-select" className="label">Año</label>
@@ -122,52 +161,99 @@ const FacturacionMensual = () => {
 
       {!loading && !error && data.length > 0 && (
         <>
-          <ResponsiveContainer width="100%" height={360}>
-            <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-              <XAxis dataKey="semana" tick={{ fill: '#555', fontSize: 13 }} label={{ value: 'Semana', position: 'insideBottom', offset: -5 }} />
-              <YAxis tick={{ fill: '#555', fontSize: 13 }} />
-              <Tooltip
-                contentStyle={{ backgroundColor: '#fff', borderRadius: 8, borderColor: '#ccc' }}
-                itemStyle={{ color: '#222', fontWeight: '600' }}
-                labelStyle={{ fontWeight: '700' }}
-                formatter={(value, name) => {
-                  if (name.toLowerCase().includes('dinero') || name.toLowerCase().includes('pagado') || name.toLowerCase().includes('pendiente')) {
-                    return [`€ ${value.toFixed(2)}`, name];
-                  }
-                  return [value, name];
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={isMobile ? 300 : 360}>
+              <LineChart 
+                data={dataAjustada} 
+                margin={{ 
+                  top: 20, 
+                  right: isMobile ? 10 : 30, 
+                  left: isMobile ? 10 : 20, 
+                  bottom: isMobile ? 20 : 5 
                 }}
-              />
-              <Legend verticalAlign="top" height={36} wrapperStyle={{ fontWeight: '700', fontSize: 15 }} />
-              <Line type="monotone" dataKey="pendientes" stroke="#dc3545" name="Facturas sin pagar (cantidad)" strokeWidth={3} activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey="pagadas" stroke="#007bff" name="Facturas pagadas (cantidad)" strokeWidth={3} activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey="totalPagado" stroke="#28a745" name="Dinero pagado (€)" strokeWidth={3} activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey="totalPendiente" stroke="#ffc107" name="Dinero pendiente (€)" strokeWidth={3} activeDot={{ r: 8 }} />
-            </LineChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                <XAxis 
+                  dataKey="semana" 
+                  tick={{ fill: '#555', fontSize: isMobile ? 11 : 13 }} 
+                  label={!isMobile ? { value: 'Semana', position: 'insideBottom', offset: -5 } : undefined}
+                  interval={isMobile ? 'preserveStartEnd' : 0}
+                />
+                <YAxis 
+                  tick={{ fill: '#555', fontSize: isMobile ? 10 : 13 }} 
+                  width={isMobile ? 40 : 60}
+                />
+                <Tooltip content={customTooltip} />
+                <Legend 
+                  verticalAlign="top" 
+                  height={isMobile ? 60 : 36} 
+                  wrapperStyle={{ 
+                    fontWeight: '700', 
+                    fontSize: isMobile ? 12 : 15,
+                    lineHeight: isMobile ? '1.2' : 'normal'
+                  }}
+                  iconSize={isMobile ? 12 : 18}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="pendientes" 
+                  stroke="#dc3545" 
+                  name="Facturas sin pagar (cantidad)" 
+                  strokeWidth={isMobile ? 2 : 3} 
+                  activeDot={{ r: isMobile ? 6 : 8 }} 
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="pagadas" 
+                  stroke="#007bff" 
+                  name="Facturas pagadas (cantidad)" 
+                  strokeWidth={isMobile ? 2 : 3} 
+                  activeDot={{ r: isMobile ? 6 : 8 }} 
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="totalPagado" 
+                  stroke="#28a745" 
+                  name="Dinero pagado (€)" 
+                  strokeWidth={isMobile ? 2 : 3} 
+                  activeDot={{ r: isMobile ? 6 : 8 }} 
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="totalPendienteAjustado" 
+                  stroke="#ffc107" 
+                  name="Dinero pendiente (€)" 
+                  strokeWidth={isMobile ? 2 : 3} 
+                  activeDot={{ r: isMobile ? 6 : 8 }} 
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
 
-          <table className="table-facturacion">
-            <thead>
-              <tr>
-                <th>Semana</th>
-                <th>Facturas Pagadas</th>
-                <th>Facturas Pendientes</th>
-                <th>Total Pagado (€)</th>
-                <th>Total Pendiente (€)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, idx) => (
-                <tr key={idx}>
-                  <td>{item.semana}</td>
-                  <td>{item.pagadas}</td>
-                  <td>{item.pendientes}</td>
-                  <td>€ {item.totalPagado.toFixed(2)}</td>
-                  <td>€ {item.totalPendiente.toFixed(2)}</td>
+          <div className="table-wrapper">
+            <table className="table-facturacion">
+              <thead>
+                <tr>
+                  <th>Semana</th>
+                  <th>Pagadas</th>
+                  <th>Pendientes</th>
+                  <th>€ Pagado</th>
+                  <th>€ Pendiente</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {dataAjustada.map((item, idx) => (
+                  <tr key={idx}>
+                    <td>{item.semana}</td>
+                    <td>{item.pagadas}</td>
+                    <td>{item.pendientes}</td>
+                    <td>€{item.totalPagado.toFixed(2)}</td>
+                    <td>€{item.totalPendienteAjustado.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>

@@ -216,7 +216,7 @@ export const PaginaFacturas = () => {
                     </div>
                   ) : (
                     <i
-                      onMouseEnter={(e) => {
+                      onClick={(e) => {
                         if (bloquearMenuTemporal) return;
                         const rect = e.currentTarget.getBoundingClientRect();
                         const menuWidth = 200;
@@ -370,8 +370,8 @@ export const PaginaFacturas = () => {
         </div>
       )}
       {modalPagarAbierto && facturaSeleccionada && (
-        <div className="modal-overlay" sty>
-          <div className="" style={{ width: '30%', padding: '0px', margin: '0px' }}>
+        <div className="modal-overlay">
+          <div className="ContenidoModalPago" >
             <ModalPago
               factura={facturaSeleccionada}
               usuarioId={JSON.parse(localStorage.getItem('usuario'))?.id}

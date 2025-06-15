@@ -3,6 +3,8 @@ package org.facktur.factur.servicios;
 import org.springframework.stereotype.Service;
 import org.facktur.factur.entidades.Factura;
 import org.facktur.factur.repositorios.FacturaRepositorio;
+import org.facktur.factur.repositorios.PagoRepositorio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,9 @@ import java.util.List;
 public class FacturaSchedulerService {
 
     private final FacturaRepositorio facturaRepository;
+    
+    @Autowired
+    private PagoRepositorio pagoRepositorio;
 
     public FacturaSchedulerService(FacturaRepositorio facturaRepository) {
         this.facturaRepository = facturaRepository;
@@ -27,7 +32,13 @@ public class FacturaSchedulerService {
             .findByEstadoNotAndFechaLimitePagoBefore("CANCELADA", hoy);
 
         for (Factura factura : facturasVencidas) {
-            if (!factura.getEstado().equals("PAGADA")) {
+            Double totalPagado = pagoRepositorio.sumMontoPagadoByFactura(factura);
+
+            if (totalPagado != null && totalPagado >= factura.getTotal()) {
+                // Ya está pagada aunque no se haya actualizado el estado
+                factura.setEstado("PAGADA");
+            } else {
+                // No ha sido pagada, se cancela
                 factura.setEstado("CANCELADA");
             }
         }

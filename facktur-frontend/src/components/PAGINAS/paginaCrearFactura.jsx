@@ -28,9 +28,9 @@ export const PaginaCrearFactura = () => {
     articulos.length > 0 && !formEnviado,
     () => {
       if (formEnviado) {
-        confirmNavigation(); // no mostrar modal si ya se ha enviado
+        confirmNavigation();
       } else {
-        setShowConfirmModal(true); // mostrar modal si hay cambios sin guardar
+        setShowConfirmModal(true);
       }
     }
   );
@@ -109,12 +109,12 @@ export const PaginaCrearFactura = () => {
     setErrorMensaje("");
 
     try {
-      setFormEnviado(true); // importante: marcar como enviado antes de navegar
+      setFormEnviado(true);
       await crearFactura(factura);
       setCliente("");
       setArticulos([]);
       setFechaLimite("");
-      navigate("/facturas"); // ahora el prompt no interfiere
+      navigate("/facturas");
     } catch (error) {
       setErrorMensaje(error.message || "Error de red o del servidor");
     }
@@ -183,13 +183,13 @@ export const PaginaCrearFactura = () => {
         </form>
 
         <div className="formulario-articulo">
-          <div style={{ display: "flex", justifyContent: "space-between", height: "20px" }}>
+          <div className="error-container">
             {errorMensaje && (
               <p className={`mensaje-error ${errorOculto ? "oculto" : ""}`}>{errorMensaje}</p>
             )}
           </div>
 
-          <div style={{ display: "flex", width: "100%", gap: "10px", justifyContent: "space-between" }}>
+          <div className="campos-container">
             <div className="grupo-campo">
               <label htmlFor="nombre">Artículo</label>
               <input
@@ -232,63 +232,105 @@ export const PaginaCrearFactura = () => {
               />
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-              <br />
-              <button className="button-addArticulo" type="button" onClick={agregarArticulo}>Añadir</button>
+            <div className="boton-container">
+              <button className="button-addArticulo" type="button" onClick={agregarArticulo}>
+                Añadir
+              </button>
             </div>
           </div>
-
-          <div className="tabla-articulos-wrapper">
-            <table className="tabla-articulos">
-              <thead>
-                <tr>
-                  <th>Artículo</th>
-                  <th>Cantidad</th>
-                  <th>Precio Unitario</th>
-                  <th>Total</th>
-                  <th></th>
-                </tr>
-              </thead>
-            </table>
-
-            <div className="tabla-articulos-body-scroll">
-              <table className="tabla-articulos2">
-                <tbody>
-                  {articulos.map((art, index) => (
-                    <tr key={index}>
-                      <td>{art.nombre}</td>
-                      <td>{art.cantidad}</td>
-                      <td>{formatoImporte(art.precio)}</td>
-                      <td>{formatoImporte(art.cantidad * art.precio)}</td>
-                      <td>
-                        <button onClick={() => eliminarArticulo(index)} className="boton-icono">
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <p className="total-factura">
-            Total de la factura: {formatoImporte(articulos.reduce((acc, art) => acc + art.cantidad * art.precio, 0))}
-          </p>
         </div>
 
-        {showConfirmModal && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <h3>¿Estás seguro de que quieres salir? Perderás todos los cambios.</h3>
-              <div className="modal-buttons">
-                <button className="btnConfirm" onClick={confirmLogout}>Sí, salir</button>
-                <button className="btnCancel" onClick={closeModal}>Cancelar</button>
+        <div className="tabla-articulos-wrapper">
+          <table className="tabla-articulos1">
+            <thead>
+              <tr>
+                <th>Artículo</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+          </table>
+
+          <div className="tabla-articulos-body-scroll">
+            <table className="tabla-articulos2">
+              <tbody>
+                {articulos.map((art, index) => (
+                  <tr key={index}>
+                    <td>{art.nombre}</td>
+                    <td>{art.cantidad}</td>
+                    <td>{formatoImporte(art.precio)}</td>
+                    <td>{formatoImporte(art.cantidad * art.precio)}</td>
+                    <td>
+                      <button onClick={() => eliminarArticulo(index)} className="boton-icono">
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Layout de tarjetas para móvil */}
+          <div className="mobile-articles-container">
+            {articulos.map((art, index) => (
+              <div key={index} className="mobile-article-card">
+                <div className="mobile-article-header">
+                  <div className="mobile-article-name">{art.nombre}</div>
+                  <button
+                    onClick={() => eliminarArticulo(index)}
+                    className="mobile-delete-btn"
+                    aria-label="Eliminar artículo"
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+                </div>
+
+                <div className="mobile-article-details">
+                  <div className="mobile-detail-item">
+                    <span className="mobile-detail-label">Cantidad</span>
+                    <span className="mobile-detail-value">{art.cantidad}</span>
+                  </div>
+                  <div className="mobile-detail-item">
+                    <span className="mobile-detail-label">Precio Unit.</span>
+                    <span className="mobile-detail-value">{formatoImporte(art.precio)}</span>
+                  </div>
+                </div>
+
+                <div className="mobile-article-total">
+                  <span className="mobile-total-label">Total:</span>
+                  {formatoImporte(art.cantidad * art.precio)}
+                </div>
               </div>
+            ))}
+
+            {articulos.length === 0 && (
+              <div className="mobile-article-card" style={{ textAlign: 'center', color: '#6c757d', fontStyle: 'italic' }}>
+                No hay artículos agregados
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        <p className="total-factura">
+          Total de la factura: {formatoImporte(articulos.reduce((acc, art) => acc + art.cantidad * art.precio, 0))}
+        </p>
+      </div>
+
+      {showConfirmModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>¿Estás seguro de que quieres salir? Perderás todos los cambios.</h3>
+            <div className="modal-buttons">
+              <button className="btnConfirm" onClick={confirmLogout}>Sí, salir</button>
+              <button className="btnCancel" onClick={closeModal}>Cancelar</button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

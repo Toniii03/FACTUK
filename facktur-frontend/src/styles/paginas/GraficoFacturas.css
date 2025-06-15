@@ -1,47 +1,80 @@
-.table-facturacion {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 30px;
-  font-size: 14px;
+/* Estilos para PaginaResumen */
+.div-visible-resumen {
+  flex: 1;
+  padding: 1rem;
+  background-color: var(--background-light);
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
-.table-facturacion th,
-.table-facturacion td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
+.div-contenido {
+  padding: 20px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
 }
 
-.table-facturacion th {
-  background-color: #f8f8f8;
-  font-weight: bold;
-  color: #333;
+.contenedor-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.loading-text,
-.error-text,
-.no-data-text {
-  margin-top: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #666;
-  text-align: center;
+.resumen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
 
-
-.container {
-  max-width: 100%;
-  margin: 40px auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 24px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+.seccion {
+  background-color: white;
+  padding: 20px;
   border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.seccion:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.seccion h2 {
+  font-size: 24px;
+  color: #003366;
+  font-weight: 700;
+  text-align: center;
+}
+
+.item-resumen {
+  margin-bottom: 15px;
+}
+
+.item-resumen h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.grafica {
+  grid-column: span 2;
+}
+
+/* Estilos principales del componente */
+.container-resumen {
+  width: 100%;
+  max-width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border-radius: 16px;
   background-color: #fff;
+  overflow: hidden;
+  margin: 0 auto;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
   font-size: 28px;
   font-weight: 700;
   color: #222;
@@ -52,14 +85,17 @@
   margin-bottom: 30px;
   font-size: 16px;
   color: #666;
+  line-height: 1.5;
 }
 
 .form-row {
+  padding: 1rem;
   display: flex;
   gap: 24px;
   justify-content: center;
-  margin-bottom: 40px;
   flex-wrap: wrap;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid #dee2e6;
 }
 
 .input-wrapper {
@@ -67,43 +103,392 @@
   flex-direction: column;
   margin-bottom: 20px;
   flex: 1;
-  min-width: 140px;
+  min-width: 150px;
+  max-width: 200px;
 }
 
 .label {
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #444;
   font-size: 14px;
   user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .select {
   font-size: 16px;
-  padding: 10px 8px 6px 8px;
-  border: none;
-  border-bottom: 2px solid #ccc;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
   outline: none;
-  transition: border-color 0.3s ease;
-  background-color: transparent;
+  transition: all 0.3s ease;
+  background-color: white;
   cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  font-weight: 500;
+  color: #333;
 }
 
 .select:focus {
-  border-bottom-color: #007bff;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.select:hover {
+  border-color: #007bff;
+}
+
+.chart-container {
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.custom-tooltip {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.tooltip-label {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 4px;
+}
+
+.tooltip-item {
+  margin: 4px 0;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  background-color: #fff;
+}
+
+.table-facturacion {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  font-size: 14px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-facturacion th,
+.table-facturacion td {
+  padding: 12px 8px;
+  text-align: center;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.table-facturacion th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  font-weight: 700;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-facturacion tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table-facturacion tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table-facturacion tbody tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+.loading-text,
+.error-text,
+.no-data-text {
+  margin: 40px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .loading-text {
-  text-align: center;
   color: #007bff;
-  font-weight: 600;
+  background-color: #e3f2fd;
+  border: 1px solid #bbdefb;
 }
 
 .error-text {
-  text-align: center;
   color: #dc3545;
-  font-weight: 600;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.no-data-text {
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+/* Media Queries para Responsive Design */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .div-visible-resumen {
+    padding: 0.75rem;
+  }
+  
+  .contenedor-dashboard {
+    gap: 1.5rem;
+  }
+  
+  .seccion {
+    padding: 16px;
+  }
+  
+  .seccion h2 {
+    font-size: 22px;
+  }
+  
+  .form-row {
+    padding: 1rem;
+    gap: 20px;
+  }
+  
+  .chart-container {
+    padding: 1.5rem;
+  }
+
+}
+
+/* Tablets pequeñas */
+@media (max-width: 768px) {
+  .resumen {
+    grid-template-columns: 1fr;
+  }
+  
+  .grafica {
+    grid-column: span 1;
+  }
+  
+  .div-visible-resumen {
+    padding: 0.5rem;
+  }
+  
+  .seccion {
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .seccion h2 {
+    font-size: 20px;
+  }
+  
+  .container-resumen {
+    border-radius: 12px;
+    margin: 0;
+  }
+  
+  .form-row {
+    padding: 1rem;
+    gap: 16px;
+    flex-direction: column;
+  }
+  
+  .input-wrapper {
+    min-width: 100%;
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .chart-container {
+    padding: 1rem;
+  }
+  
+  .table-facturacion {
+    font-size: 13px;
+  }
+  
+  .table-facturacion th,
+  .table-facturacion td {
+    padding: 10px 6px;
+  }
+  
+  .table-facturacion th {
+    font-size: 11px;
+  }
+  
+  .loading-text,
+  .error-text,
+  .no-data-text {
+    margin: 20px 10px;
+    font-size: 14px;
+    padding: 16px;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  .div-visible-resumen {
+    padding: 0.25rem;
+  }
+  
+  .seccion {
+    padding: 12px;
+    margin: 0 4px;
+  }
+  
+  .seccion h2 {
+    font-size: 18px;
+  }
+  
+  .container-resumen {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .form-row {
+    padding: 0.75rem;
+    gap: 12px;
+  }
+  
+  .input-wrapper {
+    margin-bottom: 12px;
+  }
+  
+  .label {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .select {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+  
+  .chart-container {
+    padding: 0.75rem;
+  }
+
+  
+  .table-facturacion {
+    font-size: 12px;
+    min-width: 100%;
+  }
+  
+  .table-facturacion th,
+  .table-facturacion td {
+    padding: 8px 4px;
+    white-space: nowrap;
+  }
+  
+  .table-facturacion th {
+    font-size: 10px;
+  }
+  
+  .loading-text,
+  .error-text,
+  .no-data-text {
+    margin: 16px 8px;
+    font-size: 13px;
+    padding: 12px;
+  }
+  
+  .header {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .description {
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 320px) {
+  .div-visible-resumen {
+    padding: 0.125rem;
+  }
+  
+  .seccion {
+    padding: 8px;
+    margin: 0 2px;
+  }
+  
+  .seccion h2 {
+    font-size: 16px;
+  }
+  
+  .form-row {
+    padding: 0.5rem;
+    gap: 10px;
+  }
+  
+  .select {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+  
+  .chart-container {
+    padding: 0.5rem;
+  }
+  
+  .table-facturacion th,
+  .table-facturacion td {
+    padding: 6px 2px;
+    font-size: 11px;
+  }
+  
+  .table-facturacion th {
+    font-size: 9px;
+  }
+}
+
+/* Landscape móviles */
+@media (max-width: 768px) and (orientation: landscape) {
+  .chart-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .form-row {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  .input-wrapper {
+    min-width: 45%;
+    max-width: 45%;
+  }
+}
+
+/* Pantallas muy grandes */
+@media (min-width: 1400px) {
+  .container-resumen {
+    max-width: 1200px;
+  }
+  
+  .form-row {
+    padding: 1rem;
+  }
+  
+  .chart-container {
+    padding: 1rem;
+  }
+  
 }

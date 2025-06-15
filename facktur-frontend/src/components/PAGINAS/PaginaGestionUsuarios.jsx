@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Paginacion from "../COMPONENTES/Paginacion";
 import "../../styles/paginas/paginaGestionUsuarios.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -28,16 +28,31 @@ export const PaginaGestionUsuarios = () => {
   const indiceInicio = (paginaActual - 1) * usuariosPorPaginas;
   const indiceFin = indiceInicio + usuariosPorPaginas;
   const [tiposSeleccionados, setTiposSeleccionados] = useState(["todo"]);
+  const menuRef = useRef(null);
 
   const [modoVista, setModoVista] = useState("cuadricula");
+
+  const refMenuCard = useRef(null);
+  const refMenuLista = useRef(null);
 
   useEffect(() => {
     const cargarUsuarios = async () => {
       const data = await servicioUsuarios.loadUsuarios();
       setUsuarios(data);
     };
-
     cargarUsuarios();
+
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpcionesCard(null);
+        setMenuOpciones(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const openModal = (id) => {
@@ -52,7 +67,6 @@ export const PaginaGestionUsuarios = () => {
   const closeModal = () => {
     setUsuarioAEliminar(null);
   };
-
 
   const confirmEliminarUsuario = async () => {
     try {
@@ -229,15 +243,22 @@ export const PaginaGestionUsuarios = () => {
                           : usuario.nombreUsuario.toUpperCase()}
                       </div>
                       <div
-                        onMouseLeave={() => setMenuOpcionesCard(null)}
+                        ref={menuRef}
                         style={{ display: "inline-block", position: "relative" }}
                       >
                         <i
-                          onMouseEnter={(e) => {
+                          onClick={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
-                            setMenuOpcionesCard(usuario.id);
+                            const screenWidth = window.innerWidth;
+
+                            let topPosition = rect.bottom + window.scrollY;
+                            if (screenWidth < 1000) {
+                              topPosition -= 150;
+                            }
+
+                            setMenuOpcionesCard((prev) => (prev === usuario.id ? null : usuario.id));
                             setMenuPosicion({
-                              top: rect.bottom + window.scrollY,
+                              top: topPosition,
                               left: rect.right - 130 + window.scrollX,
                             });
                           }}
@@ -291,16 +312,23 @@ export const PaginaGestionUsuarios = () => {
                 {modoVista !== "cuadricula" && (
                   <div
                     className="menu-hover-wrapper"
-                    onMouseLeave={() => setMenuOpciones(null)}
+                    ref={menuRef}
                     style={{ position: "relative", display: "inline-block" }}
                   >
                     <div className="usuario-Footer">
                       <i
-                        onMouseEnter={(e) => {
+                        onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
-                          setMenuOpciones(usuario.id);
+                          const screenWidth = window.innerWidth;
+
+                          let topPosition = rect.bottom + window.scrollY;
+                          if (screenWidth < 1000) {
+                            topPosition -= 150;
+                          }
+
+                          setMenuOpciones((prev) => (prev === usuario.id ? null : usuario.id));
                           setMenuPosicion({
-                            top: rect.bottom + window.scrollY,
+                            top: topPosition,
                             left: rect.right - 130 + window.scrollX,
                           });
                         }}

@@ -30,7 +30,7 @@ const Paginacion = ({
 
       <div className="selector-pagina">
         <div>
-          <label htmlFor="elementosPorPagina">Elementos por página:</label>
+          <label htmlFor="elementosPorPagina">Nº elementos:</label>
           <select
             id="elementosPorPagina"
             onChange={(e) => onElementosPorPaginaChange(parseInt(e.target.value))}

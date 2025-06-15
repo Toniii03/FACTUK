@@ -18,7 +18,7 @@ public class PagosServicios {
     private PagoRepositorio pagoRepositorio;
 
     public List<Pago> obtenerPagosPorUsuario(Usuario usuario) {
-        return pagoRepositorio.findByUsuario(usuario);
+        return pagoRepositorio.findByUsuarioOrderByFechaPagoDesc(usuario);
     }
 
 	

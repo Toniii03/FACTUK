@@ -164,7 +164,7 @@ public class ServicioFacturas {
 	        int semanaDelMes = getSemanaDelMes(fecha);
 	        FacturacionSemanalDTO dto = mapaSemanas.get(semanaDelMes);
 
-	        if ("PAGADA".equals(estado)) {
+	        if ("pagada".equals(estado)) {
 	            dto.setPagadas(dto.getPagadas() + 1);
 	            dto.setTotalPagado(dto.getTotalPagado() + total);
 	        } else if ("PENDIENTE".equals(estado)) {

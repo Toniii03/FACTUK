@@ -1,66 +1,211 @@
-  /* Estilos de la paginación */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 20px;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.paginacion span {
+  margin: 0 15px;
+  font-size: 16px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.paginacion button {
+  padding: 6px 12px;
+  margin: 0 5px;
+  background-color: #333;
+  color: #ffc14f;
+  font-weight: 700;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  transition: all 0.3s ease;
+}
+
+.paginacion button:hover:not(:disabled) {
+  background-color: #555;
+  transform: translateY(-1px);
+}
+
+.paginacion button:disabled {
+  opacity: 0.5;
+  color: white;
+  cursor: not-allowed;
+}
+
+.selector-pagina {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Segoe UI", sans-serif;
+  white-space: nowrap;
+}
+
+.selector-pagina label {
+  font-size: 16px;
+  margin-right: 10px;
+  color: #333;
+}
+
+.selector-pagina select {
+  padding: 6px 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  min-width: 60px;
+}
+
+.selector-pagina select:focus {
+  border-color: #003366;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.2);
+}
+
+
+@media (max-width: 768px) {
   .paginacion {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    margin-top: 20px;
-    padding: 10px 20px;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 10px;
   }
   
   .paginacion span {
-    margin: 0 15px;
-    font-size: 16px;
-    color: #333;
+    margin: 0 10px;
+    font-size: 15px;
+    order: 1;
   }
   
   .paginacion button {
-    padding: 6px 12px;
-    margin: 0 5px;
-    background-color: #333;
-    color: #ffc14f;
-    font-weight: 700;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .paginacion button:disabled {
-    opacity: 0.5;
-    color: white;
-    cursor: not-allowed;
+    margin: 0 3px;
+    padding: 8px 14px;
+    font-size: 14px;
+    order: 2;
   }
   
   .selector-pagina {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: "Segoe UI", sans-serif;
+    position: static;
+    transform: none;
+    order: 3;
+    justify-content: center;
+    margin-top: 10px;
   }
   
   .selector-pagina label {
-    font-size: 16px;
-    margin-right: 10px;
-    color: #333;
+    font-size: 15px;
+    margin-right: 8px;
   }
   
   .selector-pagina select {
-    padding: 6px 10px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: border 0.3s, box-shadow 0.3s;
-    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .paginacion {
+    padding: 10px 5px;
+    gap: 12px;
   }
   
-  .selector-pagina select:focus {
-    border-color: #003366;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.2);
+  .paginacion span {
+    font-size: 14px;
+    margin: 0 8px;
+    text-align: center;
   }
+  
+  .paginacion button {
+    padding: 10px 12px;
+    margin: 0 2px;
+    font-size: 13px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  
+  .selector-pagina {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .selector-pagina label {
+    font-size: 14px;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+  
+  .selector-pagina select {
+    font-size: 13px;
+    padding: 8px 10px;
+    width: 100%;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 320px) {
+  .paginacion {
+    padding: 8px 3px;
+  }
+  
+  .paginacion span {
+    font-size: 13px;
+    margin: 0 5px;
+  }
+  
+  .paginacion button {
+    padding: 8px 10px;
+    margin: 0 1px;
+    font-size: 12px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .selector-pagina label {
+    font-size: 13px;
+  }
+  
+  .selector-pagina select {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .paginacion {
+    padding: 15px 30px;
+  }
+  
+  .paginacion span {
+    font-size: 17px;
+    margin: 0 20px;
+  }
+  
+  .paginacion button {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+  
+  .selector-pagina label {
+    font-size: 17px;
+  }
+  
+  .selector-pagina select {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+}
