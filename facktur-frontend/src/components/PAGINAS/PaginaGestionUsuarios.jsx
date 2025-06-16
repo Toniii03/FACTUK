@@ -41,18 +41,17 @@ export const PaginaGestionUsuarios = () => {
       setUsuarios(data);
     };
     cargarUsuarios();
-
-    const handleClickOutside = (event) => {
+    function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpcionesCard(null);
         setMenuOpciones(null);
+        setMenuOpcionesCard(null);
       }
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, []);
 
   const openModal = (id) => {
@@ -244,6 +243,7 @@ export const PaginaGestionUsuarios = () => {
                       </div>
                       <div
                         ref={menuRef}
+                        onClick={(e) => e.stopPropagation()}
                         style={{ display: "inline-block", position: "relative" }}
                       >
                         <i
@@ -313,6 +313,7 @@ export const PaginaGestionUsuarios = () => {
                   <div
                     className="menu-hover-wrapper"
                     ref={menuRef}
+                    onClick={(e) => e.stopPropagation()}
                     style={{ position: "relative", display: "inline-block" }}
                   >
                     <div className="usuario-Footer">

@@ -119,7 +119,7 @@ export const PortalVerUsuario = ({ idUsuario, onClose }) => {
                             className="modal-body"
                             style={{ height: "100%", overflowY: "auto", justifyContent: "center", display: "flex", marginTop: "5%" }}
                         >
-                            {/* Contenido del body del modal */}
+
                             <form onSubmit={handleSubmit} className="form-usuario-detalle">
                                 <div className="form-grid">
                                     <div className="form-group">
