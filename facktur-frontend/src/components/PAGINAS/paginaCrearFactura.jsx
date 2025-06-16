@@ -241,7 +241,7 @@ export const PaginaCrearFactura = () => {
         </div>
 
         <div className="tabla-articulos-wrapper">
-          <table className="tabla-articulos1">
+          <table className="tabla-articulos">
             <thead>
               <tr>
                 <th>Artículo</th>

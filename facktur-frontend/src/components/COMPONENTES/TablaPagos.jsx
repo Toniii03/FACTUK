@@ -33,8 +33,9 @@ const TablaPagos = ({
   };
 
   return (
-    <div className="">
+    <div className="tabla-pagos">
       <h2>Pagos de Facturas</h2>
+      <div className="tabla-container"></div>
       <table>
         <thead>
           <tr>

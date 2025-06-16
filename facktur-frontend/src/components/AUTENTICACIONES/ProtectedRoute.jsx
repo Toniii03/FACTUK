@@ -43,5 +43,5 @@ export const ProtectedRoute = ({ element }) => {
       </div>
     );
 
-  return isAuthenticated ? element : <Navigate to="/" />;
+  return isAuthenticated ? element : <Navigate to="/auth/login" />;
 };

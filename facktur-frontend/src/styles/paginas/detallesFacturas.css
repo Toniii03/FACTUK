@@ -110,7 +110,7 @@
 }
 
 .tabla-articulos thead tr {
-  background-color: #003366;
+  background-color: transparent;
   color: white;
   text-align: left;
 }

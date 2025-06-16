@@ -1,95 +1,187 @@
-.div-contenido {
-  padding: 2rem;
-  background-color: #f0f2f5;
-  min-height: 100vh;
+:root {
+  --color-primary: #333;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+  --color-light: #f8f9fa;
+  --color-dark: #212529;
+  --color-border: #e0e0e0;
+  --color-hover: #f2f8ff;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.2);
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
   box-sizing: border-box;
 }
 
+.div-contenido {
+  padding: clamp(0.5rem, 4vw, 3rem);
+  background: #ffffff;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #000000;
+}
+
+.div-filtros-pagos {
+  display: flex;
+  flex-direction: row;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
 .div-visible {
+  height: 100vh;
   width: 100%;
-  overflow: auto;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
 }
 
 .tabla-pagos {
-  margin-top: 2rem;
+  margin-top: clamp(1rem, 3vw, 2rem);
 }
 
 .tabla-pagos h2 {
-  font-size: 1.75rem;
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  color: #000000;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+  font-weight: 700;
   text-align: center;
 }
 
-
 .tabla-container {
+  position: relative;
   overflow-x: auto;
-  margin: 0 -1rem;
-  padding: 0 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc #f1f1f1;
+  margin: 0;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  max-width: 100%;
 }
 
-.tabla-container::-webkit-scrollbar {
-  height: 8px;
-}
-
-.tabla-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
+.tabla-container::-webkit-scrollbar,
+.tabla-container::-webkit-scrollbar-track,
 .tabla-container::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
+  display: none;
 }
 
-.tabla-container::-webkit-scrollbar-thumb:hover {
-  background: #999;
+.tabla-container::before,
+.tabla-container::after {
+  display: none;
+}
+
+.tabla-container::-webkit-scrollbar,
+.tabla-container::-webkit-scrollbar-track,
+.tabla-container::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.tabla-container table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+@media (max-width: 768px) {
+  .tabla-container::after {
+    display: none;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 table {
   width: 100%;
-  min-width: 600px;
-  border-collapse: collapse;
-  background-color: #fff;
-  border-radius: 8px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: var(--border-radius-sm);
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  font-size: clamp(11px, 2.5vw, 16px);
+  table-layout: auto;
 }
 
 thead th {
-  background-color: #333;
+  background: linear-gradient(135deg, var(--color-primary), #444);
   color: white;
   font-weight: 600;
-  padding: 16px;
-  font-size: 14px;
+  padding: 1rem;
+  font-size: clamp(10px, 2.2vw, 15px);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  white-space: nowrap;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  width: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+thead th:first-child {
+  border-top-left-radius: var(--border-radius-sm);
+}
+
+thead th:last-child {
+  border-top-right-radius: var(--border-radius-sm);
 }
 
 tbody td {
-  font-size: 15px;
-  color: #333;
-  padding: 14px 16px;
-  border-bottom: 1px solid #e0e0e0;
+  padding: clamp(6px, 1.5vw, 16px) clamp(4px, 2vw, 20px);
+  border-bottom: 1px solid var(--color-border);
   white-space: nowrap;
+  transition: var(--transition);
+  position: relative;
+  width: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(11px, 2.2vw, 16px);
 }
 
-tr {
-  transition: background-color 0.3s ease;
+tbody tr {
+  transition: var(--transition);
+  cursor: pointer;
 }
 
-tr:hover {
-  background-color: #f2f8ff;
+tbody tr:hover {
+  background: var(--color-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--border-radius-sm);
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--border-radius-sm);
+}
+
+tr[style*="background-color: #d4edda"] {
+  background: linear-gradient(135deg, #d4edda, #c8e6c9) !important;
+  border-left: 4px solid var(--color-success);
 }
 
 tr[style*="background-color: #d4edda"] td {
@@ -97,9 +189,19 @@ tr[style*="background-color: #d4edda"] td {
   font-weight: 500;
 }
 
+tr[style*="background-color: #f8d7da"] {
+  background: linear-gradient(135deg, #f8d7da, #ffcdd2) !important;
+  border-left: 4px solid var(--color-danger);
+}
+
 tr[style*="background-color: #f8d7da"] td {
   color: #721c24;
   font-weight: 500;
+}
+
+tr[style*="background-color: #fff3cd"] {
+  background: linear-gradient(135deg, #fff3cd, #fff9c4) !important;
+  border-left: 4px solid var(--color-warning);
 }
 
 tr[style*="background-color: #fff3cd"] td {
@@ -108,202 +210,134 @@ tr[style*="background-color: #fff3cd"] td {
 }
 
 tr[style*="background-color: #ffffff"] td {
-  color: #000;
+  color: var(--color-dark);
 }
 
-
-@media (max-width: 1024px) {
-  .div-contenido {
-    padding: 1.5rem;
-  }
-  
-  .div-visible {
-    padding: 1.5rem;
-  }
-  
-  .tabla-pagos h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-  
-  thead th {
-    padding: 12px;
-    font-size: 13px;
-  }
-  
-  tbody td {
-    padding: 12px;
-    font-size: 14px;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .div-contenido {
-    padding: 1rem;
-  }
-  
-  .div-visible {
-    padding: 1rem;
-    border-radius: 8px;
-  }
-  
-  .tabla-pagos {
-    margin-top: 1.5rem;
-  }
-  
-  .tabla-pagos h2 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-  }
-  
-  .div-filtros {
+@media (max-width: 1023px) {
+  .div-filtros-pagos {
     flex-direction: column;
     gap: 1rem;
   }
 
-  .filtro-item {
-    width: 100%;
-  }
-  
- 
-  .tabla-container {
-    margin: 0 -0.5rem;
-    padding: 0 0.5rem;
-    position: relative;
-  }
-  
-  .tabla-container::before {
-    content: "Desliza horizontalmente para ver más →";
-    display: block;
-    text-align: center;
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 0.5rem;
-    font-style: italic;
-  }
-  
-  table {
-    min-width: 800px;
-  }
-  
-  thead th {
-    padding: 10px 8px;
-    font-size: 12px;
-  }
-  
-  tbody td {
-    padding: 10px 8px;
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 600px) {
-  .div-contenido {
-    padding: 0.75rem;
-    background-color: #f0f2f5;
-  }
-  
-  .div-visible {
-    padding: 0.75rem;
-    border-radius: 6px;
-  }
-  
   .tabla-pagos h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
     text-align: left;
+    margin-bottom: 1rem;
   }
-  
-  .tabla-container::before {
+
+  table thead {
     display: none;
   }
-  
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
+
+  table, tbody, tr, td {
     display: block;
   }
 
-  thead {
-    display: none;
-  }
-  
   table {
-    min-width: unset;
-    width: 100%;
-    box-shadow: none;
-  }
-
-  tr {
-    margin-bottom: 1rem;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 1rem;
     border: none;
-  }
-  
-  tr:hover {
-    background-color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
+    background: transparent;
   }
 
-  td {
+  tbody tr {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+
+  tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  tbody td {
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 12px 0;
+    position: relative;
+    white-space: normal;
+    word-wrap: break-word;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-    white-space: normal;
-    word-wrap: break-word;
-  }
-  
-  td:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+    min-height: 44px;
   }
 
-  td::before {
+  tbody td:last-child {
+    border-bottom: none;
+  }
+
+  tbody td:before {
     content: attr(data-label);
     font-weight: 600;
-    color: #666;
-    flex-basis: 45%;
-    flex-shrink: 0;
-    margin-right: 1rem;
+    color: var(--color-primary);
+    font-size: 14px;
     text-transform: uppercase;
-    font-size: 12px;
     letter-spacing: 0.5px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    min-width: 120px;
   }
-  
-  td::after {
-    content: "";
-    flex-grow: 1;
+
+  tbody tr td:nth-child(1):before { content: "Factura: "; }
+  tbody tr td:nth-child(2):before { content: "Cliente: "; }
+  tbody tr td:nth-child(3):before { content: "Fecha de pago: "; }
+  tbody tr td:nth-child(4):before { content: "Estado: "; }
+  tbody tr td:nth-child(5):before { content: "Monto pagado: "; }
+  tbody tr td:nth-child(6):before { content: "Total factura: "; }
+  tbody tr td:nth-child(7):before { content: "Metodo Pago: "; }
+
+
+  tbody td .cell-content {
+    text-align: right;
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.4;
   }
-  
+
   tr[style*="background-color: #d4edda"] {
-    border-left: 4px solid #28a745;
-    background-color: #f8fff9 !important;
+    border-left: 4px solid var(--color-success);
+    background: linear-gradient(135deg, #d4edda, #c8e6c9) !important;
   }
 
   tr[style*="background-color: #f8d7da"] {
-    border-left: 4px solid #dc3545;
-    background-color: #fff5f5 !important;
+    border-left: 4px solid var(--color-danger);
+    background: linear-gradient(135deg, #f8d7da, #ffcdd2) !important;
   }
 
   tr[style*="background-color: #fff3cd"] {
-    border-left: 4px solid #ffc107;
-    background-color: #fffef5 !important;
+    border-left: 4px solid var(--color-warning);
+    background: linear-gradient(135deg, #fff3cd, #fff9c4) !important;
+  }
+}
+
+@media (max-width: 599px) {
+  .div-contenido {
+    padding: 0.75rem;
   }
 
-  tr[style*="background-color: #ffffff"] {
-    border-left: 4px solid #6c757d;
-    background-color: #ffffff !important;
+  .div-visible {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  tbody tr {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  tbody td {
+    padding: 10px 0;
+    font-size: 13px;
+  }
+
+  tbody td:before {
+    font-size: 12px;
+    min-width: 100px;
   }
 }
 
@@ -311,37 +345,38 @@ tr[style*="background-color: #ffffff"] td {
   .div-contenido {
     padding: 0.5rem;
   }
-  
+
   .div-visible {
-    padding: 0.5rem;
+    padding: 0.75rem;
   }
-  
-  .tabla-pagos {
-    margin-top: 1rem;
-  }
-  
+
   .tabla-pagos h2 {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
   }
-  
-  tr {
+
+  tbody tr {
     padding: 0.75rem;
     margin-bottom: 0.75rem;
   }
-  
-  td {
-    font-size: 13px;
-    padding: 6px 0;
+
+  tbody td {
+    padding: 8px 0;
+    font-size: 12px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    min-height: auto;
   }
-  
-  td::before {
-    flex-basis: auto;
-    margin-right: 0;
-    margin-bottom: 2px;
+
+  tbody td:before {
+    font-size: 11px;
+    margin-bottom: 4px;
+    min-width: auto;
+  }
+
+  tbody td .cell-content {
+    text-align: left;
+    margin-left: 0;
   }
 }
 
@@ -349,54 +384,109 @@ tr[style*="background-color: #ffffff"] td {
   .div-contenido {
     padding: 0.25rem;
   }
-  
+
   .div-visible {
     padding: 0.5rem;
-    border-radius: 4px;
+    border-radius: 6px;
   }
-  
+
   .tabla-pagos h2 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
   }
-  
-  tr {
+
+  tbody tr {
     padding: 0.5rem;
     margin-bottom: 0.5rem;
   }
-  
-  td {
-    font-size: 12px;
-    padding: 4px 0;
-  }
-  
-  td::before {
+
+  tbody td {
+    padding: 6px 0;
     font-size: 11px;
+  }
+
+  tbody td:before {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  tbody td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
 @media (min-width: 1200px) {
   .div-contenido {
-    padding: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  } 
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  tbody tr {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
+
+  tbody tr:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  tbody tr:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  tbody tr:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  tbody tr:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  tbody tr:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+tbody tr:focus-within {
+  outline: 2px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+@media print {
+  .div-contenido {
+    background: white;
+    padding: 0;
+  }
+
   .div-visible {
-    padding: 3rem;
-    border-radius: 16px;
+    box-shadow: none;
+    background: white;
   }
-  
-  .tabla-pagos h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+
+  tbody tr:hover {
+    background: transparent !important;
+    transform: none !important;
   }
-  
-  thead th {
-    padding: 20px;
-    font-size: 15px;
-  }
-  
-  tbody td {
-    padding: 16px 20px;
-    font-size: 16px;
+
+  .tabla-container::before,
+  .tabla-container::after {
+    display: none;
   }
 }

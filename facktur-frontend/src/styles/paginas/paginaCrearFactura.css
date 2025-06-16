@@ -305,6 +305,7 @@
 
 .tabla-articulos {
   border-radius: 1rem 1rem 0 0;
+  background-color: white;
 }
 
 .tabla-articulos2 {
@@ -601,6 +602,9 @@
 }
 
 @media (max-width: 768px) {
+    .tabla-articulos{
+    display: none;
+  }
   .formulario-factura {
     padding: 1.25rem;
     gap: 1rem;
