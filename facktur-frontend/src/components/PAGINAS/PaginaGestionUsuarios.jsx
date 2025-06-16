@@ -132,7 +132,6 @@ export const PaginaGestionUsuarios = () => {
       setTiposSeleccionados(nuevosTipos);
     }
   };
-
   return (
     <div className="div-home">
       <div className="div-contentido">
